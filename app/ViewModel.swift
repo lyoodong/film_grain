@@ -26,4 +26,11 @@ class ViewModel<S, A>: ObservableObject {
     func reduce(state: inout S, action: A) {
         fatalError("Must override reduce(state:action:)")
     }
+    
+    func binding<T>(_ keyPath: WritableKeyPath<S, T>) -> Binding<T> {
+        Binding(
+            get: { self.state[keyPath: keyPath] },
+            set: { self.state[keyPath: keyPath] = $0 }
+        )
+    }
 }

@@ -11,7 +11,7 @@ import SwiftUI
 struct appApp: App {
     var body: some Scene {
         WindowGroup {
-            EditingView()
+            EditingView(editVM: .init(initialState: .init()))
         }
     }
 }
