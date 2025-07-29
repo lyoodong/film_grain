@@ -26,10 +26,21 @@ struct EditingView: View {
     }
     
     private func displayedImage(_ image: UIImage) -> some View {
-        Image(uiImage: image)
-            .resizable()
-            .scaledToFit()
+        GeometryReader { geo in
+            Image(uiImage: image)
+                .resizable()
+                .scaledToFit()
+                .onAppear {
+                    let px = geo.size.width * UIScreen.main.scale
+                    editVM.send(.previewWidthUpdated(px))
+                }
+                .onChange(of: geo.size) { _, newSize in
+                    let px = newSize.width * UIScreen.main.scale
+                    editVM.send(.previewWidthUpdated(px))
+                }
+        }
     }
+
     
     private var grainSlider: some View {
         HStack {

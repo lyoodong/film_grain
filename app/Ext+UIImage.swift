@@ -16,19 +16,33 @@ extension UIImage {
 }
 
 extension UIImage {
-    func encodedData(for utType: UTType, quality: CGFloat = 0.8) -> Data? {
-        guard let cgImage = self.cgImage else { return nil }
-
-        if utType == .png {
-            return self.pngData()
+    func encodedData(
+        utType: UTType,
+        from originalData: Data? = nil, 
+        quality: CGFloat = 0.9
+    ) -> Data? {
+        
+        guard let cg = self.cgImage else { return nil }
+        
+        var options: [CFString: Any] = [
+            kCGImageDestinationLossyCompressionQuality: quality
+        ]
+        
+        if
+            let raw = originalData,
+            let src = CGImageSourceCreateWithData(raw as CFData, nil),
+            let meta = CGImageSourceCopyPropertiesAtIndex(src, 0, nil)
+        {
+            options[kCGImageDestinationMetadata] = meta
         }
-
+        
+        // (2) CGImageDestination 인코딩
         let data = NSMutableData()
-        guard let destination = CGImageDestinationCreateWithData(data, utType.identifier as CFString, 1, nil) else { return nil }
-
-        let options = [kCGImageDestinationLossyCompressionQuality: quality] as CFDictionary
-        CGImageDestinationAddImage(destination, cgImage, options)
-        return CGImageDestinationFinalize(destination) ? data as Data : nil
+        guard let dst = CGImageDestinationCreateWithData(
+            data, utType.identifier as CFString, 1, nil) else { return nil }
+        
+        CGImageDestinationAddImage(dst, cg, options as CFDictionary)
+        return CGImageDestinationFinalize(dst) ? data as Data : nil
     }
 }
 

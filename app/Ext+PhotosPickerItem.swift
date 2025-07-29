@@ -6,7 +6,7 @@ extension PhotosPickerItem {
     func toImage() async -> UIImage? {
         do {
             if let data = try await loadTransferable(type: Data.self) {
-                return UIImage(data: data)
+                return UIImage(data: data)?.fixedOrientation()
             }
         } catch {
             print("❌ loadTransferable 실패:", error.localizedDescription)

@@ -6,15 +6,18 @@ import CoreImage.CIFilterBuiltins
 
 extension EditingViewModel: ViewModelType {
     struct State {
+        var originalData: Data?
         var originImage: UIImage?
         var displayedImage: UIImage?
         var imageType: UTType = .jpeg
+        var previewPixelWidth: CGFloat = 0
     }
     
     enum Action {
         case photoSelected(PhotosPickerItem)
         case saveButtonTapped
         case grainSliderChanged(Float)
+        case previewWidthUpdated(CGFloat)
     }
 }
 
@@ -26,72 +29,91 @@ final class EditingViewModel: toVM<EditingViewModel> {
             
             Task { [weak self] in
                 guard let self else { return }
-                guard let image = await item.toImage() else { return }
+                async let rawData  = try? await item.loadTransferable(type: Data.self)
+                async let uiImage  = item.toImage()
                 
-                await self.update { state in
-                    state.displayedImage = image
-                    state.originImage = image
+                guard let img = await uiImage,
+                      let raw = await rawData else { return }
+                
+                await update { state in
+                    state.originImage    = img
+                    state.displayedImage = img
+                    state.originalData   = raw
                 }
             }
             
+        case .previewWidthUpdated(let px):
+            state.previewPixelWidth = px
+            
         case .saveButtonTapped:
-            saveImage(state.displayedImage, originalUTType: state.imageType)
-            break
+            saveImage(
+                    state.displayedImage,
+                    originalUTType: state.imageType,
+                    originalData:  state.originalData
+                )
             
         case .grainSliderChanged(let intensity):
             guard let originImage = state.originImage else { return }
-            state.displayedImage = applyFilter(image: originImage, grainIntensity: Double(intensity))
+            state.displayedImage = applyFilter(image: originImage, grainIntensity: Double(intensity), previewPixelWidth: state.previewPixelWidth)
         }
     }
     
     private lazy var context = CIContext()
     
-    private func applyFilter(image: UIImage, grainIntensity: Double) -> UIImage? {
-        guard let base = CIImage(image: image) else { return nil }
-        
-        // ① 노이즈 생성 및 크롭
-        guard let noiseImage = CIFilter.randomGenerator().outputImage?.cropped(to: base.extent) else { return nil }
-        
-        // ② 루미넌스 필터 적용
-        let luminanceFilter = CIFilter.minimumComponent()
-        luminanceFilter.inputImage = noiseImage
-        guard let luminanceImage = luminanceFilter.outputImage else { return nil }
-        
-        // ③ 투명도 조절
-        let alphaFilter = CIFilter.colorMatrix()
-        alphaFilter.inputImage = luminanceImage
-        alphaFilter.aVector = CIVector(x: 0, y: 0, z: 0, w: CGFloat(grainIntensity * 1.5))
-        guard let alphaNoise = alphaFilter.outputImage else { return nil }
-        
-        // ④ 블렌딩
-        let blendFilter = CIFilter.softLightBlendMode()
-        blendFilter.inputImage = alphaNoise
-        blendFilter.backgroundImage = base
-        guard let blendedCI = blendFilter.outputImage,
-              let cgImage = context.createCGImage(blendedCI, from: base.extent) else { return nil }
-        
-        return UIImage(cgImage: cgImage)
+    private func applyFilter(
+        image: UIImage,
+        grainIntensity: Double,
+        previewPixelWidth: CGFloat
+    ) -> UIImage? {
+        guard var noise = CIFilter.randomGenerator().outputImage,
+              let base  = CIImage(image: image) else { return nil }
+
+        // ── ① 노이즈 스케일 고정 ─────────────────────────────
+        //     원본 해상도 / 화면 표시 해상도 = 스케일
+        let pixelSize = max(1, base.extent.width / previewPixelWidth)
+        let pix       = CIFilter.pixellate()
+        pix.inputImage = noise
+        pix.scale      = Float(pixelSize)
+        noise          = pix.outputImage?.cropped(to: base.extent) ?? noise
+
+        // ── ② 루미넌스 + 불투명도 조절 ───────────────────────
+        let lum = CIFilter.minimumComponent()
+        lum.inputImage = noise
+
+        let alpha = CIFilter.colorMatrix()
+        alpha.inputImage = lum.outputImage
+        alpha.aVector    = CIVector(x: 0, y: 0, z: 0,
+                                    w: CGFloat(grainIntensity * 1.5))
+
+        // ── ③ 블렌딩 (Soft‑Light) ────────────────────────────
+        let blend = CIFilter.softLightBlendMode()
+        blend.inputImage      = alpha.outputImage
+        blend.backgroundImage = base
+
+        guard let out = blend.outputImage,
+              let cg  = context.createCGImage(out, from: base.extent) else { return nil }
+
+        return UIImage(cgImage: cg)
     }
     
-    func saveImage(_ image: UIImage?, originalUTType: UTType?) {
-        guard let image = image,
-              let utType = originalUTType else {
-            return
-        }
-        
-        guard let data = image.encodedData(for: utType) else {
-            return
-        }
-        
-        PHPhotoLibrary.requestAuthorization { status in
-            guard status == .authorized || status == .limited else { return }
-            
-            PHPhotoLibrary.shared().performChanges {
-                let request = PHAssetCreationRequest.forAsset()
-                let options = PHAssetResourceCreationOptions()
-                options.uniformTypeIdentifier = utType.identifier
-                request.addResource(with: .photo, data: data, options: options)
-            }
+    func saveImage(
+        _ image: UIImage?,
+        originalUTType: UTType?,
+        originalData: Data?
+    ) {
+        guard let img = image else { return }
+        guard let type = originalUTType else { return }
+        guard let originalData = originalData else { return }
+
+        let data = img.encodedData(utType: type, from: originalData, quality: 0.9)
+
+        guard let encoded = data else { return }
+
+        PHPhotoLibrary.shared().performChanges {
+            let req = PHAssetCreationRequest.forAsset()
+            let opt = PHAssetResourceCreationOptions()
+            opt.uniformTypeIdentifier = type.identifier
+            req.addResource(with: .photo, data: encoded, options: opt)
         }
     }
     
