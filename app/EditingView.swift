@@ -8,14 +8,19 @@ struct EditingView: View {
     
     //photo picker를 위한 상태
     @State private var selectedItem: PhotosPickerItem?
+    @State private var grainIntensity: Float = 0
     
     var body: some View {
         VStack {
             if let image = editVM.displayedImage  {
                 displayedImage(image)
+                grainSlider
             }
-            
-            photoPicker
+        
+            HStack {
+                photoPicker
+                saveButton
+            }
         }
         .padding()
     }
@@ -26,20 +31,50 @@ struct EditingView: View {
             .scaledToFit()
     }
     
+    private var grainSlider: some View {
+        HStack {
+            Text("Grain: \(Int(grainIntensity * 100))%")
+            Slider(value: $grainIntensity)
+                .onChange(of: grainIntensity) { _, value in
+                    editVM.send(.grainSliderChanged(value))
+                }
+        }
+    }
+    
     private var photoPicker: some View {
-        PhotosPicker("업로드", selection: $selectedItem)
+        PhotosPicker(
+            selection: $selectedItem,
+            matching: .images
+        ){ uploadLabel }
         .onChange(of: selectedItem) { _, picked in
             guard let picked else { return }
-            
-            picked.loadTransferable(type: Data.self) { result in
-                if case let .success(data?) = result,
-                   let ui = UIImage(data: data)?.fixedOrientation() {
-                    DispatchQueue.main.async {
-                        editVM.send(.photoSelected(ui))
-                    }
-                }
-            }
+            editVM.send(.photoSelected(picked))
         }
+    }
+
+    
+    private var uploadLabel: some View {
+        Label("Upload", systemImage: "photo.on.rectangle")
+            .padding(.vertical, 8)
+            .padding(.horizontal, 16)
+            .background(Color.green.opacity(0.2))
+            .cornerRadius(8)
+    }
+    
+    private var saveButton: some View {
+        Button {
+            editVM.send(.saveButtonTapped)
+        } label: {
+            saveLabel
+        }
+    }
+    
+    private var saveLabel: some View {
+        Label("Save", systemImage: "square.and.arrow.down")
+            .padding(.vertical, 8)
+            .padding(.horizontal, 16)
+            .background(Color.blue.opacity(0.2))
+            .cornerRadius(8)
     }
 }
 

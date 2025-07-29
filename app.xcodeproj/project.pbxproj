@@ -16,6 +16,7 @@
 		BEACC51F2E336142008F1B24 /* appUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEACC51C2E336142008F1B24 /* appUITests.swift */; };
 		BEACC5202E336142008F1B24 /* appUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEACC51D2E336142008F1B24 /* appUITestsLaunchTests.swift */; };
 		BEACC5222E336284008F1B24 /* EditingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEACC5212E336284008F1B24 /* EditingView.swift */; };
+		BEE5B5262E38A81900249826 /* Ext+PhotosPickerItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE5B5252E38A81900249826 /* Ext+PhotosPickerItem.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +49,7 @@
 		BEACC51C2E336142008F1B24 /* appUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = appUITests.swift; sourceTree = "<group>"; };
 		BEACC51D2E336142008F1B24 /* appUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = appUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		BEACC5212E336284008F1B24 /* EditingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditingView.swift; sourceTree = "<group>"; };
+		BEE5B5252E38A81900249826 /* Ext+PhotosPickerItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ext+PhotosPickerItem.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,6 +106,7 @@
 				BE1A9D6B2E3371360036B75F /* EditingViewModel.swift */,
 				BE1A9D692E33676A0036B75F /* ViewModel.swift */,
 				BE1A9D6D2E337A1F0036B75F /* Ext+UIImage.swift */,
+				BEE5B5252E38A81900249826 /* Ext+PhotosPickerItem.swift */,
 			);
 			path = app;
 			sourceTree = "<group>";
@@ -266,6 +269,7 @@
 				BEACC5172E336142008F1B24 /* appApp.swift in Sources */,
 				BE1A9D6E2E337A1F0036B75F /* Ext+UIImage.swift in Sources */,
 				BE1A9D6A2E33676A0036B75F /* ViewModel.swift in Sources */,
+				BEE5B5262E38A81900249826 /* Ext+PhotosPickerItem.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

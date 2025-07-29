@@ -33,4 +33,9 @@ class ViewModel<S, A>: ObservableObject {
             set: { self.state[keyPath: keyPath] = $0 }
         )
     }
+    
+    @MainActor
+    func update(_ mutate: (inout S) -> Void) {
+        mutate(&state)
+    }
 }
