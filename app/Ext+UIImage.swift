@@ -4,7 +4,6 @@ import MobileCoreServices
 import UniformTypeIdentifiers
 
 extension UIImage {
-    /// Returns an image with orientation normalized to `.up`
     func fixedOrientation() -> UIImage {
         guard imageOrientation != .up else { return self }
         UIGraphicsBeginImageContextWithOptions(size, false, scale)
@@ -16,34 +15,21 @@ extension UIImage {
 }
 
 extension UIImage {
-    func encodedData(
-        utType: UTType,
-        from originalData: Data? = nil, 
-        quality: CGFloat = 0.9
-    ) -> Data? {
-        
-        guard let cg = self.cgImage else { return nil }
-        
-        var options: [CFString: Any] = [
-            kCGImageDestinationLossyCompressionQuality: quality
-        ]
-        
-        if
-            let raw = originalData,
-            let src = CGImageSourceCreateWithData(raw as CFData, nil),
-            let meta = CGImageSourceCopyPropertiesAtIndex(src, 0, nil)
-        {
-            options[kCGImageDestinationMetadata] = meta
+    func resized(to size: CGSize) -> UIImage {
+        let fmt = UIGraphicsImageRendererFormat()
+        fmt.scale = 1
+        return UIGraphicsImageRenderer(size: size, format: fmt).image { _ in
+            self.draw(in: CGRect(origin: .zero, size: size))
         }
-        
-        // (2) CGImageDestination 인코딩
-        let data = NSMutableData()
-        guard let dst = CGImageDestinationCreateWithData(
-            data, utType.identifier as CFString, 1, nil) else { return nil }
-        
-        CGImageDestinationAddImage(dst, cg, options as CFDictionary)
-        return CGImageDestinationFinalize(dst) ? data as Data : nil
+    }
+    
+    func resized512() -> UIImage {
+        let width: CGFloat = 512
+        let ratio = width / size.width
+        let height = floor(size.height * ratio)
+        return resized(to: .init(width: width, height: height))
     }
 }
+
 
 

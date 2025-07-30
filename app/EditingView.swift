@@ -8,7 +8,7 @@ struct EditingView: View {
     
     //photo picker를 위한 상태
     @State private var selectedItem: PhotosPickerItem?
-    @State private var grainIntensity: Float = 0
+    @State private var grainAlpha: Float = 0
     
     var body: some View {
         VStack {
@@ -16,7 +16,7 @@ struct EditingView: View {
                 displayedImage(image)
                 grainSlider
             }
-        
+            
             HStack {
                 photoPicker
                 saveButton
@@ -29,24 +29,15 @@ struct EditingView: View {
         GeometryReader { geo in
             Image(uiImage: image)
                 .resizable()
-                .scaledToFit()
-                .onAppear {
-                    let px = geo.size.width * UIScreen.main.scale
-                    editVM.send(.previewWidthUpdated(px))
-                }
-                .onChange(of: geo.size) { _, newSize in
-                    let px = newSize.width * UIScreen.main.scale
-                    editVM.send(.previewWidthUpdated(px))
-                }
+                .aspectRatio(contentMode: .fit)
         }
     }
 
-    
     private var grainSlider: some View {
         HStack {
-            Text("Grain: \(Int(grainIntensity * 100))%")
-            Slider(value: $grainIntensity)
-                .onChange(of: grainIntensity) { _, value in
+            Text("Grain: \(Int(grainAlpha * 100))%")
+            Slider(value: $grainAlpha)
+                .onChange(of: grainAlpha) { _, value in
                     editVM.send(.grainSliderChanged(value))
                 }
         }
