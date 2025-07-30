@@ -23,8 +23,8 @@ extension UIImage {
         }
     }
     
-    func resized512() -> UIImage {
-        let width: CGFloat = 512
+    func resized1024() -> UIImage {
+        let width: CGFloat = 1024
         let ratio = width / size.width
         let height = floor(size.height * ratio)
         return resized(to: .init(width: width, height: height))

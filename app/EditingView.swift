@@ -26,13 +26,12 @@ struct EditingView: View {
     }
     
     private func displayedImage(_ image: UIImage) -> some View {
-        GeometryReader { geo in
-            Image(uiImage: image)
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-        }
+        Image(uiImage: image)
+            .resizable()
+            .aspectRatio(contentMode: .fit)
+            .frame(maxWidth: .infinity)
     }
-
+    
     private var grainSlider: some View {
         HStack {
             Text("Grain: \(Int(grainAlpha * 100))%")
@@ -46,14 +45,15 @@ struct EditingView: View {
     private var photoPicker: some View {
         PhotosPicker(
             selection: $selectedItem,
-            matching: .images
+            matching: .images,
+            photoLibrary: .shared()
         ){ uploadLabel }
-        .onChange(of: selectedItem) { _, picked in
-            guard let picked else { return }
-            editVM.send(.photoSelected(picked))
-        }
+            .onChange(of: selectedItem) { _, picked in
+                guard let picked else { return }
+                editVM.send(.photoSelected(picked))
+            }
     }
-
+    
     
     private var uploadLabel: some View {
         Label("Upload", systemImage: "photo.on.rectangle")
@@ -79,5 +79,3 @@ struct EditingView: View {
             .cornerRadius(8)
     }
 }
-
-

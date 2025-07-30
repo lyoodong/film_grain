@@ -20,7 +20,7 @@ class ViewModel<S, A>: ObservableObject {
     }
 
     func send(_ action: A) {
-        reduce(state: &state, action: action)
+        self.reduce(state: &state, action: action)
     }
 
     func reduce(state: inout S, action: A) {
