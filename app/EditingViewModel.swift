@@ -9,12 +9,14 @@ extension EditingViewModel: ViewModelType {
         var originImage: UIImage?
         var displayedImage: UIImage?
         var grainAlpha: Double = 0
+        var useColorGrain: Bool = true
     }
 
     enum Action {
         case photoSelected(PhotosPickerItem)
         case saveButtonTapped
         case grainSliderChanged(Float)
+        case grainModeChanged(Bool)
     }
 }
 
@@ -22,7 +24,7 @@ final class EditingViewModel: toVM<EditingViewModel> {
     override func reduce(state: inout State, action: Action) {
         switch action {
         case let .photoSelected(item):
-            let alpha = state.grainAlpha
+            let state = state
 
             Task.detached(priority: .userInitiated) { [weak self] in
                 guard let self = self else { return }
@@ -34,7 +36,7 @@ final class EditingViewModel: toVM<EditingViewModel> {
 
                 // autoreleasepool 으로 동기적으로 CI/CG 리소스 해제 관리
                 autoreleasepool {
-                    filtered = self.applyGrain(image: img, alpha: alpha)
+                    filtered = self.applyGrain(image: img, alpha: state.grainAlpha, isColor: state.useColorGrain)
                 }
 
                 await self.update { state in
@@ -52,14 +54,31 @@ final class EditingViewModel: toVM<EditingViewModel> {
 
         case .grainSliderChanged(let alpha):
             state.grainAlpha = Double(alpha)
-            let alpha = Double(alpha)
-            guard let originImage = state.originImage else { return }
+            let state = state
+        
             Task.detached(priority: .userInitiated) { [weak self] in
                 guard let self else { return }
+                guard let img = state.originImage else { return }
                 var filtered: UIImage?
                 
                 autoreleasepool {
-                    filtered = self.applyGrain(image: originImage, alpha: alpha)
+                    filtered = self.applyGrain(image: img, alpha: state.grainAlpha, isColor: state.useColorGrain)
+                }
+                
+                await self.update { $0.displayedImage = filtered }
+            }
+            
+        case .grainModeChanged(let isColor):
+            state.useColorGrain = isColor
+            let state = state
+            
+            Task.detached(priority: .userInitiated) { [weak self] in
+                guard let self else { return }
+                guard let img = state.originImage else { return }
+                var filtered: UIImage?
+                
+                autoreleasepool {
+                    filtered = self.applyGrain(image: img, alpha: state.grainAlpha, isColor: state.useColorGrain)
                 }
                 
                 await self.update { $0.displayedImage = filtered }
@@ -76,7 +95,8 @@ final class EditingViewModel: toVM<EditingViewModel> {
 
     private func applyGrain(
         image: UIImage,
-        alpha: Double
+        alpha: Double,
+        isColor: Bool
     ) -> UIImage? {
         guard let base  = CIImage(image: image) else { return nil }
 
@@ -86,10 +106,10 @@ final class EditingViewModel: toVM<EditingViewModel> {
         grayF.inputImage = grainF.outputImage
 
         let alphaF = CIFilter.colorMatrix()
-        alphaF.inputImage = grayF.outputImage
+        alphaF.inputImage = isColor ? grainF.outputImage : grayF.outputImage
         alphaF.aVector = CIVector(x: 0, y: 0, z: 0, w: CGFloat(alpha))
 
-        let blend = CIFilter.softLightBlendMode()
+        let blend = isColor ? CIFilter.softLightBlendMode() : CIFilter.softLightBlendMode()
         blend.inputImage = alphaF.outputImage
         blend.backgroundImage = base
 
