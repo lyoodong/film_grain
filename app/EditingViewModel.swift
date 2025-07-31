@@ -66,18 +66,18 @@ final class EditingViewModel: toVM<EditingViewModel> {
             }
         }
     }
+    
+    lazy var context: CIContext = {
+      if let dev = MTLCreateSystemDefaultDevice() {
+        return CIContext(mtlDevice: dev)
+      }
+      return CIContext(options: nil)
+    }()
 
     private func applyGrain(
         image: UIImage,
         alpha: Double
     ) -> UIImage? {
-        lazy var context: CIContext = {
-          if let dev = MTLCreateSystemDefaultDevice() {
-            return CIContext(mtlDevice: dev)
-          }
-          return CIContext(options: nil)
-        }()
-
         guard let base  = CIImage(image: image) else { return nil }
 
         let grainF = CIFilter.randomGenerator()
