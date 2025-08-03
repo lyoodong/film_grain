@@ -13,6 +13,7 @@ struct EditingView: View {
         VStack {
             if let image = editVM.displayImage {
                 displayedImage(image)
+                    .contrast(editVM.contrast)
                 grain
             }
         }
@@ -59,6 +60,19 @@ struct EditingView: View {
                     ),
                     in: 1...10,
                     step: 0.1
+                )
+            }
+            
+            HStack {
+                Text("Contrast \(Int(editVM.contrastValue))%")
+                
+                Slider(
+                    value: Binding(
+                        get: { Float(editVM.contrastValue) },
+                        set: { editVM.send(.contrastChanged($0)) }
+                    ),
+                    in: -100...100,
+                    step: 1
                 )
             }
         }

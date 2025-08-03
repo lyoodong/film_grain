@@ -11,6 +11,8 @@ extension EditingViewModel: ViewModelType {
     struct State {
         var grainAlpha: Double = 0.6
         var grainScale: Double = 1
+        var contrast: Double = 1
+        var contrastValue: Double = 0
         
         var originData: Data = Data() // 원본 이미지 데이터
         var originImage: UIImage?
@@ -27,6 +29,7 @@ extension EditingViewModel: ViewModelType {
         
         case grainAlphaChanged(Float)
         case grainScaleChanged(Float)
+        case contrastChanged(Float)
         
         case previewWidthUpdated(CGFloat)
     }
@@ -96,6 +99,11 @@ final class EditingViewModel: toVM<EditingViewModel> {
                 state.grainScale = CGFloat(rounded)
                 refresh()
             }
+            
+        case .contrastChanged(let v):
+            state.contrast = pow(2, Double(v) / 50)
+            state.contrastValue = Double(v)
+            refresh()
             
         case .saveButtonTapped:
             if let img = state.displayImage {
