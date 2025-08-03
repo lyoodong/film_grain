@@ -8,20 +8,24 @@ struct EditingView: View {
     
     //photo picker를 위한 상태
     @State private var selectedItem: PhotosPickerItem?
-    @State private var grainAlpha: Float = 0
-    @State private var useColorGrain: Bool = true
     
     var body: some View {
         VStack {
-            if let image = editVM.displayedImage  {
+            if let image = editVM.displayImage {
                 displayedImage(image)
                 grain
             }
-            
-            HStack {
-                photoPicker
-                saveButton
-            }
+        }
+        
+        HStack {
+            photoPicker
+            saveButton
+        }
+        .onAppear {
+            let size = UIScreen.main.bounds.size
+            let scale = UIScreen.main.scale
+            let max = max(size.height, size.width)
+            editVM.send(.previewWidthUpdated(max * scale))
         }
         .padding()
     }
@@ -34,18 +38,29 @@ struct EditingView: View {
     private var grain: some View {
         VStack {
             HStack {
-                Text("GrainAlpha \(Int(grainAlpha * 100))%")
-                Slider(value: $grainAlpha)
-                    .onChange(of: grainAlpha) { _, value in
-                        editVM.send(.grainSliderChanged(value))
-                    }
+                Text("GrainAlpha \(Int(editVM.grainAlpha * 100))%")
+                Slider(
+                    value: Binding(
+                        get: { Float(editVM.grainAlpha) },
+                        set: { editVM.send(.grainAlphaChanged($0))}
+                    ),
+                    in: 0...1,
+                    step: 0.01
+                )
             }
             
-            Toggle(isOn: $useColorGrain) { Text("MONO / COLOR") }
-                .onChange(of: useColorGrain) { _, isColor in
-                    print("isColor", isColor)
-                    editVM.send(.grainModeChanged(isColor))
-                }
+            HStack {
+                Text("GrainScale \(Int(editVM.grainScale * 100))%")
+                
+                Slider(
+                    value: Binding(
+                        get: { Float(editVM.grainScale) },
+                        set: { editVM.send(.grainScaleChanged($0)) }
+                    ),
+                    in: 1...10,
+                    step: 0.1
+                )
+            }
         }
     }
     
