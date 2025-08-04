@@ -16,6 +16,9 @@ extension EditingViewModel: ViewModelType {
         var contrastValue: Double = 0
         var isColorGrading = false
         
+        var orangeAlpha: Double = 0
+        var tealAlpha: Double = 0
+        
         var originData: Data = Data() // 원본 이미지 데이터
         var originImage: UIImage?
         var displayImage: UIImage?
@@ -33,6 +36,8 @@ extension EditingViewModel: ViewModelType {
         case grainAlphaChanged(Float)
         case grainScaleChanged(Float)
         case contrastChanged(Float)
+        case orangeAlphaChanged(Float)
+        case tealAlphaChanged(Float)
         
         case colorGradingChanged(Bool)
         
@@ -55,7 +60,7 @@ final class EditingViewModel: toVM<EditingViewModel> {
             guard var base = state.originImage else { return }
         
             if state.isColorGrading {
-                base = applyColorGrading(image: base)!
+                base = applyColorGrading(image: base, tealAlpha: state.tealAlpha, orangeAlpha: state.orangeAlpha)!
             }
             
             Task.detached(priority: .userInitiated) {
@@ -100,6 +105,20 @@ final class EditingViewModel: toVM<EditingViewModel> {
             let rounded = (Double(v) * 100).rounded() / 100
             if state.grainAlpha != rounded {
                 state.grainAlpha = rounded
+                refresh(state)
+            }
+            
+        case .orangeAlphaChanged(let v):
+            let rounded = (Double(v) * 100).rounded() / 100
+            if state.orangeAlpha != rounded {
+                state.orangeAlpha = rounded
+                refresh(state)
+            }
+            
+        case .tealAlphaChanged(let v):
+            let rounded = (Double(v) * 100).rounded() / 100
+            if state.tealAlpha != rounded {
+                state.tealAlpha = rounded
                 refresh(state)
             }
             
@@ -199,7 +218,23 @@ final class EditingViewModel: toVM<EditingViewModel> {
         return UIImage(cgImage: cg)
     }
     
-    static let colorGradingKernel: CIColorKernel = {
+    // ── 기존 ContrastPreset 에서는 색상만 보관 ─────────────────
+    struct ContrastPreset {
+        let name: String
+        let threshold: CGFloat
+        let darkBase: CIColor    // Teal 계열 R/G/B 값만
+        let brightBase: CIColor  // Orange 계열 R/G/B 값만
+    }
+
+    let presets = ContrastPreset(
+        name:       "Teal ↔︎ Orange 기본",
+        threshold:  0.1,
+        darkBase:   CIColor(red: 0.0, green: 0.8, blue: 0.7, alpha: 1.0),
+        brightBase: CIColor(red: 1.0, green: 0.6, blue: 0.0, alpha: 1.0)
+    )
+
+    // ── colorGradingKernel 은 그대로 재사용 ─────────────────
+    private static let colorGradingKernel: CIColorKernel = {
         let src = """
         kernel vec4 contrastOverlay(__sample img, float threshold,
                                     __color darkC, __color brightC) {
@@ -209,28 +244,41 @@ final class EditingViewModel: toVM<EditingViewModel> {
         """
         return CIColorKernel(source: src)!
     }()
-    
-    struct ContrastPreset {
-        let name: String
-        let threshold: CGFloat
-        let darkColor: CIColor    // luma < threshold 에 적용
-        let brightColor: CIColor  // luma ≥ threshold 에 적용
-    }
-    
-    let presets: ContrastPreset = .init(
-        name: "Teal ↔︎ Orange 기본",
-        threshold: 0.1,
-        darkColor: CIColor(red: 0.0, green: 0.8, blue: 0.7, alpha: 0.7),
-        brightColor: CIColor(red: 1.0, green: 0.6, blue: 0.0, alpha: 0.7)
-    )
-    
-    private func applyColorGrading(image: UIImage) -> UIImage? {
+
+    // ── 알파 값을 파라미터로 받아 적용 ─────────────────────────
+    private func applyColorGrading(
+        image: UIImage,
+        tealAlpha:   CGFloat,
+        orangeAlpha: CGFloat
+    ) -> UIImage? {
         guard let ciIn = CIImage(image: image) else { return nil }
+
+        // presets.darkBase.rgb + tealAlpha
+        let darkColor = CIColor(
+          red:   presets.darkBase.red,
+          green: presets.darkBase.green,
+          blue:  presets.darkBase.blue,
+          alpha: tealAlpha
+        )
+
+        // presets.brightBase.rgb + orangeAlpha
+        let brightColor = CIColor(
+          red:   presets.brightBase.red,
+          green: presets.brightBase.green,
+          blue:  presets.brightBase.blue,
+          alpha: orangeAlpha
+        )
+
+        // 커널 적용
         guard let overlay = Self.colorGradingKernel.apply(
-            extent: ciIn.extent,
-            arguments: [ciIn, presets.threshold, presets.darkColor, presets.brightColor]
+          extent:   ciIn.extent,
+          arguments: [ciIn,
+                      presets.threshold,
+                      darkColor,
+                      brightColor]
         ) else { return nil }
 
+        // 원본 위에 오버레이
         let comp = overlay.composited(over: ciIn)
         guard let cg = context.createCGImage(comp, from: comp.extent) else { return nil }
         return UIImage(cgImage: cg)

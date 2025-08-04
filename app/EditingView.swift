@@ -85,6 +85,29 @@ struct EditingView: View {
                                  set: { editVM.send(.colorGradingChanged($0))})) {
                 Text("ColorGrading")
             }
+            
+            Text("ORANGE \(Int(editVM.orangeAlpha * 100))%")
+            
+            Slider(
+                value: Binding(
+                    get: { Float(editVM.orangeAlpha) },
+                    set: { editVM.send(.orangeAlphaChanged($0)) }
+                ),
+                in: 0...1,
+                step: 0.01
+            )
+            
+            Text("TEAL \(Int(editVM.tealAlpha * 100))%")
+            
+            Slider(
+                value: Binding(
+                    get: { Float(editVM.tealAlpha) },
+                    set: { editVM.send(.tealAlphaChanged($0)) }
+                ),
+                in: 0...1,
+                step: 0.01
+            )
+            
         }
     }
     
@@ -99,19 +122,19 @@ struct EditingView: View {
                 
                 guard let id = picked.itemIdentifier,
                       let asset = PHAsset.fetchAssets(
-                    withLocalIdentifiers: [id], options: nil
-                ).firstObject else { return }
+                        withLocalIdentifiers: [id], options: nil
+                      ).firstObject else { return }
                 
                 let opts = PHImageRequestOptions()
                 opts.isNetworkAccessAllowed = false
-
+                
                 PHImageManager.default().requestImageDataAndOrientation(
-                  for: asset, options: opts
+                    for: asset, options: opts
                 ) { data, _, _, info in
-                  let inCloud = (info?[PHImageResultIsInCloudKey] as? Bool) == true
-                  print(inCloud
-                    ? "☁️ 아직 iCloud에서 내려받는 중"
-                    : "📁 로컬에 다운로드 완료")
+                    let inCloud = (info?[PHImageResultIsInCloudKey] as? Bool) == true
+                    print(inCloud
+                          ? "☁️ 아직 iCloud에서 내려받는 중"
+                          : "📁 로컬에 다운로드 완료")
                 }
                 
                 editVM.send(.photoSelected(picked))
@@ -146,12 +169,12 @@ struct EditingView: View {
 
 struct ZoomableImage: View {
     let image: UIImage
-
+    
     @State private var scale: CGFloat = 1.0
     @State private var lastScale: CGFloat = 1.0
     @State private var offset: CGSize = .zero
     @State private var lastOffset: CGSize = .zero
-
+    
     var body: some View {
         GeometryReader { proxy in
             Image(uiImage: image)
