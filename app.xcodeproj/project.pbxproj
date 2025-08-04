@@ -10,6 +10,10 @@
 		BE1A9D6A2E33676A0036B75F /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1A9D692E33676A0036B75F /* ViewModel.swift */; };
 		BE1A9D6C2E3371360036B75F /* EditingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1A9D6B2E3371360036B75F /* EditingViewModel.swift */; };
 		BE1A9D6E2E337A1F0036B75F /* Ext+UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1A9D6D2E337A1F0036B75F /* Ext+UIImage.swift */; };
+		BE3733222E408922003D74F9 /* GrainScaleRegressor.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = BE3733212E408922003D74F9 /* GrainScaleRegressor.mlmodel */; };
+		BE3733232E408922003D74F9 /* GrainAlphaRegressor.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = BE3733202E408922003D74F9 /* GrainAlphaRegressor.mlmodel */; };
+		BE3733242E408922003D74F9 /* ContrastRegressor.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = BE37331F2E408922003D74F9 /* ContrastRegressor.mlmodel */; };
+		BE3733262E408967003D74F9 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE3733252E408967003D74F9 /* Model.swift */; };
 		BEACC5162E336142008F1B24 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BEACC5122E336142008F1B24 /* Assets.xcassets */; };
 		BEACC5172E336142008F1B24 /* appApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEACC5112E336142008F1B24 /* appApp.swift */; };
 		BEACC51B2E336142008F1B24 /* appTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEACC5192E336142008F1B24 /* appTests.swift */; };
@@ -17,6 +21,7 @@
 		BEACC5202E336142008F1B24 /* appUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEACC51D2E336142008F1B24 /* appUITestsLaunchTests.swift */; };
 		BEACC5222E336284008F1B24 /* EditingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEACC5212E336284008F1B24 /* EditingView.swift */; };
 		BEE5B5262E38A81900249826 /* Ext+PhotosPickerItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE5B5252E38A81900249826 /* Ext+PhotosPickerItem.swift */; };
+		BEE5B5282E38C48600249826 /* TODO.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE5B5272E38C48600249826 /* TODO.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +45,10 @@
 		BE1A9D692E33676A0036B75F /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		BE1A9D6B2E3371360036B75F /* EditingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditingViewModel.swift; sourceTree = "<group>"; };
 		BE1A9D6D2E337A1F0036B75F /* Ext+UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ext+UIImage.swift"; sourceTree = "<group>"; };
+		BE37331F2E408922003D74F9 /* ContrastRegressor.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = ContrastRegressor.mlmodel; sourceTree = "<group>"; };
+		BE3733202E408922003D74F9 /* GrainAlphaRegressor.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = GrainAlphaRegressor.mlmodel; sourceTree = "<group>"; };
+		BE3733212E408922003D74F9 /* GrainScaleRegressor.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = GrainScaleRegressor.mlmodel; sourceTree = "<group>"; };
+		BE3733252E408967003D74F9 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		BEACC4E22E336125008F1B24 /* app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = app.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BEACC4F22E336127008F1B24 /* appTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = appTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BEACC4FC2E336127008F1B24 /* appUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = appUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -50,6 +59,7 @@
 		BEACC51D2E336142008F1B24 /* appUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = appUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		BEACC5212E336284008F1B24 /* EditingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditingView.swift; sourceTree = "<group>"; };
 		BEE5B5252E38A81900249826 /* Ext+PhotosPickerItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ext+PhotosPickerItem.swift"; sourceTree = "<group>"; };
+		BEE5B5272E38C48600249826 /* TODO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TODO.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +117,11 @@
 				BE1A9D692E33676A0036B75F /* ViewModel.swift */,
 				BE1A9D6D2E337A1F0036B75F /* Ext+UIImage.swift */,
 				BEE5B5252E38A81900249826 /* Ext+PhotosPickerItem.swift */,
+				BEE5B5272E38C48600249826 /* TODO.swift */,
+				BE37331F2E408922003D74F9 /* ContrastRegressor.mlmodel */,
+				BE3733202E408922003D74F9 /* GrainAlphaRegressor.mlmodel */,
+				BE3733212E408922003D74F9 /* GrainScaleRegressor.mlmodel */,
+				BE3733252E408967003D74F9 /* Model.swift */,
 			);
 			path = app;
 			sourceTree = "<group>";
@@ -222,6 +237,8 @@
 			);
 			mainGroup = BEACC4D92E336125008F1B24;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = BEACC4E32E336125008F1B24 /* Products */;
 			projectDirPath = "";
@@ -265,9 +282,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				BEACC5222E336284008F1B24 /* EditingView.swift in Sources */,
+				BE3733222E408922003D74F9 /* GrainScaleRegressor.mlmodel in Sources */,
+				BE3733232E408922003D74F9 /* GrainAlphaRegressor.mlmodel in Sources */,
+				BE3733242E408922003D74F9 /* ContrastRegressor.mlmodel in Sources */,
 				BE1A9D6C2E3371360036B75F /* EditingViewModel.swift in Sources */,
 				BEACC5172E336142008F1B24 /* appApp.swift in Sources */,
+				BEE5B5282E38C48600249826 /* TODO.swift in Sources */,
 				BE1A9D6E2E337A1F0036B75F /* Ext+UIImage.swift in Sources */,
+				BE3733262E408967003D74F9 /* Model.swift in Sources */,
 				BE1A9D6A2E33676A0036B75F /* ViewModel.swift in Sources */,
 				BEE5B5262E38A81900249826 /* Ext+PhotosPickerItem.swift in Sources */,
 			);

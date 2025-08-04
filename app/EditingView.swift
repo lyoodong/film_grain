@@ -14,6 +14,7 @@ struct EditingView: View {
             if let image = editVM.displayImage {
                 displayedImage(image)
                     .contrast(editVM.contrast)
+                aiPreset
                 grain
             }
         }
@@ -29,6 +30,10 @@ struct EditingView: View {
             editVM.send(.previewWidthUpdated(max * scale))
         }
         .padding()
+    }
+    
+    private var aiPreset: some View {
+        Button("AI 추천") { editVM.send(.aiButtonTapped) }
     }
     
     private func displayedImage(_ image: UIImage) -> some View {
@@ -74,6 +79,11 @@ struct EditingView: View {
                     in: -100...100,
                     step: 1
                 )
+            }
+            
+            Toggle(isOn: Binding(get: { editVM.isColorGrading },
+                                 set: { editVM.send(.colorGradingChanged($0))})) {
+                Text("ColorGrading")
             }
         }
     }
