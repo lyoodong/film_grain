@@ -55,6 +55,33 @@ class Filter {
         return scaleF.outputImage
     }
     
+    private static let colorGradingKernel: CIColorKernel = {
+        let src = """
+        kernel vec4 contrastOverlay(__sample img, float threshold,
+                                    __color darkC, __color brightC) {
+            float l = dot(img.rgb, vec3(0.299,0.587,0.114));
+            return (l < threshold) ? darkC : brightC;
+        }
+        """
+        return CIColorKernel(source: src)!
+    }()
+    
+    func applyColorGrading(_ input: CIImage?, darkAlpha: CGFloat, bringtAlpha: CGFloat, threshold: CGFloat) -> CIImage? {
+        
+        guard let input else { return nil }
+       
+        let darkColor = CIColor(red: 0.0, green: 0.8, blue: 0.7, alpha: darkAlpha)
+        let brightColor = CIColor(red: 1.0, green: 0.6, blue: 0.0, alpha: bringtAlpha)
+        
+        guard let overlay = Self.colorGradingKernel.apply(
+          extent: input.extent,
+          arguments: [input, threshold, darkColor, brightColor]
+        ) else { return nil }
+
+        let comp = overlay.composited(over: input)
+        return comp
+    }
+    
     
     func blend(input: CIImage?, background: CIImage?) -> CIImage? {
         let blend = CIFilter.softLightBlendMode()
