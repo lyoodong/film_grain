@@ -2,9 +2,9 @@ import SwiftUI
 import Photos
 import PhotosUI
 
-struct EditingView: View {
+struct EditView: View {
     
-    @ObservedObject var editVM: EditingViewModel
+    @ObservedObject var editVM: EditViewModel
     
     //photo picker를 위한 상태
     @State private var selectedItem: PhotosPickerItem?
@@ -156,7 +156,6 @@ struct EditingView: View {
                 editVM.send(.photoSelected(picked))
             }
     }
-    
     
     private var uploadLabel: some View {
         Label("Upload", systemImage: "photo.on.rectangle")

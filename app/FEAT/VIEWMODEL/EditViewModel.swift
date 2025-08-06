@@ -8,7 +8,7 @@ import SpriteKit
 import Vision
 
 // MARK: - ViewModel ---------------------------------------------------------
-extension EditingViewModel: ViewModelType {
+extension EditViewModel: ViewModelType {
     struct State {
         var grainAlpha: Double = 0.6
         var grainScale: Double = 1
@@ -47,7 +47,7 @@ extension EditingViewModel: ViewModelType {
     }
 }
 
-final class EditingViewModel: toVM<EditingViewModel> {
+final class EditViewModel: toVM<EditViewModel> {
     private lazy var context: CIContext = {
         if let dev = MTLCreateSystemDefaultDevice() {
             return CIContext(mtlDevice: dev)
@@ -578,7 +578,7 @@ extension CIContext {
 import SwiftUI
 import CoreML
 
-extension EditingViewModel {
+extension EditViewModel {
   /// ML 예측 호출 (Float → Double 변환 주의)
   private func predictPreset(for uiImage: UIImage) -> (alpha: Double, scale: Double, contrast: Double)? {
     guard let feats = extractFeatures(from: uiImage) else { return nil }
