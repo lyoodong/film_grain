@@ -18,6 +18,7 @@ extension EditingViewModel: ViewModelType {
         
         var orangeAlpha: Double = 0
         var tealAlpha: Double = 0
+        var threshold: Double = 0.5
         
         var originData: Data = Data() // 원본 이미지 데이터
         var originImage: UIImage?
@@ -38,6 +39,7 @@ extension EditingViewModel: ViewModelType {
         case contrastChanged(Float)
         case orangeAlphaChanged(Float)
         case tealAlphaChanged(Float)
+        case thresholdChanged(Double)
         
         case colorGradingChanged(Bool)
         
@@ -60,7 +62,7 @@ final class EditingViewModel: toVM<EditingViewModel> {
             guard var base = state.originImage else { return }
         
             if state.isColorGrading {
-                base = applyColorGrading(image: base, tealAlpha: state.tealAlpha, orangeAlpha: state.orangeAlpha)!
+                base = applyColorGrading(image: base, tealAlpha: state.tealAlpha, orangeAlpha: state.orangeAlpha, threshold: state.threshold)!
             }
             
             Task.detached(priority: .userInitiated) {
@@ -132,6 +134,10 @@ final class EditingViewModel: toVM<EditingViewModel> {
         case .contrastChanged(let v):
             state.contrast = pow(2, Double(v) / 50)
             state.contrastValue = Double(v)
+            refresh(state)
+            
+        case .thresholdChanged(let v):
+            state.threshold = v
             refresh(state)
             
         case .colorGradingChanged(let isOn):
@@ -249,7 +255,8 @@ final class EditingViewModel: toVM<EditingViewModel> {
     private func applyColorGrading(
         image: UIImage,
         tealAlpha:   CGFloat,
-        orangeAlpha: CGFloat
+        orangeAlpha: CGFloat,
+        threshold: Double
     ) -> UIImage? {
         guard let ciIn = CIImage(image: image) else { return nil }
 
@@ -273,7 +280,7 @@ final class EditingViewModel: toVM<EditingViewModel> {
         guard let overlay = Self.colorGradingKernel.apply(
           extent:   ciIn.extent,
           arguments: [ciIn,
-                      presets.threshold,
+                      threshold,
                       darkColor,
                       brightColor]
         ) else { return nil }

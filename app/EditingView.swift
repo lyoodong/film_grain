@@ -86,28 +86,44 @@ struct EditingView: View {
                 Text("ColorGrading")
             }
             
-            Text("ORANGE \(Int(editVM.orangeAlpha * 100))%")
+            HStack {
+                Text("ORANGE \(Int(editVM.orangeAlpha * 100))%")
+                
+                Slider(
+                    value: Binding(
+                        get: { Float(editVM.orangeAlpha) },
+                        set: { editVM.send(.orangeAlphaChanged($0)) }
+                    ),
+                    in: 0...1,
+                    step: 0.01
+                )
+            }
             
-            Slider(
-                value: Binding(
-                    get: { Float(editVM.orangeAlpha) },
-                    set: { editVM.send(.orangeAlphaChanged($0)) }
-                ),
-                in: 0...1,
-                step: 0.01
-            )
+            HStack {
+                Text("TEAL \(Int(editVM.tealAlpha * 100))%")
+                
+                Slider(
+                    value: Binding(
+                        get: { Float(editVM.tealAlpha) },
+                        set: { editVM.send(.tealAlphaChanged($0)) }
+                    ),
+                    in: 0...1,
+                    step: 0.01
+                )
+            }
             
-            Text("TEAL \(Int(editVM.tealAlpha * 100))%")
-            
-            Slider(
-                value: Binding(
-                    get: { Float(editVM.tealAlpha) },
-                    set: { editVM.send(.tealAlphaChanged($0)) }
-                ),
-                in: 0...1,
-                step: 0.01
-            )
-            
+            HStack {
+                Text("CG threshold \(Int(editVM.threshold * 100))%")
+                
+                Slider(
+                    value: Binding(
+                        get: { editVM.threshold },
+                        set: { editVM.send(.thresholdChanged($0)) }
+                    ),
+                    in: 0...1,
+                    step: 0.01
+                )
+            }
         }
     }
     
