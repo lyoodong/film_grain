@@ -24,6 +24,8 @@ extension EditViewModel: ViewModelType {
         var originImage: UIImage?
         var displayImage: UIImage?
         
+        var selectedItem: PhotosPickerItem?
+        
         var maxDimension: CGFloat = 0
         var noise: CIImage?
     }
@@ -34,11 +36,11 @@ extension EditViewModel: ViewModelType {
         case saveButtonTapped
         case aiButtonTapped
         
-        case grainAlphaChanged(Float)
-        case grainScaleChanged(Float)
-        case contrastChanged(Float)
-        case orangeAlphaChanged(Float)
-        case tealAlphaChanged(Float)
+        case grainAlphaChanged(Double)
+        case grainScaleChanged(Double)
+        case contrastChanged(Double)
+        case orangeAlphaChanged(Double)
+        case tealAlphaChanged(Double)
         case thresholdChanged(Double)
         
         case colorGradingChanged(Bool)
@@ -95,7 +97,6 @@ final class EditViewModel: toVM<EditViewModel> {
                     return
                 }
                 
-                print("extractFeatures", extractFeatures(from: image))
                 
                 //MARK: - CHANGE
                 await self.update { $0.noise = NoiseFactory.shared.perlinNoise(size: image.size) }

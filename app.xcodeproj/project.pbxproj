@@ -21,6 +21,14 @@
 		BEBECA7D2E431D6B00F65D26 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BEBECA7B2E431D6B00F65D26 /* Assets.xcassets */; };
 		BEBECA872E431DF900F65D26 /* EditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEBECA852E431DF900F65D26 /* EditView.swift */; };
 		BEBECA8A2E431DF900F65D26 /* EditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEBECA882E431DF900F65D26 /* EditViewModel.swift */; };
+		BEBECA8E2E431E8F00F65D26 /* EditSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEBECA8D2E431E8F00F65D26 /* EditSlider.swift */; };
+		BEBECA902E4323BA00F65D26 /* EditGrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEBECA8F2E4323BA00F65D26 /* EditGrain.swift */; };
+		BEBECA922E4323C000F65D26 /* EditColorGrading.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEBECA912E4323C000F65D26 /* EditColorGrading.swift */; };
+		BEBECA942E4323D100F65D26 /* EditContrast.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEBECA932E4323D100F65D26 /* EditContrast.swift */; };
+		BEBECA962E4324CE00F65D26 /* EditAiButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEBECA952E4324CE00F65D26 /* EditAiButton.swift */; };
+		BEBECA982E43254A00F65D26 /* EditPhotoPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEBECA972E43254A00F65D26 /* EditPhotoPicker.swift */; };
+		BEBECA9A2E43255100F65D26 /* EditSaveButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEBECA992E43255100F65D26 /* EditSaveButton.swift */; };
+		BEBECA9C2E4328C500F65D26 /* EditImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEBECA9B2E4328C500F65D26 /* EditImage.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,6 +66,14 @@
 		BEBECA7B2E431D6B00F65D26 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BEBECA852E431DF900F65D26 /* EditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditView.swift; sourceTree = "<group>"; };
 		BEBECA882E431DF900F65D26 /* EditViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewModel.swift; sourceTree = "<group>"; };
+		BEBECA8D2E431E8F00F65D26 /* EditSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSlider.swift; sourceTree = "<group>"; };
+		BEBECA8F2E4323BA00F65D26 /* EditGrain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditGrain.swift; sourceTree = "<group>"; };
+		BEBECA912E4323C000F65D26 /* EditColorGrading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditColorGrading.swift; sourceTree = "<group>"; };
+		BEBECA932E4323D100F65D26 /* EditContrast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditContrast.swift; sourceTree = "<group>"; };
+		BEBECA952E4324CE00F65D26 /* EditAiButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditAiButton.swift; sourceTree = "<group>"; };
+		BEBECA972E43254A00F65D26 /* EditPhotoPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPhotoPicker.swift; sourceTree = "<group>"; };
+		BEBECA992E43255100F65D26 /* EditSaveButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSaveButton.swift; sourceTree = "<group>"; };
+		BEBECA9B2E4328C500F65D26 /* EditImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditImage.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -176,6 +192,14 @@
 			isa = PBXGroup;
 			children = (
 				BEBECA852E431DF900F65D26 /* EditView.swift */,
+				BEBECA9B2E4328C500F65D26 /* EditImage.swift */,
+				BEBECA8D2E431E8F00F65D26 /* EditSlider.swift */,
+				BEBECA8F2E4323BA00F65D26 /* EditGrain.swift */,
+				BEBECA912E4323C000F65D26 /* EditColorGrading.swift */,
+				BEBECA932E4323D100F65D26 /* EditContrast.swift */,
+				BEBECA952E4324CE00F65D26 /* EditAiButton.swift */,
+				BEBECA972E43254A00F65D26 /* EditPhotoPicker.swift */,
+				BEBECA992E43255100F65D26 /* EditSaveButton.swift */,
 			);
 			path = VIEW;
 			sourceTree = "<group>";
@@ -331,11 +355,19 @@
 				BEBECA6F2E431D6B00F65D26 /* GrainAlphaRegressor.mlmodel in Sources */,
 				BEBECA702E431D6B00F65D26 /* GrainScaleRegressor.mlmodel in Sources */,
 				BEBECA772E431D6B00F65D26 /* appApp.swift in Sources */,
+				BEBECA902E4323BA00F65D26 /* EditGrain.swift in Sources */,
 				BEBECA872E431DF900F65D26 /* EditView.swift in Sources */,
+				BEBECA9C2E4328C500F65D26 /* EditImage.swift in Sources */,
+				BEBECA962E4324CE00F65D26 /* EditAiButton.swift in Sources */,
+				BEBECA982E43254A00F65D26 /* EditPhotoPicker.swift in Sources */,
+				BEBECA8E2E431E8F00F65D26 /* EditSlider.swift in Sources */,
 				BEBECA782E431D6B00F65D26 /* Ext+PhotosPickerItem.swift in Sources */,
+				BEBECA942E4323D100F65D26 /* EditContrast.swift in Sources */,
+				BEBECA9A2E43255100F65D26 /* EditSaveButton.swift in Sources */,
 				BEBECA792E431D6B00F65D26 /* Ext+UIImage.swift in Sources */,
 				BEBECA7A2E431D6B00F65D26 /* ViewModel.swift in Sources */,
 				BEBECA712E431D6B00F65D26 /* GrainModels.swift in Sources */,
+				BEBECA922E4323C000F65D26 /* EditColorGrading.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
