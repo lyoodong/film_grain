@@ -7,30 +7,36 @@ import GameplayKit
 import SpriteKit
 import Vision
 
-// MARK: - ViewModel ---------------------------------------------------------
 extension EditViewModel: ViewModelType {
     struct State {
+        // Grain
         var grainAlpha: Double = 0.6
         var grainScale: Double = 1
+        
+        // Contrast
         var contrast: Double = 1
         var contrastValue: Double = 0
-        var isColorGrading = false
         
-        var orangeAlpha: Double = 0
-        var tealAlpha: Double = 0
+        // ColorGrading
+        var isColorGrading = false
+        var brightAlpha: Double = 0
+        var darkAlpha: Double = 0
         var threshold: Double = 0.5
         
-        var originData: Data = Data() // 원본 이미지 데이터
+        // Image
+        var originData: Data = Data()
         var originImage: UIImage?
         var displayImage: UIImage?
-        
         var selectedItem: PhotosPickerItem?
         
-        var maxDimension: CGFloat = 0
+        // etc
+        var maxScale: CGFloat = 0
         var noise: CIImage?
     }
     
     enum Action {
+        case onAppear(CGFloat)
+        
         case photoSelected(PhotosPickerItem)
         
         case saveButtonTapped
@@ -38,14 +44,13 @@ extension EditViewModel: ViewModelType {
         
         case grainAlphaChanged(Double)
         case grainScaleChanged(Double)
+        
         case contrastChanged(Double)
-        case orangeAlphaChanged(Double)
-        case tealAlphaChanged(Double)
+        
+        case isOnColorGrading(Bool)
+        case brightAlphaChanged(Double)
+        case darkAlphaChanged(Double)
         case thresholdChanged(Double)
-        
-        case colorGradingChanged(Bool)
-        
-        case previewWidthUpdated(CGFloat)
     }
 }
 
@@ -64,7 +69,7 @@ final class EditViewModel: toVM<EditViewModel> {
             guard var base = state.originImage else { return }
         
             if state.isColorGrading {
-                base = applyColorGrading(image: base, tealAlpha: state.tealAlpha, orangeAlpha: state.orangeAlpha, threshold: state.threshold)!
+                base = applyColorGrading(image: base, tealAlpha: state.darkAlpha, orangeAlpha: state.brightAlpha, threshold: state.threshold)!
             }
             
             Task.detached(priority: .userInitiated) {
@@ -73,7 +78,7 @@ final class EditViewModel: toVM<EditViewModel> {
                     base: base,
                     alpha: state.grainAlpha,
                     grainScale: state.grainScale,
-                    maxDimension: state.maxDimension
+                    maxDimension: state.maxScale
                 )
                 
                 await self.update { $0.displayImage = out }
@@ -92,7 +97,7 @@ final class EditViewModel: toVM<EditViewModel> {
                 
                 guard let image = downsample(
                     data: data,
-                    maxDimension: state.maxDimension
+                    maxDimension: state.maxScale
                 ) else {
                     return
                 }
@@ -111,17 +116,17 @@ final class EditViewModel: toVM<EditViewModel> {
                 refresh(state)
             }
             
-        case .orangeAlphaChanged(let v):
+        case .brightAlphaChanged(let v):
             let rounded = (Double(v) * 100).rounded() / 100
-            if state.orangeAlpha != rounded {
-                state.orangeAlpha = rounded
+            if state.brightAlpha != rounded {
+                state.brightAlpha = rounded
                 refresh(state)
             }
             
-        case .tealAlphaChanged(let v):
+        case .darkAlphaChanged(let v):
             let rounded = (Double(v) * 100).rounded() / 100
-            if state.tealAlpha != rounded {
-                state.tealAlpha = rounded
+            if state.darkAlpha != rounded {
+                state.darkAlpha = rounded
                 refresh(state)
             }
             
@@ -141,7 +146,7 @@ final class EditViewModel: toVM<EditViewModel> {
             state.threshold = v
             refresh(state)
             
-        case .colorGradingChanged(let isOn):
+        case .isOnColorGrading(let isOn):
             state.isColorGrading = isOn
             refresh(state)
             
@@ -167,8 +172,8 @@ final class EditViewModel: toVM<EditViewModel> {
                 }
             }
             
-        case .previewWidthUpdated(let w):
-            state.maxDimension = w
+        case .onAppear(let w):
+            state.maxScale = w
         }
     }
     

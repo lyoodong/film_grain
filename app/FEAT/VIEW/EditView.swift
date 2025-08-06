@@ -8,7 +8,7 @@ struct EditView: View {
     var body: some View {
         editor
         photoControler
-        .onAppear { editVM.send(.previewWidthUpdated(UIScreen.maxScale)) }
+        .onAppear { editVM.send(.onAppear(UIScreen.maxScale)) }
     }
     
     private var editor: some View {
@@ -16,6 +16,7 @@ struct EditView: View {
             if let image = editVM.displayImage {
                 EditImage(image: image)
                     .contrast(editVM.contrast)
+                
                 VStack {
                     EditAiButton(editVM: editVM)
                     EditGrain(editVM: editVM)

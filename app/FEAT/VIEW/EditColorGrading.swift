@@ -17,7 +17,7 @@ struct EditColorGrading: View {
     
     private var colorGradingToggle: some View {
         Toggle(isOn: Binding(get: { editVM.isColorGrading },
-                             set: { editVM.send(.colorGradingChanged($0))}))
+                             set: { editVM.send(.isOnColorGrading($0))}))
         { Text("ColorGrading") }
     }
     
@@ -33,18 +33,18 @@ struct EditColorGrading: View {
     private var brightBaseSlider: some View {
         EditSlider(
             name: "ORANGE",
-            value: editVM.orangeAlpha,
+            value: editVM.brightAlpha,
             range: 0...1,
             step: 0.01
-        ) { editVM.send(.orangeAlphaChanged($0)) }
+        ) { editVM.send(.brightAlphaChanged($0)) }
     }
     
     private var darkBaseSlider: some View {
         EditSlider(
             name: "TEAL",
-            value: editVM.tealAlpha,
+            value: editVM.darkAlpha,
             range: 0...1,
             step: 0.01
-        ) { editVM.send(.tealAlphaChanged($0)) }
+        ) { editVM.send(.darkAlphaChanged($0)) }
     }
 }
