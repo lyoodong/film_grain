@@ -8,13 +8,7 @@ struct EditView: View {
     var body: some View {
         editor
         photoControler
-        .onAppear {
-            let size = UIScreen.main.bounds.size
-            let scale = UIScreen.main.scale
-            let max = max(size.height, size.width)
-            editVM.send(.previewWidthUpdated(max * scale))
-        }
-        .padding()
+        .onAppear { editVM.send(.previewWidthUpdated(UIScreen.maxScale)) }
     }
     
     private var editor: some View {

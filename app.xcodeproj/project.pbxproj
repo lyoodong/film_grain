@@ -29,6 +29,7 @@
 		BEBECA982E43254A00F65D26 /* EditPhotoPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEBECA972E43254A00F65D26 /* EditPhotoPicker.swift */; };
 		BEBECA9A2E43255100F65D26 /* EditSaveButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEBECA992E43255100F65D26 /* EditSaveButton.swift */; };
 		BEBECA9C2E4328C500F65D26 /* EditImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEBECA9B2E4328C500F65D26 /* EditImage.swift */; };
+		BEBECA9E2E4329BC00F65D26 /* Ext+UIScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEBECA9D2E4329BC00F65D26 /* Ext+UIScreen.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +75,7 @@
 		BEBECA972E43254A00F65D26 /* EditPhotoPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPhotoPicker.swift; sourceTree = "<group>"; };
 		BEBECA992E43255100F65D26 /* EditSaveButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSaveButton.swift; sourceTree = "<group>"; };
 		BEBECA9B2E4328C500F65D26 /* EditImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditImage.swift; sourceTree = "<group>"; };
+		BEBECA9D2E4329BC00F65D26 /* Ext+UIScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ext+UIScreen.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -166,6 +168,7 @@
 				BEBECA722E431D6B00F65D26 /* appApp.swift */,
 				BEBECA732E431D6B00F65D26 /* Ext+PhotosPickerItem.swift */,
 				BEBECA742E431D6B00F65D26 /* Ext+UIImage.swift */,
+				BEBECA9D2E4329BC00F65D26 /* Ext+UIScreen.swift */,
 				BEBECA752E431D6B00F65D26 /* ViewModel.swift */,
 			);
 			path = GLOBAL;
@@ -354,6 +357,7 @@
 				BEBECA8A2E431DF900F65D26 /* EditViewModel.swift in Sources */,
 				BEBECA6F2E431D6B00F65D26 /* GrainAlphaRegressor.mlmodel in Sources */,
 				BEBECA702E431D6B00F65D26 /* GrainScaleRegressor.mlmodel in Sources */,
+				BEBECA9E2E4329BC00F65D26 /* Ext+UIScreen.swift in Sources */,
 				BEBECA772E431D6B00F65D26 /* appApp.swift in Sources */,
 				BEBECA902E4323BA00F65D26 /* EditGrain.swift in Sources */,
 				BEBECA872E431DF900F65D26 /* EditView.swift in Sources */,
