@@ -31,7 +31,8 @@ extension EditViewModel: ViewModelType {
         
         // etc
         var maxScale: CGFloat = 0
-        var noise: CIImage?
+        var grain: CIImage?
+        var filter: Filter = .init()
     }
     
     enum Action {
@@ -73,9 +74,10 @@ final class EditViewModel: toVM<EditViewModel> {
             }
             
             Task.detached(priority: .userInitiated) {
-                let out = self.applyGrain(
-                    noise: state.noise,
+                let out = self.applyFilter(
+                    noise: state.grain,
                     base: base,
+                    filter: state.filter,
                     alpha: state.grainAlpha,
                     grainScale: state.grainScale,
                     maxDimension: state.maxScale
@@ -93,7 +95,6 @@ final class EditViewModel: toVM<EditViewModel> {
                 guard let self else { return }
                 
                 guard let data = await item.toData() else { return }
-                await self.update { $0.originData = data }
                 
                 guard let image = downsample(
                     data: data,
@@ -102,9 +103,10 @@ final class EditViewModel: toVM<EditViewModel> {
                     return
                 }
                 
+                let grain = self.state.filter.applyGrain(size: image.size)
                 
-                //MARK: - CHANGE
-                await self.update { $0.noise = NoiseFactory.shared.perlinNoise(size: image.size) }
+                await self.update { $0.originData = data }
+                await self.update { $0.grain = grain }
                 await self.update { $0.displayImage = image }
                 await self.update { $0.originImage = image }
             }
@@ -196,36 +198,23 @@ final class EditViewModel: toVM<EditViewModel> {
         
         return UIImage(cgImage: downsampledImage)
     }
-    
-    private func applyGrain(
+
+    private func applyFilter(
         noise: CIImage?,
         base: UIImage,
+        filter: Filter,
         alpha: Double,
         grainScale: CGFloat,
         maxDimension: CGFloat
     ) -> UIImage? {
-        guard let noise,
-              let baseCI = CIImage(image: base) else { return nil }
+        guard let baseCI = CIImage(image: base) else { return nil }
         
-        let grayF = CIFilter.minimumComponent()
-        grayF.inputImage = noise
+        let alphaF = filter.applyAlpha(noise, alpha: alpha)
+        let scaleF = filter.applyScale(alphaF, scale: grainScale, maxScale: maxDimension)
+        let blend = filter.blend(input: scaleF, background: baseCI)
         
-        let alphaF = CIFilter.colorMatrix()
-        alphaF.inputImage = grayF.outputImage
-        alphaF.aVector = CIVector(x: 0, y: 0, z: 0, w: alpha)
-        
-        let scaleF = CIFilter.pixellate()
-        let pixelSize = max(1, baseCI.extent.width / maxDimension)
-        scaleF.inputImage = alphaF.outputImage
-        scaleF.center = .init(x: baseCI.extent.midX, y: baseCI.extent.midY)
-        scaleF.scale = Float(pixelSize * grainScale)
-        
-        let blend = CIFilter.softLightBlendMode()
-        blend.inputImage = scaleF.outputImage
-        blend.backgroundImage = baseCI
-        
-        guard let out = blend.outputImage,
-              let cg = context.createCGImage(out, from: baseCI.extent) else { return nil }
+        guard let out = blend,
+              let cg = filter.context.createCGImage(out, from: baseCI.extent) else { return nil }
         
         return UIImage(cgImage: cg)
     }
@@ -295,42 +284,6 @@ final class EditViewModel: toVM<EditViewModel> {
         let comp = overlay.composited(over: ciIn)
         guard let cg = context.createCGImage(comp, from: comp.extent) else { return nil }
         return UIImage(cgImage: cg)
-    }
-}
-
-final class NoiseFactory {
-    static let shared = NoiseFactory()
-    private init() {}
-    
-    func perlinNoise(size: CGSize, colored: Bool = false) -> CIImage? {
-        let w = Int(size.width)
-        let h = Int(size.height)
-        
-        func gray(seed: Int32) -> CIImage? {
-            let perlin = GKPerlinNoiseSource(
-                frequency:   128,
-                octaveCount: 6,
-                persistence: 0.5,
-                lacunarity:  2.0,
-                seed: 1
-            )
-            
-            let noise   = GKNoise(perlin)
-            
-            let map = GKNoiseMap(
-                noise,
-                size:        vector_double2(Double(w), Double(h)),
-                origin:      .zero,
-                sampleCount: vector_int2(Int32(w), Int32(h)),
-                seamless:    true
-            )
-            
-            let cgNoise = SKTexture(noiseMap: map).cgImage()
-            return CIImage(cgImage: cgNoise)
-        }
-        
-        guard let base = gray(seed: Int32.random(in: .min ... .max)) else { return nil }
-        return base
     }
 }
 

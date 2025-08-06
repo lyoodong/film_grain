@@ -30,6 +30,7 @@
 		BEBECA9A2E43255100F65D26 /* EditSaveButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEBECA992E43255100F65D26 /* EditSaveButton.swift */; };
 		BEBECA9C2E4328C500F65D26 /* EditImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEBECA9B2E4328C500F65D26 /* EditImage.swift */; };
 		BEBECA9E2E4329BC00F65D26 /* Ext+UIScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEBECA9D2E4329BC00F65D26 /* Ext+UIScreen.swift */; };
+		BEBECAA22E4347E100F65D26 /* Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEBECAA12E4347E100F65D26 /* Filter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -76,6 +77,7 @@
 		BEBECA992E43255100F65D26 /* EditSaveButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSaveButton.swift; sourceTree = "<group>"; };
 		BEBECA9B2E4328C500F65D26 /* EditImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditImage.swift; sourceTree = "<group>"; };
 		BEBECA9D2E4329BC00F65D26 /* Ext+UIScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ext+UIScreen.swift"; sourceTree = "<group>"; };
+		BEBECAA12E4347E100F65D26 /* Filter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Filter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -170,6 +172,7 @@
 				BEBECA742E431D6B00F65D26 /* Ext+UIImage.swift */,
 				BEBECA9D2E4329BC00F65D26 /* Ext+UIScreen.swift */,
 				BEBECA752E431D6B00F65D26 /* ViewModel.swift */,
+				BEBECAA12E4347E100F65D26 /* Filter.swift */,
 			);
 			path = GLOBAL;
 			sourceTree = "<group>";
@@ -354,6 +357,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BEBECA6E2E431D6B00F65D26 /* ContrastRegressor.mlmodel in Sources */,
+				BEBECAA22E4347E100F65D26 /* Filter.swift in Sources */,
 				BEBECA8A2E431DF900F65D26 /* EditViewModel.swift in Sources */,
 				BEBECA6F2E431D6B00F65D26 /* GrainAlphaRegressor.mlmodel in Sources */,
 				BEBECA702E431D6B00F65D26 /* GrainScaleRegressor.mlmodel in Sources */,
