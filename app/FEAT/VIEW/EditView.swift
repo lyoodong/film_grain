@@ -21,6 +21,7 @@ struct EditView: View {
                     EditAiButton(editVM: editVM)
                     EditGrain(editVM: editVM)
                     EditContrast(editVM: editVM)
+                    EditTemperature(editVM: editVM)
                     EditColorGrading(editVM: editVM)
                 }
             }

@@ -23,6 +23,9 @@ extension EditViewModel: ViewModelType {
         var darkAlpha: Double = 0
         var threshold: Double = 0.5
         
+        //Temperature
+        var temperature: Double = 0
+        
         // Image
         var originData: Data = Data()
         var originImage: UIImage?
@@ -47,6 +50,8 @@ extension EditViewModel: ViewModelType {
         case grainScaleChanged(Double)
         
         case contrastChanged(Double)
+        
+        case temperatureChanged(Double)
         
         case isOnColorGrading(Bool)
         case brightAlphaChanged(Double)
@@ -157,6 +162,10 @@ final class EditViewModel: toVM<EditViewModel> {
             state.contrast = pow(2, Double(v) / 50)
             state.contrastValue = Double(v)
             refresh(state)
+            
+        case .temperatureChanged(let v):
+            print("temperature", v)
+            state.temperature = v
             
         case .thresholdChanged(let v):
             state.threshold = v

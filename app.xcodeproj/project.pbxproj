@@ -31,6 +31,7 @@
 		BEBECA9C2E4328C500F65D26 /* EditImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEBECA9B2E4328C500F65D26 /* EditImage.swift */; };
 		BEBECA9E2E4329BC00F65D26 /* Ext+UIScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEBECA9D2E4329BC00F65D26 /* Ext+UIScreen.swift */; };
 		BEBECAA22E4347E100F65D26 /* Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEBECAA12E4347E100F65D26 /* Filter.swift */; };
+		BEFD3B612E52F72D00C01D94 /* EditWhiteBlance.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEFD3B602E52F72D00C01D94 /* EditWhiteBlance.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -78,6 +79,7 @@
 		BEBECA9B2E4328C500F65D26 /* EditImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditImage.swift; sourceTree = "<group>"; };
 		BEBECA9D2E4329BC00F65D26 /* Ext+UIScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ext+UIScreen.swift"; sourceTree = "<group>"; };
 		BEBECAA12E4347E100F65D26 /* Filter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Filter.swift; sourceTree = "<group>"; };
+		BEFD3B602E52F72D00C01D94 /* EditWhiteBlance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditWhiteBlance.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -203,9 +205,10 @@
 				BEBECA8F2E4323BA00F65D26 /* EditGrain.swift */,
 				BEBECA912E4323C000F65D26 /* EditColorGrading.swift */,
 				BEBECA932E4323D100F65D26 /* EditContrast.swift */,
+				BEFD3B602E52F72D00C01D94 /* EditWhiteBlance.swift */,
+				BEBECA992E43255100F65D26 /* EditSaveButton.swift */,
 				BEBECA952E4324CE00F65D26 /* EditAiButton.swift */,
 				BEBECA972E43254A00F65D26 /* EditPhotoPicker.swift */,
-				BEBECA992E43255100F65D26 /* EditSaveButton.swift */,
 			);
 			path = VIEW;
 			sourceTree = "<group>";
@@ -370,6 +373,7 @@
 				BEBECA982E43254A00F65D26 /* EditPhotoPicker.swift in Sources */,
 				BEBECA8E2E431E8F00F65D26 /* EditSlider.swift in Sources */,
 				BEBECA782E431D6B00F65D26 /* Ext+PhotosPickerItem.swift in Sources */,
+				BEFD3B612E52F72D00C01D94 /* EditWhiteBlance.swift in Sources */,
 				BEBECA942E4323D100F65D26 /* EditContrast.swift in Sources */,
 				BEBECA9A2E43255100F65D26 /* EditSaveButton.swift in Sources */,
 				BEBECA792E431D6B00F65D26 /* Ext+UIImage.swift in Sources */,
