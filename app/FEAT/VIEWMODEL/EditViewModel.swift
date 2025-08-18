@@ -24,7 +24,7 @@ extension EditViewModel: ViewModelType {
         var threshold: Double = 0.5
         
         //Temperature
-        var temperature: Double = 0
+        var temperature: Double = 6500
         
         // Image
         var originData: Data = Data()
