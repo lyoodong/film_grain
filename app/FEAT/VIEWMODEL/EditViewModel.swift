@@ -77,9 +77,11 @@ final class EditViewModel: toVM<EditViewModel> {
             guard var base = state.originImage else { return }
             guard let ciIn = CIImage(image: base) else { return }
             
+            guard let tmpF = state.filter.applyTemperture(ciIn, temperature: state.temperature) else { return }
+            
             if state.isColorGrading {
                 guard let ciout = state.filter.applyColorGrading(
-                    ciIn,
+                    tmpF,
                     darkAlpha: state.darkAlpha,
                     bringtAlpha: state.brightAlpha,
                     threshold: state.threshold
@@ -89,7 +91,13 @@ final class EditViewModel: toVM<EditViewModel> {
                 else { return }
                 
                 base =  UIImage(cgImage: cg)
+            } else {
+                guard let cg = state.filter.context.createCGImage(tmpF, from: tmpF.extent)
+                else { return }
+                
+                base =  UIImage(cgImage: cg)
             }
+            
             //MARK: -TMP
 
             Task.detached(priority: .userInitiated) {
@@ -164,8 +172,9 @@ final class EditViewModel: toVM<EditViewModel> {
             refresh(state)
             
         case .temperatureChanged(let v):
-            print("temperature", v)
+            //TODO: 원본에 대한 색감 분석이 필요
             state.temperature = v
+            refresh(state)
             
         case .thresholdChanged(let v):
             state.threshold = v

@@ -9,7 +9,7 @@ struct EditSlider: View {
 
     var body: some View {
         HStack {
-            Text("\(name) \(Int(value * 100))%")
+            Text("\(name) \(Int(value))")
             
             Slider(
                 value: Binding(

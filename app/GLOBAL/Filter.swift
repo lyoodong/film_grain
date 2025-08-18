@@ -90,4 +90,16 @@ class Filter {
         
         return blend.outputImage
     }
+    
+    func applyTemperture(_ input: CIImage?, temperature: Double) -> CIImage? {
+        guard let input = input else { return nil }
+    
+        let tmpF = CIFilter.temperatureAndTint()
+        tmpF.inputImage = input
+        
+        let orignTint = tmpF.neutral.y
+        tmpF.neutral = CIVector(x: CGFloat(temperature), y: orignTint)
+        
+        return tmpF.outputImage
+    }
 }
