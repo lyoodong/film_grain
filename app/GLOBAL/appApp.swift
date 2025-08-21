@@ -4,7 +4,8 @@ import SwiftUI
 struct appApp: App {
     var body: some Scene {
         WindowGroup {
-            EditView(editVM: .init(initialState: .init()))
+//            EditView(editVM: .init(initialState: .init()))
+            UploadView(uploadVM: .init(initialState: .init()))
         }
     }
 }

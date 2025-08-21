@@ -17,7 +17,7 @@ struct EditPhotoPicker: View {
                     else { return }
                     
                     let opts = PHImageRequestOptions()
-                    opts.isNetworkAccessAllowed = false
+                    opts.isNetworkAccessAllowed = true
                     
                     PHImageManager.default().requestImageDataAndOrientation(
                         for: asset,
@@ -38,7 +38,6 @@ struct EditPhotoPicker: View {
         ) {
             uploadLabel
         }
-
     }
     
     private var uploadLabel: some View {
