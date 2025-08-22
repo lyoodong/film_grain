@@ -8,7 +8,7 @@ struct appApp: App {
     var body: some Scene {
         WindowGroup {
             NavigationStack(path: $routes) {
-                UploadView(uploadVM: .init(initialState: .init()))
+                UploadView()
                     .navigationDestination(for: Route.self) { route in
                         route.destination
                     }

@@ -17,9 +17,7 @@
 		BE8893DD2E56F8720092BF41 /* EditSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8893D22E56F8720092BF41 /* EditSlider.swift */; };
 		BE8893DE2E56F8720092BF41 /* EditTemperature.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8893D32E56F8720092BF41 /* EditTemperature.swift */; };
 		BE8893DF2E56F8720092BF41 /* EditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8893D42E56F8720092BF41 /* EditView.swift */; };
-		BE8893E32E56F87F0092BF41 /* UploadViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8893E22E56F87F0092BF41 /* UploadViewModel.swift */; };
 		BE8893E52E56F9040092BF41 /* UploadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8893E42E56F9040092BF41 /* UploadView.swift */; };
-		BE8893E92E570DD60092BF41 /* Ext+View.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8893E82E570DD60092BF41 /* Ext+View.swift */; };
 		BE8893ED2E587A8A0092BF41 /* Ext+UIApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8893EC2E587A890092BF41 /* Ext+UIApplication.swift */; };
 		BE8893EF2E58A33C0092BF41 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8893EE2E58A33C0092BF41 /* AppDelegate.swift */; };
 		BE8893F12E58A4B90092BF41 /* UploadButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8893F02E58A4B90092BF41 /* UploadButton.swift */; };
@@ -70,9 +68,7 @@
 		BE8893D22E56F8720092BF41 /* EditSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSlider.swift; sourceTree = "<group>"; };
 		BE8893D32E56F8720092BF41 /* EditTemperature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTemperature.swift; sourceTree = "<group>"; };
 		BE8893D42E56F8720092BF41 /* EditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditView.swift; sourceTree = "<group>"; };
-		BE8893E22E56F87F0092BF41 /* UploadViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadViewModel.swift; sourceTree = "<group>"; };
 		BE8893E42E56F9040092BF41 /* UploadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadView.swift; sourceTree = "<group>"; };
-		BE8893E82E570DD60092BF41 /* Ext+View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ext+View.swift"; sourceTree = "<group>"; };
 		BE8893EC2E587A890092BF41 /* Ext+UIApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ext+UIApplication.swift"; sourceTree = "<group>"; };
 		BE8893EE2E58A33C0092BF41 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BE8893F02E58A4B90092BF41 /* UploadButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadButton.swift; sourceTree = "<group>"; };
@@ -217,7 +213,6 @@
 				BEBECA732E431D6B00F65D26 /* Ext+PhotosPickerItem.swift */,
 				BEBECA742E431D6B00F65D26 /* Ext+UIImage.swift */,
 				BEBECA9D2E4329BC00F65D26 /* Ext+UIScreen.swift */,
-				BE8893E82E570DD60092BF41 /* Ext+View.swift */,
 				BEBECA752E431D6B00F65D26 /* ViewModel.swift */,
 				BEBECAA12E4347E100F65D26 /* Filter.swift */,
 				BE8893EC2E587A890092BF41 /* Ext+UIApplication.swift */,
@@ -256,7 +251,6 @@
 			isa = PBXGroup;
 			children = (
 				BEBECA882E431DF900F65D26 /* EditViewModel.swift */,
-				BE8893E22E56F87F0092BF41 /* UploadViewModel.swift */,
 			);
 			path = VIEWMODEL;
 			sourceTree = "<group>";
@@ -421,13 +415,11 @@
 				BEBECA702E431D6B00F65D26 /* GrainScaleRegressor.mlmodel in Sources */,
 				BEBECA9E2E4329BC00F65D26 /* Ext+UIScreen.swift in Sources */,
 				BE8893F52E58B26B0092BF41 /* Router.swift in Sources */,
-				BE8893E92E570DD60092BF41 /* Ext+View.swift in Sources */,
 				BEBECA772E431D6B00F65D26 /* appApp.swift in Sources */,
 				BEBECA782E431D6B00F65D26 /* Ext+PhotosPickerItem.swift in Sources */,
 				BEBECA792E431D6B00F65D26 /* Ext+UIImage.swift in Sources */,
 				BEBECA7A2E431D6B00F65D26 /* ViewModel.swift in Sources */,
 				BEBECA712E431D6B00F65D26 /* GrainModels.swift in Sources */,
-				BE8893E32E56F87F0092BF41 /* UploadViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

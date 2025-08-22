@@ -3,7 +3,6 @@ import PhotosUI
 
 struct UploadPhotoPickerView: UIViewControllerRepresentable {
     var onPicked: (String?) -> Void
-    var onCancel: () -> Void
 
     func makeUIViewController(context: Context) -> PHPickerViewController {
         var config = PHPickerConfiguration(photoLibrary: PHPhotoLibrary.shared())
@@ -19,23 +18,22 @@ struct UploadPhotoPickerView: UIViewControllerRepresentable {
     func updateUIViewController(_ uiViewController: PHPickerViewController, context: Context) {}
 
     func makeCoordinator() -> Coordinator {
-        Coordinator(onPicked: onPicked, onCancel: onCancel)
+        Coordinator(onPicked: onPicked)
     }
 
     final class Coordinator: NSObject, PHPickerViewControllerDelegate {
         let onPicked: (String?) -> Void
-        let onCancel: () -> Void
 
-        init(onPicked: @escaping (String?) -> Void, onCancel: @escaping () -> Void) {
+        init(onPicked: @escaping (String?) -> Void) {
             self.onPicked = onPicked
-            self.onCancel = onCancel
         }
 
         func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
-            if let id = results.first?.assetIdentifier {
-                onPicked(id)
-            } else {
-                onCancel()
+            UIApplication.shared.rootViewController?.dismiss(animated: true) { [weak self] in
+                guard let self else { return }
+                if let id = results.first?.assetIdentifier {
+                    onPicked(id)
+                }
             }
         }
     }
