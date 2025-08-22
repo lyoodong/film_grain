@@ -1,35 +1,43 @@
-import UIKit
-import Photos
+import SwiftUI
 import PhotosUI
 
-final class UploadPhotoPicker: NSObject, PHPickerViewControllerDelegate {
-    private var completion: ((String?) -> Void)?
+struct UploadPhotoPickerView: UIViewControllerRepresentable {
+    var onPicked: (String?) -> Void
+    var onCancel: () -> Void
 
-    func present(completion: @escaping (String?) -> Void) {
-        self.completion = completion
-
+    func makeUIViewController(context: Context) -> PHPickerViewController {
         var config = PHPickerConfiguration(photoLibrary: PHPhotoLibrary.shared())
         config.selectionLimit = 1
         config.filter = .any(of: [.images, .screenshots, .livePhotos])
-        
+
         let picker = PHPickerViewController(configuration: config)
+        picker.delegate = context.coordinator
         picker.modalPresentationStyle = .fullScreen
-        picker.delegate = self
-        
-        UIApplication.shared.rootViewController?.present(picker, animated: true)
+        return picker
     }
-    
-    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
-        picker.dismiss(animated: true) { [weak self] in
-            guard let self else { return}
-            
-            guard let result = results.first,
-                  let id = result.assetIdentifier else {
-                completion?(nil)
-                return
+
+    func updateUIViewController(_ uiViewController: PHPickerViewController, context: Context) {}
+
+    func makeCoordinator() -> Coordinator {
+        Coordinator(onPicked: onPicked, onCancel: onCancel)
+    }
+
+    final class Coordinator: NSObject, PHPickerViewControllerDelegate {
+        let onPicked: (String?) -> Void
+        let onCancel: () -> Void
+
+        init(onPicked: @escaping (String?) -> Void, onCancel: @escaping () -> Void) {
+            self.onPicked = onPicked
+            self.onCancel = onCancel
+        }
+
+        func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+            if let id = results.first?.assetIdentifier {
+                onPicked(id)
+            } else {
+                onCancel()
             }
-            
-            completion?(id)
         }
     }
 }
+

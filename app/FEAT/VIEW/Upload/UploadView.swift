@@ -2,7 +2,7 @@ import SwiftUI
 
 struct UploadView: View {
     @ObservedObject var uploadVM: UploadViewModel
-    private let uploadPhotoPicker = UploadPhotoPicker()
+//    private let uploadPhotoPicker = UploadPhotoPicker()
     
     var body: some View {
         VStack {
@@ -10,14 +10,19 @@ struct UploadView: View {
                 uploadVM.send(.uploadButtonTapped)
             }
         }
-        .onChange(of: uploadVM.activeScreen, { _, newValue in
-            if newValue == .picker {
-                uploadPhotoPicker.present { id in
-                    uploadVM.send(.photoSelected(id))
-                    uploadVM.send(.dismissPicker)
-                }
+        .fullScreenCover(
+            isPresented: uploadVM.activeScreen == .picker,
+            content: {
+            UploadPhotoPickerView { id in
+                uploadVM.send(.photoSelected(id))
+                uploadVM.send(.dismissPicker)
+            } onCancel: {
+                uploadVM.send(.dismissPicker)
+                uploadVM.send(.dismissPicker)
             }
+            .ignoresSafeArea()
         })
+
         .alert("사진 접근 권한", isPresented: uploadVM.activeScreen == .requestAuthorizationAlert) {
             Button("설정으로 이동") {
                 if let settingsURL = URL(string: UIApplication.openSettingsURLString) {
