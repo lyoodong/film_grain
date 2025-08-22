@@ -3,7 +3,7 @@ import Photos
 import PhotosUI
 
 extension UploadViewModel: ViewModelType {
-    enum ActiveScreen {
+    enum ActiveScreen: Equatable {
         case none
         case picker
         case requestAuthorizationAlert
@@ -16,7 +16,6 @@ extension UploadViewModel: ViewModelType {
     
     enum Action {
         case photoAuthChecked(PHAuthorizationStatus)
-        case photoSelected(String?)
         case uploadButtonTapped
         case dismissPicker
     }
@@ -29,9 +28,6 @@ final class UploadViewModel: toVM<UploadViewModel> {
         case .photoAuthChecked(let status):
             let isAuthorized = status == .authorized || status == .limited
             state.activeScreen = isAuthorized ? .picker : .requestAuthorizationAlert
-            
-        case .photoSelected(let id):
-            state.selectedId = id
             
         case .uploadButtonTapped:
             checkPHAuthorizationStatus { [weak self] status in
