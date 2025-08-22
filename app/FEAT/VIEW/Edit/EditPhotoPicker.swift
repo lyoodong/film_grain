@@ -10,7 +10,6 @@ struct EditPhotoPicker: View {
             selection: Binding<PhotosPickerItem?>(
                 get: { editVM.selectedItem },
                 set: { newValue in
-                    
                     guard let picked = newValue,
                           let id = picked.itemIdentifier,
                           let asset = PHAsset.fetchAssets(withLocalIdentifiers: [id], options: nil).firstObject
@@ -28,8 +27,7 @@ struct EditPhotoPicker: View {
                               ? "☁️ 아직 iCloud에서 내려받는 중"
                               : "📁 로컬에 다운로드 완료")
                     }
-                    
-                    // 3) ViewModel에 액션 전달
+                
                     editVM.send(.photoSelected(picked))
                 }
             ),

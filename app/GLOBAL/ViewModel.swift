@@ -20,9 +20,15 @@ class ViewModel<S, A>: ObservableObject {
     }
 
     func send(_ action: A) {
-        self.reduce(state: &state, action: action)
+        reduce(state: &state, action: action)
     }
-
+    
+    func effect(_ action: A) {
+        Task { @MainActor [weak self] in
+            self?.send(action)
+        }
+    }
+    
     func reduce(state: inout S, action: A) {
         fatalError("Must override reduce(state:action:)")
     }

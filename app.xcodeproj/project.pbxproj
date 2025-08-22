@@ -19,6 +19,11 @@
 		BE8893DF2E56F8720092BF41 /* EditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8893D42E56F8720092BF41 /* EditView.swift */; };
 		BE8893E32E56F87F0092BF41 /* UploadViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8893E22E56F87F0092BF41 /* UploadViewModel.swift */; };
 		BE8893E52E56F9040092BF41 /* UploadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8893E42E56F9040092BF41 /* UploadView.swift */; };
+		BE8893E92E570DD60092BF41 /* Ext+View.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8893E82E570DD60092BF41 /* Ext+View.swift */; };
+		BE8893ED2E587A8A0092BF41 /* Ext+UIApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8893EC2E587A890092BF41 /* Ext+UIApplication.swift */; };
+		BE8893EF2E58A33C0092BF41 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8893EE2E58A33C0092BF41 /* AppDelegate.swift */; };
+		BE8893F12E58A4B90092BF41 /* UploadButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8893F02E58A4B90092BF41 /* UploadButton.swift */; };
+		BE8893F32E58A5200092BF41 /* UploadPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8893F22E58A5200092BF41 /* UploadPicker.swift */; };
 		BEACC51B2E336142008F1B24 /* appTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEACC5192E336142008F1B24 /* appTests.swift */; };
 		BEACC51F2E336142008F1B24 /* appUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEACC51C2E336142008F1B24 /* appUITests.swift */; };
 		BEACC5202E336142008F1B24 /* appUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEACC51D2E336142008F1B24 /* appUITestsLaunchTests.swift */; };
@@ -66,6 +71,11 @@
 		BE8893D42E56F8720092BF41 /* EditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditView.swift; sourceTree = "<group>"; };
 		BE8893E22E56F87F0092BF41 /* UploadViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadViewModel.swift; sourceTree = "<group>"; };
 		BE8893E42E56F9040092BF41 /* UploadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadView.swift; sourceTree = "<group>"; };
+		BE8893E82E570DD60092BF41 /* Ext+View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ext+View.swift"; sourceTree = "<group>"; };
+		BE8893EC2E587A890092BF41 /* Ext+UIApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ext+UIApplication.swift"; sourceTree = "<group>"; };
+		BE8893EE2E58A33C0092BF41 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		BE8893F02E58A4B90092BF41 /* UploadButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadButton.swift; sourceTree = "<group>"; };
+		BE8893F22E58A5200092BF41 /* UploadPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadPicker.swift; sourceTree = "<group>"; };
 		BEACC4E22E336125008F1B24 /* app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = app.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BEACC4F22E336127008F1B24 /* appTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = appTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BEACC4FC2E336127008F1B24 /* appUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = appUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -132,6 +142,8 @@
 			isa = PBXGroup;
 			children = (
 				BE8893E42E56F9040092BF41 /* UploadView.swift */,
+				BE8893F02E58A4B90092BF41 /* UploadButton.swift */,
+				BE8893F22E58A5200092BF41 /* UploadPicker.swift */,
 			);
 			path = Upload;
 			sourceTree = "<group>";
@@ -199,11 +211,14 @@
 			isa = PBXGroup;
 			children = (
 				BEBECA722E431D6B00F65D26 /* appApp.swift */,
+				BE8893EE2E58A33C0092BF41 /* AppDelegate.swift */,
 				BEBECA732E431D6B00F65D26 /* Ext+PhotosPickerItem.swift */,
 				BEBECA742E431D6B00F65D26 /* Ext+UIImage.swift */,
 				BEBECA9D2E4329BC00F65D26 /* Ext+UIScreen.swift */,
+				BE8893E82E570DD60092BF41 /* Ext+View.swift */,
 				BEBECA752E431D6B00F65D26 /* ViewModel.swift */,
 				BEBECAA12E4347E100F65D26 /* Filter.swift */,
+				BE8893EC2E587A890092BF41 /* Ext+UIApplication.swift */,
 			);
 			path = GLOBAL;
 			sourceTree = "<group>";
@@ -389,15 +404,20 @@
 				BE8893D72E56F8720092BF41 /* EditColorGrading.swift in Sources */,
 				BE8893E52E56F9040092BF41 /* UploadView.swift in Sources */,
 				BE8893D82E56F8720092BF41 /* EditContrast.swift in Sources */,
+				BE8893F32E58A5200092BF41 /* UploadPicker.swift in Sources */,
+				BE8893EF2E58A33C0092BF41 /* AppDelegate.swift in Sources */,
 				BE8893D92E56F8720092BF41 /* EditGrain.swift in Sources */,
+				BE8893ED2E587A8A0092BF41 /* Ext+UIApplication.swift in Sources */,
 				BE8893DA2E56F8720092BF41 /* EditImage.swift in Sources */,
 				BE8893DB2E56F8720092BF41 /* EditPhotoPicker.swift in Sources */,
 				BE8893DC2E56F8720092BF41 /* EditSaveButton.swift in Sources */,
 				BE8893DD2E56F8720092BF41 /* EditSlider.swift in Sources */,
 				BE8893DE2E56F8720092BF41 /* EditTemperature.swift in Sources */,
 				BE8893DF2E56F8720092BF41 /* EditView.swift in Sources */,
+				BE8893F12E58A4B90092BF41 /* UploadButton.swift in Sources */,
 				BEBECA702E431D6B00F65D26 /* GrainScaleRegressor.mlmodel in Sources */,
 				BEBECA9E2E4329BC00F65D26 /* Ext+UIScreen.swift in Sources */,
+				BE8893E92E570DD60092BF41 /* Ext+View.swift in Sources */,
 				BEBECA772E431D6B00F65D26 /* appApp.swift in Sources */,
 				BEBECA782E431D6B00F65D26 /* Ext+PhotosPickerItem.swift in Sources */,
 				BEBECA792E431D6B00F65D26 /* Ext+UIImage.swift in Sources */,
