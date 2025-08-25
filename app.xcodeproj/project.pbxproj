@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		BE55FAFA2E5C4D6500A32CDC /* EditZoomableImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE55FAF92E5C4D6500A32CDC /* EditZoomableImage.swift */; };
+		BE55FAFC2E5C500D00A32CDC /* EditTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE55FAFB2E5C500D00A32CDC /* EditTool.swift */; };
 		BE562A992E5C1DE400CF1EE9 /* EditTmpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE562A962E5C1DE400CF1EE9 /* EditTmpView.swift */; };
 		BE562A9A2E5C1DE400CF1EE9 /* EditTmpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE562A972E5C1DE400CF1EE9 /* EditTmpViewModel.swift */; };
 		BE8893D62E56F8720092BF41 /* EditAiButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8893CB2E56F8720092BF41 /* EditAiButton.swift */; };
@@ -62,6 +63,7 @@
 
 /* Begin PBXFileReference section */
 		BE55FAF92E5C4D6500A32CDC /* EditZoomableImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditZoomableImage.swift; sourceTree = "<group>"; };
+		BE55FAFB2E5C500D00A32CDC /* EditTool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTool.swift; sourceTree = "<group>"; };
 		BE562A962E5C1DE400CF1EE9 /* EditTmpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTmpView.swift; sourceTree = "<group>"; };
 		BE562A972E5C1DE400CF1EE9 /* EditTmpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTmpViewModel.swift; sourceTree = "<group>"; };
 		BE8893CB2E56F8720092BF41 /* EditAiButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditAiButton.swift; sourceTree = "<group>"; };
@@ -131,6 +133,7 @@
 				BE562A962E5C1DE400CF1EE9 /* EditTmpView.swift */,
 				BE562A972E5C1DE400CF1EE9 /* EditTmpViewModel.swift */,
 				BE55FAF92E5C4D6500A32CDC /* EditZoomableImage.swift */,
+				BE55FAFB2E5C500D00A32CDC /* EditTool.swift */,
 			);
 			path = EditTmp;
 			sourceTree = "<group>";
@@ -439,6 +442,7 @@
 				BEBECA782E431D6B00F65D26 /* Ext+PhotosPickerItem.swift in Sources */,
 				BEBECA792E431D6B00F65D26 /* Ext+UIImage.swift in Sources */,
 				BEBECA7A2E431D6B00F65D26 /* ViewModel.swift in Sources */,
+				BE55FAFC2E5C500D00A32CDC /* EditTool.swift in Sources */,
 				BEBECA712E431D6B00F65D26 /* GrainModels.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

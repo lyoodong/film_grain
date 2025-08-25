@@ -17,6 +17,7 @@ struct EditZoomableImage: View {
             Image(uiImage: uiImage)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
+                .cornerRadius(16)
                 .scaleEffect(scale)
                 .offset(offset)
                 .gesture(

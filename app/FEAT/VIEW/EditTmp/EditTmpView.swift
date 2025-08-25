@@ -13,6 +13,7 @@ struct EditTmpView: View {
                 if let uiImage = editVM.displayImage {
                     EditZoomableImage(uiImage: uiImage)
                     Spacer()
+                    EditTool(editVM: editVM)
                 }
             }
         }

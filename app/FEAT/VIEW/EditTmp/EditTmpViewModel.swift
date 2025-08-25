@@ -18,6 +18,10 @@ extension EditTmpViewModel: ViewModelType {
         //load Image
         case dataLoaded(Data)
         case imageLoaded(UIImage?)
+        
+        case grainButtonTapped
+        case colorButtonTapped
+        case adjustButtonTapped
     }
 }
 
@@ -48,6 +52,15 @@ final class EditTmpViewModel: toVM<EditTmpViewModel> {
             state.isLoad = false
             state.originImage = image
             state.displayImage = image
+            
+        case .grainButtonTapped:
+            print("grainButtonTapped")
+            
+        case .colorButtonTapped:
+            print("colorButtonTapped")
+            
+        case .adjustButtonTapped:
+            print("adjustButtonTapped")
         }
     }
     
