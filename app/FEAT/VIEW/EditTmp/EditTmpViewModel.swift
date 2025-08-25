@@ -12,9 +12,12 @@ extension EditTmpViewModel: ViewModelType {
     }
     
     enum Action {
+        //View LifeCycle
         case onAppear
-        case dataFetched(Data)
-        case imageFetched(UIImage?)
+        
+        //load Image
+        case dataLoaded(Data)
+        case imageLoaded(UIImage?)
     }
 }
 
@@ -28,20 +31,20 @@ final class EditTmpViewModel: toVM<EditTmpViewModel> {
             Task(priority: .userInitiated) {[weak self] in
                 guard let self else { return }
                 if let data = await loadData(id: id) {
-                    effect(.dataFetched(data))
+                    effect(.dataLoaded(data))
                 }
             }
             
-        case .dataFetched(let data):
+        case .dataLoaded(let data):
             state.originData = data
             
             Task(priority: .userInitiated) { [weak self] in
                 guard let self else { return }
                 let image = downsample(data: data)
-                effect(.imageFetched(image))
+                effect(.imageLoaded(image))
             }
             
-        case .imageFetched(let image):
+        case .imageLoaded(let image):
             state.isLoad = false
             state.originImage = image
             state.displayImage = image
