@@ -8,7 +8,20 @@ extension EditTmpViewModel: ViewModelType {
         var originData: Data = Data()
         var originImage: UIImage?
         var displayImage: UIImage?
+        
         var isLoad = true
+        var selectedTap: ToolType? = nil
+        
+        var toolHeight: CGFloat = 60
+        var toolMinHeight: CGFloat = 60
+        var toolMaxHeight: CGFloat = 60
+        var tapOpacity: Double = 0
+    
+        var isDraging = false
+        
+        func toolButtonTextColor(_ type: ToolType) -> Color {
+            return type == selectedTap ? .red : .white
+        }
     }
     
     enum Action {
@@ -19,9 +32,9 @@ extension EditTmpViewModel: ViewModelType {
         case dataLoaded(Data)
         case imageLoaded(UIImage?)
         
-        case grainButtonTapped
-        case colorButtonTapped
-        case adjustButtonTapped
+        case tapSelected(ToolType?)
+        case dragToolOnChanged(CGFloat)
+        case dragToolOnEnded(CGFloat)
     }
 }
 
@@ -53,14 +66,33 @@ final class EditTmpViewModel: toVM<EditTmpViewModel> {
             state.originImage = image
             state.displayImage = image
             
-        case .grainButtonTapped:
-            print("grainButtonTapped")
+        case .tapSelected(let type):
+            if let type = type {
+                state.toolMaxHeight = type.maxViewHeight
+                state.toolHeight = state.toolMaxHeight
+                state.selectedTap = type
+                state.tapOpacity = 1
+            }
             
-        case .colorButtonTapped:
-            print("colorButtonTapped")
+        case .dragToolOnChanged(let moved):
+            state.isDraging = true
+            let movedHeight = state.toolHeight - moved
+            state.toolHeight = clamp(movedHeight, min: state.toolMinHeight, max: state.toolMaxHeight)
             
-        case .adjustButtonTapped:
-            print("adjustButtonTapped")
+            
+        case .dragToolOnEnded(let moved):
+            state.isDraging = false
+            let movedHeight = state.toolHeight - moved
+
+            if movedHeight > state.toolHeight {
+                state.toolHeight = state.toolMaxHeight
+                state.tapOpacity = 1
+            } else {
+                state.toolHeight = state.toolMinHeight
+                state.toolMaxHeight = state.toolMinHeight
+                state.selectedTap = nil
+                state.tapOpacity = 0
+            }
         }
     }
     
@@ -87,16 +119,20 @@ final class EditTmpViewModel: toVM<EditTmpViewModel> {
     private func loadData(id: String) async -> Data? {
         let assets = PHAsset.fetchAssets(withLocalIdentifiers: [id], options: nil)
         guard let asset = assets.firstObject else { return nil }
-
+        
         let options = PHImageRequestOptions()
         options.isSynchronous = false
         options.deliveryMode = .highQualityFormat
         options.isNetworkAccessAllowed = true
-
+        
         return await withCheckedContinuation { continuation in
             PHImageManager.default().requestImageDataAndOrientation(for: asset, options: options) { data, uti, orientation, info in
                 continuation.resume(returning: data)
             }
         }
+    }
+    
+    private func clamp(_ x: CGFloat, min: CGFloat, max: CGFloat) -> CGFloat {
+        Swift.min(Swift.max(x, min), max)
     }
 }
