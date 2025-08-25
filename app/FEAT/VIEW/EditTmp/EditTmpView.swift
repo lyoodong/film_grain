@@ -11,9 +11,8 @@ struct EditTmpView: View {
                 ProgressView()
             } else {
                 if let uiImage = editVM.displayImage {
-                    Image(uiImage: uiImage)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
+                    EditZoomableImage(uiImage: uiImage)
+                    Spacer()
                 }
             }
         }
@@ -22,3 +21,4 @@ struct EditTmpView: View {
         }
     }
 }
+

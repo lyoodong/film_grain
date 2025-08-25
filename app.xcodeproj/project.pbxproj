@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BE55FAFA2E5C4D6500A32CDC /* EditZoomableImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE55FAF92E5C4D6500A32CDC /* EditZoomableImage.swift */; };
 		BE562A992E5C1DE400CF1EE9 /* EditTmpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE562A962E5C1DE400CF1EE9 /* EditTmpView.swift */; };
 		BE562A9A2E5C1DE400CF1EE9 /* EditTmpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE562A972E5C1DE400CF1EE9 /* EditTmpViewModel.swift */; };
 		BE8893D62E56F8720092BF41 /* EditAiButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8893CB2E56F8720092BF41 /* EditAiButton.swift */; };
@@ -60,6 +61,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		BE55FAF92E5C4D6500A32CDC /* EditZoomableImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditZoomableImage.swift; sourceTree = "<group>"; };
 		BE562A962E5C1DE400CF1EE9 /* EditTmpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTmpView.swift; sourceTree = "<group>"; };
 		BE562A972E5C1DE400CF1EE9 /* EditTmpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTmpViewModel.swift; sourceTree = "<group>"; };
 		BE8893CB2E56F8720092BF41 /* EditAiButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditAiButton.swift; sourceTree = "<group>"; };
@@ -128,6 +130,7 @@
 			children = (
 				BE562A962E5C1DE400CF1EE9 /* EditTmpView.swift */,
 				BE562A972E5C1DE400CF1EE9 /* EditTmpViewModel.swift */,
+				BE55FAF92E5C4D6500A32CDC /* EditZoomableImage.swift */,
 			);
 			path = EditTmp;
 			sourceTree = "<group>";
@@ -425,6 +428,7 @@
 				BE8893DB2E56F8720092BF41 /* EditPhotoPicker.swift in Sources */,
 				BE8893DC2E56F8720092BF41 /* EditSaveButton.swift in Sources */,
 				BE8893DD2E56F8720092BF41 /* EditSlider.swift in Sources */,
+				BE55FAFA2E5C4D6500A32CDC /* EditZoomableImage.swift in Sources */,
 				BE8893DE2E56F8720092BF41 /* EditTemperature.swift in Sources */,
 				BE8893DF2E56F8720092BF41 /* EditView.swift in Sources */,
 				BE8893F12E58A4B90092BF41 /* UploadButton.swift in Sources */,
