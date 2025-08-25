@@ -5,7 +5,6 @@ import PhotosUI
 extension EditTmpViewModel: ViewModelType {
     struct State {
         var selectedId: String
-        var maxScale: CGFloat = 0
         var originData: Data = Data()
         var originImage: UIImage?
         var displayImage: UIImage?
@@ -13,31 +12,41 @@ extension EditTmpViewModel: ViewModelType {
     }
     
     enum Action {
-        case onAppear(CGFloat)
+        case onAppear
+        case onDisappear
         case dataFetched(Data)
         case imageFetched(UIImage?)
     }
 }
 
 final class EditTmpViewModel: toVM<EditTmpViewModel> {
+    deinit {
+        print("deinit")
+    }
+    
     override func reduce(state: inout State, action: Action) {
         switch action {
-        case .onAppear(let scale):
-            state.maxScale = scale
+        case .onAppear:
             let id = state.selectedId
             
-            Task(priority: .userInitiated) {
+            Task(priority: .userInitiated) {[weak self] in
+                guard let self else { return }
                 if let data = await loadData(id: id) {
                     effect(.dataFetched(data))
                 }
             }
             
+        case .onDisappear:
+            state.originData = Data()
+            state.originImage = nil
+            state.displayImage = nil
+            
         case .dataFetched(let data):
             state.originData = data
-            let maxScale = state.maxScale
             
-            Task(priority: .userInitiated) {
-                let image = downsample(data: data, maxScale: maxScale)
+            Task(priority: .userInitiated) { [weak self] in
+                guard let self else { return }
+                let image = downsample(data: data)
                 effect(.imageFetched(image))
             }
             
@@ -48,7 +57,7 @@ final class EditTmpViewModel: toVM<EditTmpViewModel> {
         }
     }
     
-    private func downsample(data: Data, maxScale: CGFloat) -> UIImage? {
+    private func downsample(data: Data) -> UIImage? {
         let imageSourceOptions = [kCGImageSourceShouldCache: false] as CFDictionary
         guard let imageSource = CGImageSourceCreateWithData(data as CFData, imageSourceOptions) else {
             return nil
@@ -58,7 +67,7 @@ final class EditTmpViewModel: toVM<EditTmpViewModel> {
             kCGImageSourceCreateThumbnailFromImageAlways: true,
             kCGImageSourceShouldCacheImmediately: true,
             kCGImageSourceCreateThumbnailWithTransform: true,
-            kCGImageSourceThumbnailMaxPixelSize: maxScale
+            kCGImageSourceThumbnailMaxPixelSize: UIScreen.targetPixels
         ] as CFDictionary
         
         guard let downsampledImage = CGImageSourceCreateThumbnailAtIndex(imageSource, 0, downsampleOptions) else {

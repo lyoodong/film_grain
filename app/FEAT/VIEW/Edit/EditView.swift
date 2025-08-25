@@ -8,7 +8,6 @@ struct EditView: View {
     var body: some View {
         editor
         photoControler
-        .onAppear { editVM.send(.onAppear(UIScreen.maxScale)) }
     }
     
     private var editor: some View {

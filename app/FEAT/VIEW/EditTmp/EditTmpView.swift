@@ -7,16 +7,21 @@ struct EditTmpView: View {
     
     var body: some View {
         VStack {
-            Text(editVM.selectedId)
-            
             if editVM.isLoad {
                 ProgressView()
-            }
-            
-            if let uiImage = editVM.displayImage {
-                Image(uiImage: uiImage)
+            } else {
+                if let uiImage = editVM.displayImage {
+                    Image(uiImage: uiImage)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                }
             }
         }
-        .onAppear { editVM.send(.onAppear(UIScreen.maxScale)) }
+        .onAppear {
+            editVM.send(.onAppear)
+        }
+        .onDisappear() {
+            editVM.send(.onDisappear)
+        }
     }
 }
