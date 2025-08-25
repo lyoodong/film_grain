@@ -21,7 +21,7 @@ enum Route: Hashable {
         switch self {
             
         case let .edit(id):
-            Text(id)
+            EditTmpView(editVM: EditTmpViewModel(initialState: .init(selectedId: id)))
         }
     }
 }

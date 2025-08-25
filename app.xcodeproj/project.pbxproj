@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BE562A992E5C1DE400CF1EE9 /* EditTmpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE562A962E5C1DE400CF1EE9 /* EditTmpView.swift */; };
+		BE562A9A2E5C1DE400CF1EE9 /* EditTmpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE562A972E5C1DE400CF1EE9 /* EditTmpViewModel.swift */; };
 		BE8893D62E56F8720092BF41 /* EditAiButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8893CB2E56F8720092BF41 /* EditAiButton.swift */; };
 		BE8893D72E56F8720092BF41 /* EditColorGrading.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8893CC2E56F8720092BF41 /* EditColorGrading.swift */; };
 		BE8893D82E56F8720092BF41 /* EditContrast.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8893CD2E56F8720092BF41 /* EditContrast.swift */; };
@@ -58,6 +60,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		BE562A962E5C1DE400CF1EE9 /* EditTmpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTmpView.swift; sourceTree = "<group>"; };
+		BE562A972E5C1DE400CF1EE9 /* EditTmpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTmpViewModel.swift; sourceTree = "<group>"; };
 		BE8893CB2E56F8720092BF41 /* EditAiButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditAiButton.swift; sourceTree = "<group>"; };
 		BE8893CC2E56F8720092BF41 /* EditColorGrading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditColorGrading.swift; sourceTree = "<group>"; };
 		BE8893CD2E56F8720092BF41 /* EditContrast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditContrast.swift; sourceTree = "<group>"; };
@@ -119,6 +123,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		BE562A982E5C1DE400CF1EE9 /* EditTmp */ = {
+			isa = PBXGroup;
+			children = (
+				BE562A962E5C1DE400CF1EE9 /* EditTmpView.swift */,
+				BE562A972E5C1DE400CF1EE9 /* EditTmpViewModel.swift */,
+			);
+			path = EditTmp;
+			sourceTree = "<group>";
+		};
 		BE8893D52E56F8720092BF41 /* Edit */ = {
 			isa = PBXGroup;
 			children = (
@@ -241,6 +254,7 @@
 		BEBECA862E431DF900F65D26 /* VIEW */ = {
 			isa = PBXGroup;
 			children = (
+				BE562A982E5C1DE400CF1EE9 /* EditTmp */,
 				BE8893E02E56F8720092BF41 /* Upload */,
 				BE8893D52E56F8720092BF41 /* Edit */,
 			);
@@ -395,6 +409,8 @@
 			files = (
 				BEBECA6E2E431D6B00F65D26 /* ContrastRegressor.mlmodel in Sources */,
 				BEBECAA22E4347E100F65D26 /* Filter.swift in Sources */,
+				BE562A992E5C1DE400CF1EE9 /* EditTmpView.swift in Sources */,
+				BE562A9A2E5C1DE400CF1EE9 /* EditTmpViewModel.swift in Sources */,
 				BEBECA8A2E431DF900F65D26 /* EditViewModel.swift in Sources */,
 				BEBECA6F2E431D6B00F65D26 /* GrainAlphaRegressor.mlmodel in Sources */,
 				BE8893D62E56F8720092BF41 /* EditAiButton.swift in Sources */,
