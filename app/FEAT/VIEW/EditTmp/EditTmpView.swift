@@ -6,7 +6,17 @@ struct EditTmpView: View {
     @ObservedObject var editVM: EditTmpViewModel
     
     var body: some View {
-        Text(editVM.selectedId)
+        VStack {
+            Text(editVM.selectedId)
+            
+            if editVM.isLoad {
+                ProgressView()
+            }
+            
+            if let uiImage = editVM.displayImage {
+                Image(uiImage: uiImage)
+            }
+        }
         .onAppear { editVM.send(.onAppear(UIScreen.maxScale)) }
     }
 }
