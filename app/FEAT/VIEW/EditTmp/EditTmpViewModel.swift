@@ -13,16 +13,12 @@ extension EditTmpViewModel: ViewModelType {
     
     enum Action {
         case onAppear
-        case onDisappear
         case dataFetched(Data)
         case imageFetched(UIImage?)
     }
 }
 
 final class EditTmpViewModel: toVM<EditTmpViewModel> {
-    deinit {
-        print("deinit")
-    }
     
     override func reduce(state: inout State, action: Action) {
         switch action {
@@ -35,11 +31,6 @@ final class EditTmpViewModel: toVM<EditTmpViewModel> {
                     effect(.dataFetched(data))
                 }
             }
-            
-        case .onDisappear:
-            state.originData = Data()
-            state.originImage = nil
-            state.displayImage = nil
             
         case .dataFetched(let data):
             state.originData = data

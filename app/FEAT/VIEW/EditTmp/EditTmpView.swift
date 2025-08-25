@@ -20,8 +20,5 @@ struct EditTmpView: View {
         .onAppear {
             editVM.send(.onAppear)
         }
-        .onDisappear() {
-            editVM.send(.onDisappear)
-        }
     }
 }
