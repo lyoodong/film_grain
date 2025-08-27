@@ -42,6 +42,9 @@
 		BEBECA8A2E431DF900F65D26 /* EditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEBECA882E431DF900F65D26 /* EditViewModel.swift */; };
 		BEBECA9E2E4329BC00F65D26 /* Ext+UIScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEBECA9D2E4329BC00F65D26 /* Ext+UIScreen.swift */; };
 		BEBECAA22E4347E100F65D26 /* Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEBECAA12E4347E100F65D26 /* Filter.swift */; };
+		BED4C4EA2E5EF40D00D276BC /* EditTmpGrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED4C4E92E5EF40D00D276BC /* EditTmpGrain.swift */; };
+		BED4C4EE2E5EFA8200D276BC /* CustomSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED4C4EC2E5EFA8200D276BC /* CustomSlider.swift */; };
+		BED4C4F02E5EFA8D00D276BC /* EditTmpSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED4C4EF2E5EFA8D00D276BC /* EditTmpSlider.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -100,6 +103,9 @@
 		BEBECA882E431DF900F65D26 /* EditViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewModel.swift; sourceTree = "<group>"; };
 		BEBECA9D2E4329BC00F65D26 /* Ext+UIScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ext+UIScreen.swift"; sourceTree = "<group>"; };
 		BEBECAA12E4347E100F65D26 /* Filter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Filter.swift; sourceTree = "<group>"; };
+		BED4C4E92E5EF40D00D276BC /* EditTmpGrain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTmpGrain.swift; sourceTree = "<group>"; };
+		BED4C4EC2E5EFA8200D276BC /* CustomSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSlider.swift; sourceTree = "<group>"; };
+		BED4C4EF2E5EFA8D00D276BC /* EditTmpSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTmpSlider.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -134,6 +140,8 @@
 				BE562A972E5C1DE400CF1EE9 /* EditTmpViewModel.swift */,
 				BE55FAF92E5C4D6500A32CDC /* EditZoomableImage.swift */,
 				BE55FAFB2E5C500D00A32CDC /* EditTool.swift */,
+				BED4C4EF2E5EFA8D00D276BC /* EditTmpSlider.swift */,
+				BED4C4E92E5EF40D00D276BC /* EditTmpGrain.swift */,
 			);
 			path = EditTmp;
 			sourceTree = "<group>";
@@ -227,6 +235,7 @@
 		BEBECA762E431D6B00F65D26 /* GLOBAL */ = {
 			isa = PBXGroup;
 			children = (
+				BED4C4ED2E5EFA8200D276BC /* View */,
 				BEBECA722E431D6B00F65D26 /* appApp.swift */,
 				BE8893EE2E58A33C0092BF41 /* AppDelegate.swift */,
 				BEBECA732E431D6B00F65D26 /* Ext+PhotosPickerItem.swift */,
@@ -273,6 +282,14 @@
 				BEBECA882E431DF900F65D26 /* EditViewModel.swift */,
 			);
 			path = VIEWMODEL;
+			sourceTree = "<group>";
+		};
+		BED4C4ED2E5EFA8200D276BC /* View */ = {
+			isa = PBXGroup;
+			children = (
+				BED4C4EC2E5EFA8200D276BC /* CustomSlider.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -417,6 +434,7 @@
 				BEBECAA22E4347E100F65D26 /* Filter.swift in Sources */,
 				BE562A992E5C1DE400CF1EE9 /* EditTmpView.swift in Sources */,
 				BE562A9A2E5C1DE400CF1EE9 /* EditTmpViewModel.swift in Sources */,
+				BED4C4F02E5EFA8D00D276BC /* EditTmpSlider.swift in Sources */,
 				BEBECA8A2E431DF900F65D26 /* EditViewModel.swift in Sources */,
 				BEBECA6F2E431D6B00F65D26 /* GrainAlphaRegressor.mlmodel in Sources */,
 				BE8893D62E56F8720092BF41 /* EditAiButton.swift in Sources */,
@@ -426,6 +444,7 @@
 				BE8893F32E58A5200092BF41 /* UploadPicker.swift in Sources */,
 				BE8893EF2E58A33C0092BF41 /* AppDelegate.swift in Sources */,
 				BE8893D92E56F8720092BF41 /* EditGrain.swift in Sources */,
+				BED4C4EE2E5EFA8200D276BC /* CustomSlider.swift in Sources */,
 				BE8893ED2E587A8A0092BF41 /* Ext+UIApplication.swift in Sources */,
 				BE8893DA2E56F8720092BF41 /* EditImage.swift in Sources */,
 				BE8893DB2E56F8720092BF41 /* EditPhotoPicker.swift in Sources */,
@@ -441,6 +460,7 @@
 				BEBECA772E431D6B00F65D26 /* appApp.swift in Sources */,
 				BEBECA782E431D6B00F65D26 /* Ext+PhotosPickerItem.swift in Sources */,
 				BEBECA792E431D6B00F65D26 /* Ext+UIImage.swift in Sources */,
+				BED4C4EA2E5EF40D00D276BC /* EditTmpGrain.swift in Sources */,
 				BEBECA7A2E431D6B00F65D26 /* ViewModel.swift in Sources */,
 				BE55FAFC2E5C500D00A32CDC /* EditTool.swift in Sources */,
 				BEBECA712E431D6B00F65D26 /* GrainModels.swift in Sources */,

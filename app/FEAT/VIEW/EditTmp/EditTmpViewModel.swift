@@ -22,6 +22,8 @@ extension EditTmpViewModel: ViewModelType {
         func toolButtonTextColor(_ type: ToolType) -> Color {
             return type == selectedTap ? .red : .white
         }
+        
+        var grainAlpha: Double = 0
     }
     
     enum Action {
@@ -35,6 +37,8 @@ extension EditTmpViewModel: ViewModelType {
         case tapSelected(ToolType?)
         case dragToolOnChanged(CGFloat)
         case dragToolOnEnded(CGFloat)
+        
+        case grainAlphaChanged(Double)
     }
 }
 
@@ -93,6 +97,9 @@ final class EditTmpViewModel: toVM<EditTmpViewModel> {
                 state.selectedTap = nil
                 state.tapOpacity = 0
             }
+            
+        case .grainAlphaChanged(let alpha):
+            state.grainAlpha = alpha
         }
     }
     

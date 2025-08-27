@@ -24,14 +24,6 @@ enum ToolType: String, Hashable, CaseIterable {
         return Self.allCases.firstIndex(of: self)!
     }
     
-    var view: some View {
-        switch self {
-        case .grain: Color.clear
-        case .color: Color.clear
-        case .adjust: Color.clear
-        }
-    }
-    
     var maxViewHeight: CGFloat {
         switch self {
         case .grain: 400
@@ -110,7 +102,17 @@ struct ToolButton: View {
 
 struct ToolTap: View {
     @ObservedObject var editVM: EditTmpViewModel
+    
     var body: some View {
-        editVM.selectedTap?.view
+        if let tap = editVM.selectedTap {
+            switch tap {
+            case .grain:
+                EditTmpGrain(editVM: editVM)
+            case .color:
+                EditTmpGrain(editVM: editVM)
+            case .adjust:
+                EditTmpGrain(editVM: editVM)
+            }
+        }
     }
 }
