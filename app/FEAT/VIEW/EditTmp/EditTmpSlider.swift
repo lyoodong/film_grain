@@ -18,7 +18,7 @@ enum SliderType {
         case .grainAlpha:
             return 0...1
         case .grainScale:
-            return 0...1
+            return 1...3
         }
     }
     
@@ -27,8 +27,12 @@ enum SliderType {
         case .grainAlpha:
             return 0.01
         case .grainScale:
-            return 0.2
+            return 0.01
         }
+    }
+    
+    var valueFormat: String {
+        return "%.2f"
     }
 }
 

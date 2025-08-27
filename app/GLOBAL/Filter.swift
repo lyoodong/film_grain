@@ -10,6 +10,7 @@ class Filter {
     var grainCI: CIImage?
     
     var grainAlpha: Double = 0
+    var grainScale: Double = 1
     
     private static let colorGradingKernel: CIColorKernel = {
         let src = """
@@ -56,11 +57,10 @@ class Filter {
         return alphaF.outputImage
     }
     
-    func applyGrainScale(_ input: CIImage?, scale: CGFloat, maxScale: CGFloat) -> CIImage? {
+    func applyGrainScale(_ input: CIImage?, scale: CGFloat, maxScale: CGFloat = 0) -> CIImage? {
         guard let input = input else { return nil }
         
-        let pixelSize   = max(1, input.extent.width / maxScale)
-        let scaleValue  = Float(pixelSize * scale)
+        let scaleValue  = Float(scale)
         let centerPoint = CGPoint(x: input.extent.midX, y: input.extent.midY)
         
         let scaleF = CIFilter.pixellate()
@@ -113,7 +113,8 @@ class Filter {
               let grainCI else { return nil }
         
         let grainAlphaCI = applyGrainAlpha(grainCI, alpha: grainAlpha)
-        let blendCI = blend(input: grainAlphaCI, background: baseCI)
+        let grainScaleCI = applyGrainScale(grainAlphaCI, scale: grainScale)
+        let blendCI = blend(input: grainScaleCI, background: baseCI)
         
         guard let out = blendCI,
               let cg = context.createCGImage(out, from: baseCI.extent) else { return nil }

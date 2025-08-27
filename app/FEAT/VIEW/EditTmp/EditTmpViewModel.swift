@@ -23,8 +23,6 @@ extension EditTmpViewModel: ViewModelType {
             return type == selectedTap ? .red : .white
         }
         
-        var grainAlpha: Double = 0
-        
         var filter: Filter = .init()
     }
     
@@ -42,6 +40,7 @@ extension EditTmpViewModel: ViewModelType {
         case dragToolOnEnded(CGFloat)
         
         case grainAlphaChanged(Double)
+        case grainScaleChanged(Double)
     }
 }
 
@@ -110,8 +109,17 @@ final class EditTmpViewModel: toVM<EditTmpViewModel> {
             }
             
         case .grainAlphaChanged(let alpha):
-            state.grainAlpha = alpha
             state.filter.grainAlpha = alpha
+            
+            let filter = state.filter
+            Task.detached(priority: .userInitiated) { [weak self] in
+                guard let self else { return }
+                let iamge = filter.refresh()
+                effect(.filteredImageLoaded(iamge))
+            }
+            
+        case .grainScaleChanged(let scale):
+            state.filter.grainScale = scale
             
             let filter = state.filter
             Task.detached(priority: .userInitiated) { [weak self] in
