@@ -16,9 +16,18 @@ enum SliderType {
     var range: ClosedRange<Double> {
         switch self {
         case .grainAlpha:
-            return 1...100
+            return 0...1
         case .grainScale:
             return 0...1
+        }
+    }
+    
+    var step: Double {
+        switch self {
+        case .grainAlpha:
+            return 0.01
+        case .grainScale:
+            return 0.2
         }
     }
 }
@@ -52,8 +61,7 @@ struct EditTmpSlider: View {
     }
     
     private var valueText: some View {
-        Text("\(Int(value))")
-            .frame(width: 36)
+        Text(String(format: "%.2f", value))
     }
     
     private var slider: some View {
@@ -62,7 +70,8 @@ struct EditTmpSlider: View {
                 get: { value },
                 set: onChanged
             ),
-            range: type.range
+            range: type.range,
+            step: type.step
         )
         .background(bgColor)
     }

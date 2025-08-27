@@ -6,7 +6,23 @@ import SpriteKit
 class Filter {
     private(set) var context = CIContext(options: [.cacheIntermediates: true])
     
-    func applyGrain(size: CGSize) -> CIImage? {
+    var baseCI: CIImage?
+    var grainCI: CIImage?
+    
+    var grainAlpha: Double = 0
+    
+    private static let colorGradingKernel: CIColorKernel = {
+        let src = """
+        kernel vec4 contrastOverlay(__sample img, float threshold,
+                                    __color darkC, __color brightC) {
+            float l = dot(img.rgb, vec3(0.299,0.587,0.114));
+            return (l < threshold) ? darkC : brightC;
+        }
+        """
+        return CIColorKernel(source: src)!
+    }()
+    
+    func createGrainFilter(size: CGSize) -> CIImage? {
         let w = Int(size.width)
         let h = Int(size.height)
         
@@ -32,7 +48,7 @@ class Filter {
         return CIImage(cgImage: cgNoise)
     }
     
-    func applyAlpha(_ input: CIImage?, alpha: Double) -> CIImage? {
+    func applyGrainAlpha(_ input: CIImage?, alpha: Double) -> CIImage? {
         let alphaF = CIFilter.colorMatrix()
         alphaF.inputImage = input
         alphaF.aVector = CIVector(x: 0, y: 0, z: 0, w: alpha)
@@ -40,7 +56,7 @@ class Filter {
         return alphaF.outputImage
     }
     
-    func applyScale(_ input: CIImage?, scale: CGFloat, maxScale: CGFloat) -> CIImage? {
+    func applyGrainScale(_ input: CIImage?, scale: CGFloat, maxScale: CGFloat) -> CIImage? {
         guard let input = input else { return nil }
         
         let pixelSize   = max(1, input.extent.width / maxScale)
@@ -54,17 +70,6 @@ class Filter {
         
         return scaleF.outputImage
     }
-    
-    private static let colorGradingKernel: CIColorKernel = {
-        let src = """
-        kernel vec4 contrastOverlay(__sample img, float threshold,
-                                    __color darkC, __color brightC) {
-            float l = dot(img.rgb, vec3(0.299,0.587,0.114));
-            return (l < threshold) ? darkC : brightC;
-        }
-        """
-        return CIColorKernel(source: src)!
-    }()
     
     func applyColorGrading(_ input: CIImage?, darkAlpha: CGFloat, bringtAlpha: CGFloat, threshold: CGFloat) -> CIImage? {
         
@@ -82,15 +87,6 @@ class Filter {
         return comp
     }
     
-    
-    func blend(input: CIImage?, background: CIImage?) -> CIImage? {
-        let blend = CIFilter.softLightBlendMode()
-        blend.inputImage = input
-        blend.backgroundImage = background
-        
-        return blend.outputImage
-    }
-    
     func applyTemperture(_ input: CIImage?, temperature: Double) -> CIImage? {
         guard let input = input else { return nil }
     
@@ -101,5 +97,27 @@ class Filter {
         tmpF.neutral = CIVector(x: CGFloat(temperature), y: orignTint)
         
         return tmpF.outputImage
+    }
+    
+    
+    func blend(input: CIImage?, background: CIImage?) -> CIImage? {
+        let blend = CIFilter.softLightBlendMode()
+        blend.inputImage = input
+        blend.backgroundImage = background
+        
+        return blend.outputImage
+    }
+    
+    func refresh() -> UIImage? {
+        guard let baseCI,
+              let grainCI else { return nil }
+        
+        let grainAlphaCI = applyGrainAlpha(grainCI, alpha: grainAlpha)
+        let blendCI = blend(input: grainAlphaCI, background: baseCI)
+        
+        guard let out = blendCI,
+              let cg = context.createCGImage(out, from: baseCI.extent) else { return nil }
+        
+        return UIImage(cgImage: cg)
     }
 }

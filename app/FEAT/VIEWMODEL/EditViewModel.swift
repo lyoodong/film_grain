@@ -130,7 +130,7 @@ final class EditViewModel: toVM<EditViewModel> {
                     return
                 }
                 
-                let grain = self.state.filter.applyGrain(size: image.size)
+                let grain = self.state.filter.createGrainFilter(size: image.size)
                 
                 await self.update { $0.originData = data }
                 await self.update { $0.grain = grain }
@@ -241,8 +241,8 @@ final class EditViewModel: toVM<EditViewModel> {
     ) -> UIImage? {
         guard let baseCI = CIImage(image: base) else { return nil }
         
-        let alphaF = filter.applyAlpha(grain, alpha: alpha)
-        let scaleF = filter.applyScale(alphaF, scale: grainScale, maxScale: maxDimension)
+        let alphaF = filter.applyGrainAlpha(grain, alpha: alpha)
+        let scaleF = filter.applyGrainScale(alphaF, scale: grainScale, maxScale: maxDimension)
         let blend = filter.blend(input: scaleF, background: baseCI)
         
         guard let out = blend,

@@ -24,6 +24,8 @@ extension EditTmpViewModel: ViewModelType {
         }
         
         var grainAlpha: Double = 0
+        
+        var filter: Filter = .init()
     }
     
     enum Action {
@@ -33,6 +35,7 @@ extension EditTmpViewModel: ViewModelType {
         //load Image
         case dataLoaded(Data)
         case imageLoaded(UIImage?)
+        case filteredImageLoaded(UIImage?)
         
         case tapSelected(ToolType?)
         case dragToolOnChanged(CGFloat)
@@ -70,6 +73,14 @@ final class EditTmpViewModel: toVM<EditTmpViewModel> {
             state.originImage = image
             state.displayImage = image
             
+            if let image = image {
+                state.filter.grainCI = state.filter.createGrainFilter(size: image.size)
+                state.filter.baseCI = CIImage(image: image)
+            }
+            
+        case .filteredImageLoaded(let image):
+            state.displayImage = image
+
         case .tapSelected(let type):
             if let type = type {
                 state.toolMaxHeight = type.maxViewHeight
@@ -100,6 +111,14 @@ final class EditTmpViewModel: toVM<EditTmpViewModel> {
             
         case .grainAlphaChanged(let alpha):
             state.grainAlpha = alpha
+            state.filter.grainAlpha = alpha
+            
+            let filter = state.filter
+            Task.detached(priority: .userInitiated) { [weak self] in
+                guard let self else { return }
+                let iamge = filter.refresh()
+                effect(.filteredImageLoaded(iamge))
+            }
         }
     }
     
