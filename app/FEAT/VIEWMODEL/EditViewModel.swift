@@ -80,17 +80,17 @@ final class EditViewModel: toVM<EditViewModel> {
             guard let tmpF = state.filter.applyTemperture(ciIn, temperature: state.temperature) else { return }
             
             if state.isColorGrading {
-                guard let ciout = state.filter.applyColorGrading(
-                    tmpF,
-                    darkAlpha: state.darkAlpha,
-                    bringtAlpha: state.brightAlpha,
-                    threshold: state.threshold
-                ) else { return }
+//                guard let ciout = state.filter.applyColorGrading(
+//                    tmpF,
+//                    darkAlpha: state.darkAlpha,
+//                    bringtAlpha: state.brightAlpha,
+//                    threshold: state.threshold
+//                ) else { return }
+//                
+//                guard let cg = state.filter.context.createCGImage(ciout, from: ciout.extent)
+//                else { return }
                 
-                guard let cg = state.filter.context.createCGImage(ciout, from: ciout.extent)
-                else { return }
-                
-                base =  UIImage(cgImage: cg)
+//                base =  UIImage(cgImage: cg)
             } else {
                 guard let cg = state.filter.context.createCGImage(tmpF, from: tmpF.extent)
                 else { return }

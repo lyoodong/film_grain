@@ -5,6 +5,9 @@ enum SliderType {
     case grainScale
     case contrast
     case temperture
+    case threshold
+    case brightColorAlpha
+    case darkColorAlpha
     
     var title: String {
         switch self {
@@ -16,6 +19,12 @@ enum SliderType {
             return "Contrast"
         case .temperture:
             return "Temperture"
+        case .threshold:
+            return "Threshold"
+        case .brightColorAlpha:
+            return "Bright Alpha"
+        case .darkColorAlpha:
+            return "Dark Alpha"
         }
     }
     
@@ -29,6 +38,12 @@ enum SliderType {
             return 0.8...1.2
         case .temperture:
             return 2000...10000
+        case .threshold:
+            return 0...1
+        case .brightColorAlpha:
+            return 0...1
+        case .darkColorAlpha:
+            return 0...1
         }
     }
     
@@ -42,6 +57,12 @@ enum SliderType {
             return 0.0001
         case .temperture:
             return 100
+        case .threshold:
+            return 0.01
+        case .brightColorAlpha:
+            return 0.01
+        case .darkColorAlpha:
+            return 0.01
         }
     }
     

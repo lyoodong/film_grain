@@ -24,6 +24,9 @@ extension EditTmpViewModel: ViewModelType {
         }
         
         var filter: Filter = .init()
+        var colorGradingItems = ColorGradingItems.preset()
+        var selectedIndex: Int?
+        var isHiddenColorSlider: Bool = true
     }
     
     enum Action {
@@ -44,6 +47,14 @@ extension EditTmpViewModel: ViewModelType {
         
         case contrastChanged(Double)
         case tempertureChanged(Double)
+        
+        case thresholdChanged(Double)
+        case brightColorAlphaChanged(Double)
+        case darkColorAlphaChanged(Double)
+        
+        case noneButtonTapped
+        case colorButtonTapped(Int)
+        case customButtonTapped
     }
 }
 
@@ -150,6 +161,56 @@ final class EditTmpViewModel: toVM<EditTmpViewModel> {
                 let iamge = filter.refresh()
                 effect(.filteredImageLoaded(iamge))
             }
+        case .thresholdChanged(let value):
+            state.filter.threshold = value
+            
+            let filter = state.filter
+            Task.detached(priority: .userInitiated) { [weak self] in
+                guard let self else { return }
+                let iamge = filter.refresh()
+                effect(.filteredImageLoaded(iamge))
+            }
+        case .brightColorAlphaChanged(let value):
+            state.filter.brightAlpha = value
+            
+            let filter = state.filter
+            Task.detached(priority: .userInitiated) { [weak self] in
+                guard let self else { return }
+                let iamge = filter.refresh()
+                effect(.filteredImageLoaded(iamge))
+            }
+        case .darkColorAlphaChanged(let value):
+            state.filter.darkAlpha = value
+            
+            let filter = state.filter
+            Task.detached(priority: .userInitiated) { [weak self] in
+                guard let self else { return }
+                let iamge = filter.refresh()
+                effect(.filteredImageLoaded(iamge))
+            }
+            
+        case .noneButtonTapped:
+            state.selectedIndex = nil
+            state.isHiddenColorSlider = true
+            state.filter.brightColor = .clear
+            state.filter.darkColor = .clear
+            
+            let filter = state.filter
+            Task.detached(priority: .userInitiated) { [weak self] in
+                guard let self else { return }
+                let iamge = filter.refresh()
+                effect(.filteredImageLoaded(iamge))
+            }
+            
+        case .colorButtonTapped(let index):
+            state.selectedIndex = index
+            state.filter.brightColor = state.colorGradingItems[index].bright
+            state.filter.darkColor = state.colorGradingItems[index].dark
+            state.isHiddenColorSlider = false
+            
+        case .customButtonTapped:
+            state.selectedIndex = nil
+            state.isHiddenColorSlider = true
         }
     }
     

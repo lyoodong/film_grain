@@ -46,6 +46,7 @@
 		BED4C4EE2E5EFA8200D276BC /* CustomSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED4C4EC2E5EFA8200D276BC /* CustomSlider.swift */; };
 		BED4C4F02E5EFA8D00D276BC /* EditTmpSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED4C4EF2E5EFA8D00D276BC /* EditTmpSlider.swift */; };
 		BED4C4F42E5F108A00D276BC /* EditAdjust.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED4C4F32E5F108A00D276BC /* EditAdjust.swift */; };
+		BED4C4F62E5F195600D276BC /* EditColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED4C4F52E5F195600D276BC /* EditColor.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -108,6 +109,7 @@
 		BED4C4EC2E5EFA8200D276BC /* CustomSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSlider.swift; sourceTree = "<group>"; };
 		BED4C4EF2E5EFA8D00D276BC /* EditTmpSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTmpSlider.swift; sourceTree = "<group>"; };
 		BED4C4F32E5F108A00D276BC /* EditAdjust.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditAdjust.swift; sourceTree = "<group>"; };
+		BED4C4F52E5F195600D276BC /* EditColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditColor.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -145,6 +147,7 @@
 				BED4C4EF2E5EFA8D00D276BC /* EditTmpSlider.swift */,
 				BED4C4E92E5EF40D00D276BC /* EditTmpGrain.swift */,
 				BED4C4F32E5F108A00D276BC /* EditAdjust.swift */,
+				BED4C4F52E5F195600D276BC /* EditColor.swift */,
 			);
 			path = EditTmp;
 			sourceTree = "<group>";
@@ -436,6 +439,7 @@
 				BEBECA6E2E431D6B00F65D26 /* ContrastRegressor.mlmodel in Sources */,
 				BEBECAA22E4347E100F65D26 /* Filter.swift in Sources */,
 				BE562A992E5C1DE400CF1EE9 /* EditTmpView.swift in Sources */,
+				BED4C4F62E5F195600D276BC /* EditColor.swift in Sources */,
 				BE562A9A2E5C1DE400CF1EE9 /* EditTmpViewModel.swift in Sources */,
 				BED4C4F02E5EFA8D00D276BC /* EditTmpSlider.swift in Sources */,
 				BEBECA8A2E431DF900F65D26 /* EditViewModel.swift in Sources */,

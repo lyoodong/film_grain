@@ -109,7 +109,7 @@ struct ToolTap: View {
             case .grain:
                 EditTmpGrain(editVM: editVM)
             case .color:
-                EditTmpGrain(editVM: editVM)
+                EditColor(editVM: editVM)
             case .adjust:
                 EditAdjust(editVM: editVM)
             }

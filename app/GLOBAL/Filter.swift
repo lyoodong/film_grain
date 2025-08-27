@@ -15,6 +15,14 @@ class Filter {
     var contrast: Double = 1
     var temperture: Double = 6500
     
+    var threshold: Double = 0.5
+    
+    var brightColor: CIColor = .clear
+    var brightAlpha: Double = 1
+    
+    var darkColor: CIColor = .clear
+    var darkAlpha: Double = 1
+    
     private static let colorGradingKernel: CIColorKernel = {
         let src = """
         kernel vec4 contrastOverlay(__sample img, float threshold,
@@ -52,7 +60,10 @@ class Filter {
         return CIImage(cgImage: cgNoise)
     }
     
-    func applyGrainAlpha(_ input: CIImage?, alpha: Double) -> CIImage? {
+    func applyGrainAlpha(
+        _ input: CIImage?,
+        alpha: Double
+    ) -> CIImage? {
         let alphaF = CIFilter.colorMatrix()
         alphaF.inputImage = input
         alphaF.aVector = CIVector(x: 0, y: 0, z: 0, w: alpha)
@@ -60,7 +71,11 @@ class Filter {
         return alphaF.outputImage
     }
     
-    func applyGrainScale(_ input: CIImage?, scale: CGFloat, maxScale: CGFloat = 0) -> CIImage? {
+    func applyGrainScale(
+        _ input: CIImage?,
+        scale: CGFloat,
+        maxScale: CGFloat = 0
+    ) -> CIImage? {
         guard let input = input else { return nil }
         
         let scaleValue  = Float(scale)
@@ -74,23 +89,37 @@ class Filter {
         return scaleF.outputImage
     }
     
-    func applyColorGrading(_ input: CIImage?, darkAlpha: CGFloat, bringtAlpha: CGFloat, threshold: CGFloat) -> CIImage? {
+    func applyColorGrading(
+        _ input: CIImage?,
+        threshold: CGFloat,
+        brightColor b: CIColor,
+        brightAlpha: CGFloat,
+        darkColor d: CIColor,
+        darkAlpha: CGFloat
+    ) -> CIImage? {
         
         guard let input else { return nil }
-       
-        let darkColor = CIColor(red: 0.0, green: 0.8, blue: 0.7, alpha: darkAlpha)
-        let brightColor = CIColor(red: 1.0, green: 0.6, blue: 0.0, alpha: bringtAlpha)
-        
-        guard let overlay = Self.colorGradingKernel.apply(
-          extent: input.extent,
-          arguments: [input, threshold, darkColor, brightColor]
-        ) else { return nil }
 
-        let comp = overlay.composited(over: input)
-        return comp
+        if b == .clear && d == .clear {
+            return input
+        } else {
+            let brightColor = CIColor(red: b.red, green: b.green, blue: b.blue, alpha: brightAlpha)
+            let darkColor = CIColor(red: d.red, green: d.green, blue: d.blue, alpha: darkAlpha)
+            
+            guard let overlay = Self.colorGradingKernel.apply(
+              extent: input.extent,
+              arguments: [input, threshold, darkColor, brightColor]
+            ) else { return nil }
+            
+            let comp = overlay.composited(over: input)
+            return comp
+        }
     }
     
-    func applyContrast(_ input: CIImage?, contrast: Double) -> CIImage? {
+    func applyContrast(
+        _ input: CIImage?,
+        contrast: Double
+    ) -> CIImage? {
         guard let input = input else { return nil }
         
         let contrastF = CIFilter.colorControls()
@@ -100,7 +129,10 @@ class Filter {
         return contrastF.outputImage
     }
     
-    func applyTemperture(_ input: CIImage?, temperature: Double) -> CIImage? {
+    func applyTemperture(
+        _ input: CIImage?,
+        temperature: Double
+    ) -> CIImage? {
         guard let input = input else { return nil }
     
         let tmpF = CIFilter.temperatureAndTint()
@@ -113,7 +145,10 @@ class Filter {
     }
     
     
-    func blend(input: CIImage?, background: CIImage?) -> CIImage? {
+    func blend(
+        input: CIImage?,
+        background: CIImage?
+    ) -> CIImage? {
         let blend = CIFilter.softLightBlendMode()
         blend.inputImage = input
         blend.backgroundImage = background
@@ -125,7 +160,8 @@ class Filter {
         guard let baseCI,
               let grainCI else { return nil }
         
-        let contrastCI = applyContrast(baseCI, contrast: contrast)
+        let colorCI = applyColorGrading(baseCI, threshold: threshold, brightColor: brightColor, brightAlpha: brightAlpha, darkColor: darkColor, darkAlpha: darkAlpha)
+        let contrastCI = applyContrast(colorCI, contrast: contrast)
         let tempertureCI = applyTemperture(contrastCI, temperature: temperture)
         let baseAdjustedCI = tempertureCI
 
