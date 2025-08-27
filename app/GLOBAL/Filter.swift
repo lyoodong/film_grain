@@ -12,6 +12,9 @@ class Filter {
     var grainAlpha: Double = 0
     var grainScale: Double = 1
     
+    var contrast: Double = 1
+    var temperture: Double = 6500
+    
     private static let colorGradingKernel: CIColorKernel = {
         let src = """
         kernel vec4 contrastOverlay(__sample img, float threshold,
@@ -87,6 +90,16 @@ class Filter {
         return comp
     }
     
+    func applyContrast(_ input: CIImage?, contrast: Double) -> CIImage? {
+        guard let input = input else { return nil }
+        
+        let contrastF = CIFilter.colorControls()
+        contrastF.inputImage = input
+        contrastF.contrast = Float(contrast)
+        
+        return contrastF.outputImage
+    }
+    
     func applyTemperture(_ input: CIImage?, temperature: Double) -> CIImage? {
         guard let input = input else { return nil }
     
@@ -112,9 +125,15 @@ class Filter {
         guard let baseCI,
               let grainCI else { return nil }
         
+        let contrastCI = applyContrast(baseCI, contrast: contrast)
+        let tempertureCI = applyTemperture(contrastCI, temperature: temperture)
+        let baseAdjustedCI = tempertureCI
+
         let grainAlphaCI = applyGrainAlpha(grainCI, alpha: grainAlpha)
         let grainScaleCI = applyGrainScale(grainAlphaCI, scale: grainScale)
-        let blendCI = blend(input: grainScaleCI, background: baseCI)
+        let grainAdjustedCI = grainScaleCI
+        
+        let blendCI = blend(input: grainAdjustedCI, background: baseAdjustedCI)
         
         guard let out = blendCI,
               let cg = context.createCGImage(out, from: baseCI.extent) else { return nil }

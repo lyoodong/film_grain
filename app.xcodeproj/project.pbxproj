@@ -45,6 +45,7 @@
 		BED4C4EA2E5EF40D00D276BC /* EditTmpGrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED4C4E92E5EF40D00D276BC /* EditTmpGrain.swift */; };
 		BED4C4EE2E5EFA8200D276BC /* CustomSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED4C4EC2E5EFA8200D276BC /* CustomSlider.swift */; };
 		BED4C4F02E5EFA8D00D276BC /* EditTmpSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED4C4EF2E5EFA8D00D276BC /* EditTmpSlider.swift */; };
+		BED4C4F42E5F108A00D276BC /* EditAdjust.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED4C4F32E5F108A00D276BC /* EditAdjust.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -106,6 +107,7 @@
 		BED4C4E92E5EF40D00D276BC /* EditTmpGrain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTmpGrain.swift; sourceTree = "<group>"; };
 		BED4C4EC2E5EFA8200D276BC /* CustomSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSlider.swift; sourceTree = "<group>"; };
 		BED4C4EF2E5EFA8D00D276BC /* EditTmpSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTmpSlider.swift; sourceTree = "<group>"; };
+		BED4C4F32E5F108A00D276BC /* EditAdjust.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditAdjust.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,6 +144,7 @@
 				BE55FAFB2E5C500D00A32CDC /* EditTool.swift */,
 				BED4C4EF2E5EFA8D00D276BC /* EditTmpSlider.swift */,
 				BED4C4E92E5EF40D00D276BC /* EditTmpGrain.swift */,
+				BED4C4F32E5F108A00D276BC /* EditAdjust.swift */,
 			);
 			path = EditTmp;
 			sourceTree = "<group>";
@@ -445,6 +448,7 @@
 				BE8893EF2E58A33C0092BF41 /* AppDelegate.swift in Sources */,
 				BE8893D92E56F8720092BF41 /* EditGrain.swift in Sources */,
 				BED4C4EE2E5EFA8200D276BC /* CustomSlider.swift in Sources */,
+				BED4C4F42E5F108A00D276BC /* EditAdjust.swift in Sources */,
 				BE8893ED2E587A8A0092BF41 /* Ext+UIApplication.swift in Sources */,
 				BE8893DA2E56F8720092BF41 /* EditImage.swift in Sources */,
 				BE8893DB2E56F8720092BF41 /* EditPhotoPicker.swift in Sources */,

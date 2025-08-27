@@ -41,6 +41,9 @@ extension EditTmpViewModel: ViewModelType {
         
         case grainAlphaChanged(Double)
         case grainScaleChanged(Double)
+        
+        case contrastChanged(Double)
+        case tempertureChanged(Double)
     }
 }
 
@@ -108,8 +111,8 @@ final class EditTmpViewModel: toVM<EditTmpViewModel> {
                 state.tapOpacity = 0
             }
             
-        case .grainAlphaChanged(let alpha):
-            state.filter.grainAlpha = alpha
+        case .grainAlphaChanged(let value):
+            state.filter.grainAlpha = value
             
             let filter = state.filter
             Task.detached(priority: .userInitiated) { [weak self] in
@@ -118,8 +121,28 @@ final class EditTmpViewModel: toVM<EditTmpViewModel> {
                 effect(.filteredImageLoaded(iamge))
             }
             
-        case .grainScaleChanged(let scale):
-            state.filter.grainScale = scale
+        case .grainScaleChanged(let value):
+            state.filter.grainScale = value
+            
+            let filter = state.filter
+            Task.detached(priority: .userInitiated) { [weak self] in
+                guard let self else { return }
+                let iamge = filter.refresh()
+                effect(.filteredImageLoaded(iamge))
+            }
+            
+        case .contrastChanged(let value):
+            state.filter.contrast = value
+            
+            let filter = state.filter
+            Task.detached(priority: .userInitiated) { [weak self] in
+                guard let self else { return }
+                let iamge = filter.refresh()
+                effect(.filteredImageLoaded(iamge))
+            }
+            
+        case .tempertureChanged(let value):
+            state.filter.temperture = value
             
             let filter = state.filter
             Task.detached(priority: .userInitiated) { [weak self] in

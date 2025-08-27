@@ -3,6 +3,8 @@ import SwiftUI
 enum SliderType {
     case grainAlpha
     case grainScale
+    case contrast
+    case temperture
     
     var title: String {
         switch self {
@@ -10,6 +12,10 @@ enum SliderType {
             return "Alpha"
         case .grainScale:
             return "Scale"
+        case .contrast:
+            return "Contrast"
+        case .temperture:
+            return "Temperture"
         }
     }
     
@@ -19,6 +25,10 @@ enum SliderType {
             return 0...1
         case .grainScale:
             return 1...3
+        case .contrast:
+            return 0.8...1.2
+        case .temperture:
+            return 2000...10000
         }
     }
     
@@ -28,6 +38,10 @@ enum SliderType {
             return 0.01
         case .grainScale:
             return 0.01
+        case .contrast:
+            return 0.0001
+        case .temperture:
+            return 100
         }
     }
     
