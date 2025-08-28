@@ -17,6 +17,8 @@ struct UploadView: View {
         .alert(item: $activeAlert) { alert in
             alert.view
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color.bg)
     }
 }
 

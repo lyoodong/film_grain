@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		BE102E332E5FFF25005468DA /* EditTmpSaveButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE102E322E5FFF25005468DA /* EditTmpSaveButton.swift */; };
+		BE102E352E602002005468DA /* Ext+Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE102E342E602002005468DA /* Ext+Color.swift */; };
 		BE55FAFA2E5C4D6500A32CDC /* EditZoomableImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE55FAF92E5C4D6500A32CDC /* EditZoomableImage.swift */; };
 		BE55FAFC2E5C500D00A32CDC /* EditTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE55FAFB2E5C500D00A32CDC /* EditTool.swift */; };
 		BE562A992E5C1DE400CF1EE9 /* EditTmpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE562A962E5C1DE400CF1EE9 /* EditTmpView.swift */; };
@@ -69,6 +70,7 @@
 
 /* Begin PBXFileReference section */
 		BE102E322E5FFF25005468DA /* EditTmpSaveButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTmpSaveButton.swift; sourceTree = "<group>"; };
+		BE102E342E602002005468DA /* Ext+Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ext+Color.swift"; sourceTree = "<group>"; };
 		BE55FAF92E5C4D6500A32CDC /* EditZoomableImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditZoomableImage.swift; sourceTree = "<group>"; };
 		BE55FAFB2E5C500D00A32CDC /* EditTool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTool.swift; sourceTree = "<group>"; };
 		BE562A962E5C1DE400CF1EE9 /* EditTmpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTmpView.swift; sourceTree = "<group>"; };
@@ -254,6 +256,7 @@
 				BEBECAA12E4347E100F65D26 /* Filter.swift */,
 				BE8893EC2E587A890092BF41 /* Ext+UIApplication.swift */,
 				BE8893F42E58B26B0092BF41 /* Router.swift */,
+				BE102E342E602002005468DA /* Ext+Color.swift */,
 			);
 			path = GLOBAL;
 			sourceTree = "<group>";
@@ -446,6 +449,7 @@
 				BE562A9A2E5C1DE400CF1EE9 /* EditTmpViewModel.swift in Sources */,
 				BED4C4F02E5EFA8D00D276BC /* EditTmpSlider.swift in Sources */,
 				BEBECA8A2E431DF900F65D26 /* EditViewModel.swift in Sources */,
+				BE102E352E602002005468DA /* Ext+Color.swift in Sources */,
 				BEBECA6F2E431D6B00F65D26 /* GrainAlphaRegressor.mlmodel in Sources */,
 				BE8893D62E56F8720092BF41 /* EditAiButton.swift in Sources */,
 				BE8893D72E56F8720092BF41 /* EditColorGrading.swift in Sources */,
