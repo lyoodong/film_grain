@@ -9,7 +9,9 @@ struct UploadView: View {
     
     var body: some View {
         VStack {
+            UploadTitle()
             UploadButton(title: "업로드", action: checkPHAuthorizationStatus)
+            Spacer()
         }
         .fullScreenCover(item: $activeScreen) { screen in
             screen.view({navigate(.edit(id: $0))})
