@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BE102E332E5FFF25005468DA /* EditTmpSaveButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE102E322E5FFF25005468DA /* EditTmpSaveButton.swift */; };
 		BE55FAFA2E5C4D6500A32CDC /* EditZoomableImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE55FAF92E5C4D6500A32CDC /* EditZoomableImage.swift */; };
 		BE55FAFC2E5C500D00A32CDC /* EditTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE55FAFB2E5C500D00A32CDC /* EditTool.swift */; };
 		BE562A992E5C1DE400CF1EE9 /* EditTmpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE562A962E5C1DE400CF1EE9 /* EditTmpView.swift */; };
@@ -67,6 +68,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		BE102E322E5FFF25005468DA /* EditTmpSaveButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTmpSaveButton.swift; sourceTree = "<group>"; };
 		BE55FAF92E5C4D6500A32CDC /* EditZoomableImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditZoomableImage.swift; sourceTree = "<group>"; };
 		BE55FAFB2E5C500D00A32CDC /* EditTool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTool.swift; sourceTree = "<group>"; };
 		BE562A962E5C1DE400CF1EE9 /* EditTmpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTmpView.swift; sourceTree = "<group>"; };
@@ -148,6 +150,7 @@
 				BED4C4E92E5EF40D00D276BC /* EditTmpGrain.swift */,
 				BED4C4F32E5F108A00D276BC /* EditAdjust.swift */,
 				BED4C4F52E5F195600D276BC /* EditColor.swift */,
+				BE102E322E5FFF25005468DA /* EditTmpSaveButton.swift */,
 			);
 			path = EditTmp;
 			sourceTree = "<group>";
@@ -458,6 +461,7 @@
 				BE8893DB2E56F8720092BF41 /* EditPhotoPicker.swift in Sources */,
 				BE8893DC2E56F8720092BF41 /* EditSaveButton.swift in Sources */,
 				BE8893DD2E56F8720092BF41 /* EditSlider.swift in Sources */,
+				BE102E332E5FFF25005468DA /* EditTmpSaveButton.swift in Sources */,
 				BE55FAFA2E5C4D6500A32CDC /* EditZoomableImage.swift in Sources */,
 				BE8893DE2E56F8720092BF41 /* EditTemperature.swift in Sources */,
 				BE8893DF2E56F8720092BF41 /* EditView.swift in Sources */,

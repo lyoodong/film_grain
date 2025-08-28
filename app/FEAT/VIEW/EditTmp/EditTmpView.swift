@@ -11,6 +11,7 @@ struct EditTmpView: View {
                 ProgressView()
             } else {
                 if let uiImage = editVM.displayImage {
+                    EditTmpSaveButton(editVM: editVM)
                     EditZoomableImage(uiImage: uiImage)
                     EditTool(editVM: editVM)
                 }

@@ -6,6 +6,7 @@ import SpriteKit
 class Filter {
     private(set) var context = CIContext(options: [.cacheIntermediates: true])
     
+    var originData: Data = Data()
     var baseCI: CIImage?
     var grainCI: CIImage?
     

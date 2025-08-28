@@ -5,7 +5,6 @@ import PhotosUI
 extension EditTmpViewModel: ViewModelType {
     struct State {
         var selectedId: String
-        var originData: Data = Data()
         var originImage: UIImage?
         var displayImage: UIImage?
         
@@ -55,6 +54,8 @@ extension EditTmpViewModel: ViewModelType {
         case noneButtonTapped
         case colorButtonTapped(Int)
         case customButtonTapped
+        
+        case saveButtonTapped
     }
 }
 
@@ -73,7 +74,7 @@ final class EditTmpViewModel: toVM<EditTmpViewModel> {
             }
             
         case .dataLoaded(let data):
-            state.originData = data
+            state.filter.originData = data
             
             Task(priority: .userInitiated) { [weak self] in
                 guard let self else { return }
@@ -196,6 +197,7 @@ final class EditTmpViewModel: toVM<EditTmpViewModel> {
             state.filter.darkColor = .clear
             
             let filter = state.filter
+            
             Task.detached(priority: .userInitiated) { [weak self] in
                 guard let self else { return }
                 let iamge = filter.refresh()
@@ -211,6 +213,11 @@ final class EditTmpViewModel: toVM<EditTmpViewModel> {
         case .customButtonTapped:
             state.selectedIndex = nil
             state.isHiddenColorSlider = true
+            
+        case .saveButtonTapped:
+            if let image = state.displayImage {
+                UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
+            }
         }
     }
     
