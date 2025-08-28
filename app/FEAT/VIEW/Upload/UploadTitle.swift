@@ -7,5 +7,6 @@ struct UploadTitle: View {
                 .font(Poppin.semiBold.font(size: 36))
             Spacer()
         }
+        .padding(.top, 100)
     }
 }

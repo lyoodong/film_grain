@@ -10,17 +10,28 @@ struct UploadView: View {
     var body: some View {
         VStack {
             UploadTitle()
-            UploadButton(title: "업로드", action: checkPHAuthorizationStatus)
             Spacer()
+            UploadButton(title:"Upload", action: checkPHAuthorizationStatus)
         }
+        .padding(.horizontal, 16)
         .fullScreenCover(item: $activeScreen) { screen in
             screen.view({navigate(.edit(id: $0))})
         }
-        .alert(item: $activeAlert) { alert in
-            alert.view
-        }
+        .photoPermissionAlert(activeAlert: $activeAlert)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color.bg)
+    }
+    
+    private func checkPHAuthorizationStatus() {
+        let status = PHPhotoLibrary.authorizationStatus(for: .readWrite)
+        switch status {
+        case .denied:
+            activeAlert = .requestAuthorizationAlert
+        case .authorized, .limited:
+            activeScreen = .picker
+        default:
+            fatalError()
+        }
     }
 }
 
@@ -47,37 +58,45 @@ extension UploadView {
         }
     }
     
-    enum ActiveAlert: String, Identifiable {
+    enum ActiveAlert: String {
         case requestAuthorizationAlert
-        
-        var id: String {
-            return self.rawValue
-        }
-        
-        var view: Alert {
-            switch self {
-            case .requestAuthorizationAlert:
-                Alert(
-                    title: Text("사진 접근 권한"),
-                    message: Text("사진을 업로드하려면 사진 라이브러리 접근 권한이 필요합니다."),
-                    dismissButton: .default(Text("이동"))
-                )
-            }
-        }
     }
 }
 
-//MARK: - Helpers
-extension UploadView {
-    private func checkPHAuthorizationStatus() {
-        let status = PHPhotoLibrary.authorizationStatus(for: .readWrite)
-        switch status {
-        case .denied:
-            activeAlert = .requestAuthorizationAlert
-        case .authorized, .limited:
-            activeScreen = .picker
-        default:
-            fatalError()
+extension View {
+    func photoPermissionAlert(
+        activeAlert: Binding<UploadView.ActiveAlert?>
+    ) -> some View {
+        modifier(PhotoPermissionAlertModifier(activeAlert: activeAlert))
+    }
+}
+
+struct PhotoPermissionAlertModifier: ViewModifier {
+    @Binding var activeAlert: UploadView.ActiveAlert?
+    
+    func body(content: Content) -> some View {
+        content.alert(
+            "need access to the gallery",
+            isPresented: Binding(
+                get: { activeAlert == .requestAuthorizationAlert },
+                set: { if !$0 { activeAlert = nil } }
+            ),
+            actions: {
+                Button(action: openAppSettings) {
+                    Text("Move")
+                        .foregroundColor(.white)
+                }
+            },
+            message: {
+                Text("please allow access in Settings.")
+            }
+        )
+    }
+    
+    private func openAppSettings() {
+        guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
+        if UIApplication.shared.canOpenURL(url) {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
         }
     }
 }
