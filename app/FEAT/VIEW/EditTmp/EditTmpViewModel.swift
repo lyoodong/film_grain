@@ -49,9 +49,12 @@ extension EditTmpViewModel: ViewModelType {
         case brightColorAlphaChanged(Double)
         case darkColorAlphaChanged(Double)
         
+        case aiAnalyzeCompleted((alpha: Double, scale: Double, contrast: Double)?)
+        
         case noneButtonTapped
         case colorButtonTapped(Int)
         case customButtonTapped
+        case aiButtonTapped
         
         case saveButtonTapped
     }
@@ -195,6 +198,29 @@ final class EditTmpViewModel: toVM<EditTmpViewModel> {
             state.selectedIndex = nil
             state.isHiddenColorSlider = true
             
+        case .aiButtonTapped:
+            let image = state.image
+            
+            Task.detached(priority: .userInitiated) { [weak self] in
+                guard let self else { return }
+                let res = predictPreset(for: image)
+                effect(.aiAnalyzeCompleted(res))
+            }
+            
+        case .aiAnalyzeCompleted(let res):
+            if let res = res {
+                state.filter.grainAlpha = res.alpha
+                state.filter.grainScale = res.scale
+//                state.filter.contrast = res.contrast
+            }
+            
+            let filter = state.filter
+            Task.detached(priority: .userInitiated) { [weak self] in
+                guard let self else { return }
+                let iamge = filter.refresh()
+                effect(.filteredImageLoaded(iamge))
+            }
+
         case .saveButtonTapped:
             if let image = state.displayImage {
                 UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
@@ -240,5 +266,70 @@ final class EditTmpViewModel: toVM<EditTmpViewModel> {
     
     private func clamp(_ x: CGFloat, min: CGFloat, max: CGFloat) -> CGFloat {
         Swift.min(Swift.max(x, min), max)
+    }
+    
+    private func predictPreset(for uiImage: UIImage) -> (alpha: Double, scale: Double, contrast: Double)? {
+      guard let feats = extractFeatures(from: uiImage) else { return nil }
+
+      // 공통 피처를 Double로 변환
+      let avg   = Double(feats.avgLuma)
+      let rms   = Double(feats.rmsContrast)
+      let ent   = Double(feats.entropy)
+      let edge  = Double(feats.edgeDensity)
+      let colv  = Double(feats.colorVar)
+      let sat   = Double(feats.satStdDev)
+      let high  = Double(feats.highlights)
+      let shad  = Double(feats.shadows)
+
+      // ➊ grainAlpha 예측
+      let alphaInput = GrainAlphaRegressorInput(
+        avgLuma:     avg,
+        rmsContrast: rms,
+        entropy:     ent,
+        edgeDensity: edge,
+        colorVar:    colv,
+        satStdDev:   sat,
+        highlights:  high,
+        shadows:     shad
+      )
+      guard let alphaOut = try? GrainModels.shared.alphaModel.prediction(input: alphaInput) else {
+        return nil
+      }
+
+      // ➋ grainScale 예측
+      let scaleInput = GrainScaleRegressorInput(
+        avgLuma:     avg,
+        rmsContrast: rms,
+        entropy:     ent,
+        edgeDensity: edge,
+        colorVar:    colv,
+        satStdDev:   sat,
+        highlights:  high,
+        shadows:     shad
+      )
+      guard let scaleOut = try? GrainModels.shared.scaleModel.prediction(input: scaleInput) else {
+        return nil
+      }
+
+      // ➌ contrast 예측
+      let contrastInput = ContrastRegressorInput(
+        avgLuma:     avg,
+        rmsContrast: rms,
+        entropy:     ent,
+        edgeDensity: edge,
+        colorVar:    colv,
+        satStdDev:   sat,
+        highlights:  high,
+        shadows:     shad
+      )
+      guard let contrastOut = try? GrainModels.shared.contrastModel.prediction(input: contrastInput) else {
+        return nil
+      }
+
+      return (
+        alpha:    alphaOut.grainAlpha,
+        scale:    scaleOut.grainScale,
+        contrast: contrastOut.contrast
+      )
     }
 }

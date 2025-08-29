@@ -17,10 +17,8 @@ struct EditTmpView: View {
                 }
                 
                 AICircularButton(size: 60) {
-                    print("AICircularButton tapped")
+                    editVM.send(.aiButtonTapped)
                 }
-                
-//                EditTool(editVM: editVM)
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
