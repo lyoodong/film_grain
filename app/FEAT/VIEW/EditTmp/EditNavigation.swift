@@ -13,8 +13,9 @@ struct EditNavigation: View {
             } label: {
                 ZStack {
                     Circle().fill(.ultraThinMaterial)
+                    
                     Image(systemName: "xmark")
-                        .font(.subheadline)
+                        .font(Poppin.medium.font(size: 16))
                         .foregroundColor(.white)
                 }
                 .frame(width: diameter, height: diameter)
@@ -27,9 +28,11 @@ struct EditNavigation: View {
                 editVM.send(.saveButtonTapped)
             } label: {
                 ZStack {
-                    Circle().fill(.ultraThinMaterial)
+                    Capsule()
+                        .fill(.thinMaterial)
+                    
                     Image(systemName: "square.and.arrow.up")
-                        .font(.subheadline)
+                        .font(Poppin.medium.font(size: 16))
                         .foregroundColor(.white)
                 }
                 .frame(width: diameter, height: diameter)

@@ -45,7 +45,7 @@ struct UploadButton: View {
             .frame(width: 100, height: 40)
             .overlay(
                 Image(systemName: "square.and.arrow.down.on.square")
-                    .font(.subheadline)
+                    .font(Poppin.medium.font(size: 16))
                     .foregroundColor(.white)
             )
             .transition(.scale.combined(with: .opacity))

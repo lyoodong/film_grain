@@ -10,6 +10,7 @@ struct UploadTitle: View {
                     .font(Poppin.bold.font(size: 36))
                     .foregroundStyle(Color.mainGray)
                 
+                
                 Text(uploadVM.loadingStatus != .none ? "" : "Photo")
                     .font(Poppin.bold.font(size: 40))
                     .foregroundStyle(Color.mainBlack)
