@@ -9,6 +9,8 @@ extension EditTmpViewModel: ViewModelType {
         
         var selectedTap: ToolType? = nil
         
+        var isAIAnalyzing: Bool = false
+        
         var toolHeight: CGFloat = 60
         var toolMinHeight: CGFloat = 60
         var toolMaxHeight: CGFloat = 60
@@ -199,11 +201,13 @@ final class EditTmpViewModel: toVM<EditTmpViewModel> {
             state.isHiddenColorSlider = true
             
         case .aiButtonTapped:
+            state.isAIAnalyzing = true
             let image = state.image
             
             Task.detached(priority: .userInitiated) { [weak self] in
                 guard let self else { return }
                 let res = predictPreset(for: image)
+                try await Task.sleep(for: .seconds(0.8))
                 effect(.aiAnalyzeCompleted(res))
             }
             
@@ -211,14 +215,14 @@ final class EditTmpViewModel: toVM<EditTmpViewModel> {
             if let res = res {
                 state.filter.grainAlpha = res.alpha
                 state.filter.grainScale = res.scale
-//                state.filter.contrast = res.contrast
-            }
-            
-            let filter = state.filter
-            Task.detached(priority: .userInitiated) { [weak self] in
-                guard let self else { return }
-                let iamge = filter.refresh()
-                effect(.filteredImageLoaded(iamge))
+                state.isAIAnalyzing = false
+                let filter = state.filter
+                
+                Task.detached(priority: .userInitiated) { [weak self] in
+                    guard let self else { return }
+                    let iamge = filter.refresh()
+                    effect(.filteredImageLoaded(iamge))
+                }
             }
 
         case .saveButtonTapped:

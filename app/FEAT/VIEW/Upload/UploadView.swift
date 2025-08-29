@@ -12,12 +12,7 @@ struct UploadView: View {
     private var uploadScreenContent: some View {
         ZStack {
             VStack {
-                if uploadVM.loadingStatus != .none {
-                    Spacer()
-                }
-                
                 UploadTitle(uploadVM: uploadVM)
-                
                 Spacer()
             }
             

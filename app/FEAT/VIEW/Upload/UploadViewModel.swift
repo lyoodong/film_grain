@@ -41,7 +41,6 @@ final class UploadViewModel: toVM<UploadViewModel> {
             state.activeScreen = checkPHAuthorizationStatus()
             
         case .onPicked(let id):
-            print("onPicked")
             state.loadingStatus = .imageLoading
             
             Task(priority: .userInitiated) {[weak self] in
