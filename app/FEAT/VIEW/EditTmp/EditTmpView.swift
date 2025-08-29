@@ -17,6 +17,8 @@ struct EditTmpView: View {
                 }
             }
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color.bg)
         .onAppear {
             editVM.send(.onAppear)
         }

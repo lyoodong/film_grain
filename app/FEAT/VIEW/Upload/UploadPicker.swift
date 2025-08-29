@@ -1,8 +1,8 @@
 import SwiftUI
 import PhotosUI
 
-struct UploadPhotoPickerView: UIViewControllerRepresentable {
-    var onPicked: (String?) -> Void
+struct UploadPicker: UIViewControllerRepresentable {
+    var onPicked: (String) -> Void
 
     func makeUIViewController(context: Context) -> PHPickerViewController {
         var config = PHPickerConfiguration(photoLibrary: PHPhotoLibrary.shared())
@@ -22,9 +22,9 @@ struct UploadPhotoPickerView: UIViewControllerRepresentable {
     }
 
     final class Coordinator: NSObject, PHPickerViewControllerDelegate {
-        let onPicked: (String?) -> Void
+        let onPicked: (String) -> Void
 
-        init(onPicked: @escaping (String?) -> Void) {
+        init(onPicked: @escaping (String) -> Void) {
             self.onPicked = onPicked
         }
 

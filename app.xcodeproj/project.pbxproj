@@ -33,6 +33,7 @@
 		BE7CE2D22E6032F30083D39F /* Poppins-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BE7CE2BD2E6032F30083D39F /* Poppins-SemiBold.ttf */; };
 		BE7CE2D52E6033F30083D39F /* Poppin.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE7CE2D42E6033F30083D39F /* Poppin.swift */; };
 		BE7CE2D72E6034940083D39F /* UploadTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE7CE2D62E6034940083D39F /* UploadTitle.swift */; };
+		BE7CE2F52E6097960083D39F /* UploadViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE7CE2F42E6097960083D39F /* UploadViewModel.swift */; };
 		BE8893D62E56F8720092BF41 /* EditAiButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8893CB2E56F8720092BF41 /* EditAiButton.swift */; };
 		BE8893D72E56F8720092BF41 /* EditColorGrading.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8893CC2E56F8720092BF41 /* EditColorGrading.swift */; };
 		BE8893D82E56F8720092BF41 /* EditContrast.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8893CD2E56F8720092BF41 /* EditContrast.swift */; };
@@ -48,7 +49,6 @@
 		BE8893EF2E58A33C0092BF41 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8893EE2E58A33C0092BF41 /* AppDelegate.swift */; };
 		BE8893F12E58A4B90092BF41 /* UploadButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8893F02E58A4B90092BF41 /* UploadButton.swift */; };
 		BE8893F32E58A5200092BF41 /* UploadPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8893F22E58A5200092BF41 /* UploadPicker.swift */; };
-		BE8893F52E58B26B0092BF41 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8893F42E58B26B0092BF41 /* Router.swift */; };
 		BEACC51B2E336142008F1B24 /* appTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEACC5192E336142008F1B24 /* appTests.swift */; };
 		BEACC51F2E336142008F1B24 /* appUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEACC51C2E336142008F1B24 /* appUITests.swift */; };
 		BEACC5202E336142008F1B24 /* appUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEACC51D2E336142008F1B24 /* appUITestsLaunchTests.swift */; };
@@ -116,6 +116,7 @@
 		BE7CE2D32E6033070083D39F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		BE7CE2D42E6033F30083D39F /* Poppin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Poppin.swift; sourceTree = "<group>"; };
 		BE7CE2D62E6034940083D39F /* UploadTitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadTitle.swift; sourceTree = "<group>"; };
+		BE7CE2F42E6097960083D39F /* UploadViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadViewModel.swift; sourceTree = "<group>"; };
 		BE8893CB2E56F8720092BF41 /* EditAiButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditAiButton.swift; sourceTree = "<group>"; };
 		BE8893CC2E56F8720092BF41 /* EditColorGrading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditColorGrading.swift; sourceTree = "<group>"; };
 		BE8893CD2E56F8720092BF41 /* EditContrast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditContrast.swift; sourceTree = "<group>"; };
@@ -131,7 +132,6 @@
 		BE8893EE2E58A33C0092BF41 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BE8893F02E58A4B90092BF41 /* UploadButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadButton.swift; sourceTree = "<group>"; };
 		BE8893F22E58A5200092BF41 /* UploadPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadPicker.swift; sourceTree = "<group>"; };
-		BE8893F42E58B26B0092BF41 /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		BEACC4E22E336125008F1B24 /* app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = app.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BEACC4F22E336127008F1B24 /* appTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = appTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BEACC4FC2E336127008F1B24 /* appUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = appUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -248,6 +248,7 @@
 				BE8893F02E58A4B90092BF41 /* UploadButton.swift */,
 				BE8893F22E58A5200092BF41 /* UploadPicker.swift */,
 				BE7CE2D62E6034940083D39F /* UploadTitle.swift */,
+				BE7CE2F42E6097960083D39F /* UploadViewModel.swift */,
 			);
 			path = Upload;
 			sourceTree = "<group>";
@@ -324,7 +325,6 @@
 				BEBECA752E431D6B00F65D26 /* ViewModel.swift */,
 				BEBECAA12E4347E100F65D26 /* Filter.swift */,
 				BE8893EC2E587A890092BF41 /* Ext+UIApplication.swift */,
-				BE8893F42E58B26B0092BF41 /* Router.swift */,
 				BE102E342E602002005468DA /* Ext+Color.swift */,
 			);
 			path = GLOBAL;
@@ -562,9 +562,9 @@
 				BE8893F12E58A4B90092BF41 /* UploadButton.swift in Sources */,
 				BEBECA702E431D6B00F65D26 /* GrainScaleRegressor.mlmodel in Sources */,
 				BEBECA9E2E4329BC00F65D26 /* Ext+UIScreen.swift in Sources */,
-				BE8893F52E58B26B0092BF41 /* Router.swift in Sources */,
 				BEBECA772E431D6B00F65D26 /* appApp.swift in Sources */,
 				BEBECA782E431D6B00F65D26 /* Ext+PhotosPickerItem.swift in Sources */,
+				BE7CE2F52E6097960083D39F /* UploadViewModel.swift in Sources */,
 				BEBECA792E431D6B00F65D26 /* Ext+UIImage.swift in Sources */,
 				BED4C4EA2E5EF40D00D276BC /* EditTmpGrain.swift in Sources */,
 				BEBECA7A2E431D6B00F65D26 /* ViewModel.swift in Sources */,

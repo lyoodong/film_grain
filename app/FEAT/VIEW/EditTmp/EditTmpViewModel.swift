@@ -4,11 +4,10 @@ import PhotosUI
 
 extension EditTmpViewModel: ViewModelType {
     struct State {
-        var selectedId: String
-        var originImage: UIImage?
+        var image: UIImage
         var displayImage: UIImage?
         
-        var isLoad = true
+        var isLoad = false
         var selectedTap: ToolType? = nil
         
         var toolHeight: CGFloat = 60
@@ -64,33 +63,16 @@ final class EditTmpViewModel: toVM<EditTmpViewModel> {
     override func reduce(state: inout State, action: Action) {
         switch action {
         case .onAppear:
-            let id = state.selectedId
-            
-            Task(priority: .userInitiated) {[weak self] in
-                guard let self else { return }
-                if let data = await loadData(id: id) {
-                    effect(.dataLoaded(data))
-                }
-            }
+            state.displayImage = state.image
+            state.filter.grainCI = state.filter.createGrainFilter(size: state.image.size)
+            state.filter.baseCI = CIImage(image: state.image)
             
         case .dataLoaded(let data):
-            state.filter.originData = data
-            
-            Task(priority: .userInitiated) { [weak self] in
-                guard let self else { return }
-                let image = downsample(data: data)
-                effect(.imageLoaded(image))
-            }
+            print("dataLoaded")
+        
             
         case .imageLoaded(let image):
-            state.isLoad = false
-            state.originImage = image
-            state.displayImage = image
-            
-            if let image = image {
-                state.filter.grainCI = state.filter.createGrainFilter(size: image.size)
-                state.filter.baseCI = CIImage(image: image)
-            }
+            print("imageLoaded")
             
         case .filteredImageLoaded(let image):
             state.displayImage = image

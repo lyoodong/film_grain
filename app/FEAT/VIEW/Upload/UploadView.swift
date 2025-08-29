@@ -1,85 +1,90 @@
 import SwiftUI
-import Photos
-import PhotosUI
 
 struct UploadView: View {
-    @Environment(\.navigate) var navigate
-    @State private var activeScreen: ActiveScreen? = nil
-    @State private var activeAlert: ActiveAlert? = nil
+    @ObservedObject var uploadVM: UploadViewModel
+    @Namespace private var namespace
     
     var body: some View {
-        VStack {
-            UploadTitle()
-            Spacer()
-            UploadButton(title:"Upload", action: checkPHAuthorizationStatus)
-        }
-        .padding(.horizontal, 16)
-        .fullScreenCover(item: $activeScreen) { screen in
-            screen.view({navigate(.edit(id: $0))})
-        }
-        .photoPermissionAlert(activeAlert: $activeAlert)
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color.bg)
-    }
-    
-    private func checkPHAuthorizationStatus() {
-        let status = PHPhotoLibrary.authorizationStatus(for: .readWrite)
-        switch status {
-        case .denied:
-            activeAlert = .requestAuthorizationAlert
-        case .authorized, .limited:
-            activeScreen = .picker
-        default:
-            fatalError()
-        }
-    }
-}
-
-//MARK: - 얼럿, 피커 상태
-extension UploadView {
-    enum ActiveScreen: String, Identifiable {
-        case picker
-        
-        var id: String {
-            return self.rawValue
-        }
-        
-        @ViewBuilder
-        func view(_ uploadCompletionHandler: @escaping (String) -> Void) -> some View {
-            switch self {
-            case .picker:
-                UploadPhotoPickerView { id in
-                    if let id {
-                        uploadCompletionHandler(id)
-                    }
-                }
-                .ignoresSafeArea()
+        ZStack {
+            if uploadVM.activeScreen != .edit {
+                uploadScreenContent
+            } else {
+                editScreenContent
+                    .transition(.scale(scale: 0).animation(.easeInOut))
             }
         }
     }
     
-    enum ActiveAlert: String {
-        case requestAuthorizationAlert
+    private var uploadScreenContent: some View {
+        ZStack {
+            VStack {
+                if uploadVM.isLoading {
+                    Spacer()
+                }
+                
+                UploadTitle(uploadVM: uploadVM)
+                
+                Spacer()
+            }
+            
+            VStack {
+                Spacer()
+                UploadButton(uploadVM: uploadVM)
+                Spacer()
+            }
+        }
+        .padding(.horizontal, 16)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color.bg)
+        .photoPermissionAlert(uploadVM: uploadVM)
+        .PhotoPickerFullScreen(uploadVM: uploadVM)
+    }
+    
+    private var editScreenContent: some View {
+        Group {
+            if let image = uploadVM.originImage {
+                EditTmpView(editVM: .init(initialState: .init(image: image)))
+            }
+        }
     }
 }
 
 extension View {
-    func photoPermissionAlert(
-        activeAlert: Binding<UploadView.ActiveAlert?>
-    ) -> some View {
-        modifier(PhotoPermissionAlertModifier(activeAlert: activeAlert))
+    func photoPermissionAlert(uploadVM: UploadViewModel) -> some View {
+        modifier(PhotoPermissionAlertModifier(uploadVM: uploadVM))
+    }
+    
+    func PhotoPickerFullScreen(uploadVM: UploadViewModel) -> some View {
+        modifier(PhotoPickerModifier(uploadVM: uploadVM))
+    }
+}
+
+struct PhotoPickerModifier: ViewModifier {
+    @ObservedObject var uploadVM: UploadViewModel
+    
+    func body(content: Content) -> some View {
+        content.fullScreenCover(
+            isPresented: Binding(
+                get: { uploadVM.activeScreen == .picker },
+                set: { if !$0 { uploadVM.send(.dismiss)} }
+            )
+        ) {
+            UploadPicker { id in
+                uploadVM.send(.onPicked(id))
+            }
+        }
     }
 }
 
 struct PhotoPermissionAlertModifier: ViewModifier {
-    @Binding var activeAlert: UploadView.ActiveAlert?
+    @ObservedObject var uploadVM: UploadViewModel
     
     func body(content: Content) -> some View {
         content.alert(
             "need access to the gallery",
             isPresented: Binding(
-                get: { activeAlert == .requestAuthorizationAlert },
-                set: { if !$0 { activeAlert = nil } }
+                get: { uploadVM.activeScreen == .requestAuthorizationAlert },
+                set: { if !$0 { uploadVM.send(.dismiss) } }
             ),
             actions: {
                 Button(action: openAppSettings) {
