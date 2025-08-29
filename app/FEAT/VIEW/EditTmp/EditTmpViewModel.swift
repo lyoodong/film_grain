@@ -7,7 +7,6 @@ extension EditTmpViewModel: ViewModelType {
         var image: UIImage
         var displayImage: UIImage?
         
-        var isLoad = false
         var selectedTap: ToolType? = nil
         
         var toolHeight: CGFloat = 60

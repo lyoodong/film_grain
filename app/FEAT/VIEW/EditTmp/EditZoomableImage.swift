@@ -26,68 +26,74 @@ struct EditZoomableImage: View {
                 }
             }()
             
-            Image(uiImage: uiImage)
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .scaleEffect(scale)
-                .offset(offset)
-                .contentShape(Rectangle()) // 제스처 히트영역
-                .gesture(
-                    MagnificationGesture()
-                        .onChanged { value in
-                            let newScale = min(max(lastScale * value, 1), 5)
-                            if newScale < scale {
-                                scale = newScale
-                                offset = clampedOffset(offset,
-                                                       scale: newScale,
-                                                       base: baseSize,
-                                                       container: container)
-                            } else {
-                                scale = newScale
-                                offset = clampedOffset(offset,
-                                                       scale: newScale,
-                                                       base: baseSize,
-                                                       container: container)
-                            }
-                        }
-                        .onEnded { _ in
-                            withAnimation(.interactiveSpring) {
-                                lastScale = scale
-                                if lastScale <= 1.1 {
-                                    scale = 1
-                                    offset = .zero
-                                    lastOffset = .zero
-                                } else {
+            HStack {
+                Spacer()
+                
+                Image(uiImage: uiImage)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .scaleEffect(scale)
+                    .offset(offset)
+                    .contentShape(Rectangle()) // 제스처 히트영역
+                    .gesture(
+                        MagnificationGesture()
+                            .onChanged { value in
+                                let newScale = min(max(lastScale * value, 1), 5)
+                                if newScale < scale {
+                                    scale = newScale
                                     offset = clampedOffset(offset,
-                                                           scale: scale,
+                                                           scale: newScale,
                                                            base: baseSize,
                                                            container: container)
-                                    lastOffset = offset
+                                } else {
+                                    scale = newScale
+                                    offset = clampedOffset(offset,
+                                                           scale: newScale,
+                                                           base: baseSize,
+                                                           container: container)
                                 }
                             }
-                        }
-                )
-                .simultaneousGesture(
-                    DragGesture()
-                        .onChanged { g in
-                            guard scale > 1 else {
-                                offset = .zero
-                                return
+                            .onEnded { _ in
+                                withAnimation(.interactiveSpring) {
+                                    lastScale = scale
+                                    if lastScale <= 1.1 {
+                                        scale = 1
+                                        offset = .zero
+                                        lastOffset = .zero
+                                    } else {
+                                        offset = clampedOffset(offset,
+                                                               scale: scale,
+                                                               base: baseSize,
+                                                               container: container)
+                                        lastOffset = offset
+                                    }
+                                }
                             }
-                            let proposed = CGSize(
-                                width: lastOffset.width + g.translation.width,
-                                height: lastOffset.height + g.translation.height
-                            )
-                            offset = clampedOffset(proposed,
-                                                   scale: scale,
-                                                   base: baseSize,
-                                                   container: container)
-                        }
-                        .onEnded { _ in
-                            lastOffset = offset
-                        }
-                )
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+                    )
+                    .simultaneousGesture(
+                        DragGesture()
+                            .onChanged { g in
+                                guard scale > 1 else {
+                                    offset = .zero
+                                    return
+                                }
+                                let proposed = CGSize(
+                                    width: lastOffset.width + g.translation.width,
+                                    height: lastOffset.height + g.translation.height
+                                )
+                                offset = clampedOffset(proposed,
+                                                       scale: scale,
+                                                       base: baseSize,
+                                                       container: container)
+                            }
+                            .onEnded { _ in
+                                lastOffset = offset
+                            }
+                    )
+                    .cornerRadius(16)
+                
+                Spacer()
+            }
         }
     }
     
