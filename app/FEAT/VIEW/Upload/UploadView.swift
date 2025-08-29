@@ -5,12 +5,7 @@ struct UploadView: View {
     
     var body: some View {
         ZStack {
-            if uploadVM.activeScreen != .edit {
-                uploadScreenContent
-            } else {
-                editScreenContent
-                    .animation(.easeOut, value: uploadVM.activeScreen)
-            }
+            uploadScreenContent
         }
     }
     
@@ -37,15 +32,7 @@ struct UploadView: View {
         .background(Color.bg)
         .photoPermissionAlert(uploadVM: uploadVM)
         .PhotoPickerFullScreen(uploadVM: uploadVM)
-    }
-    
-    private var editScreenContent: some View {
-        Group {
-            if let image = uploadVM.originImage {
-                EditTmpView(editVM: .init(initialState: .init(image: image)))
-                    .transition(.scale(scale: 0).animation(.easeInOut))
-            }
-        }
+        .EditFullScreen(uploadVM: uploadVM)
     }
 }
 
@@ -56,6 +43,27 @@ extension View {
     
     func PhotoPickerFullScreen(uploadVM: UploadViewModel) -> some View {
         modifier(PhotoPickerModifier(uploadVM: uploadVM))
+    }
+    
+    func EditFullScreen(uploadVM: UploadViewModel) -> some View {
+        modifier(EditModifier(uploadVM: uploadVM))
+    }
+}
+
+struct EditModifier: ViewModifier {
+    @ObservedObject var uploadVM: UploadViewModel
+    
+    func body(content: Content) -> some View {
+        content.fullScreenCover(
+            isPresented: Binding(
+                get: { uploadVM.activeScreen == .edit },
+                set: { if !$0 { uploadVM.send(.dismiss)} }
+            )
+        ) {
+            if let image = uploadVM.originImage {
+                EditTmpView(editVM: .init(initialState: .init(image: image)))
+            }
+        }
     }
 }
 
