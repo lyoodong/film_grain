@@ -15,7 +15,7 @@ struct EditTmpView: View {
         }
         .animation(.bouncy, value: editVM.isFirstAI)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color.bg)
+        .background(Color.mainBackground)
         .onAppear {
             editVM.send(.onAppear)
         }

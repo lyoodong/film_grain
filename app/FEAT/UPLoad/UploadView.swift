@@ -24,7 +24,7 @@ struct UploadView: View {
         }
         .padding(.horizontal, 16)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color.bg)
+        .background(Color.mainBackground)
         .photoPermissionAlert(uploadVM: uploadVM)
         .PhotoPickerFullScreen(uploadVM: uploadVM)
         .EditFullScreen(uploadVM: uploadVM)
