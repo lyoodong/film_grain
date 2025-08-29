@@ -47,7 +47,7 @@
 		BE8893E52E56F9040092BF41 /* UploadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8893E42E56F9040092BF41 /* UploadView.swift */; };
 		BE8893ED2E587A8A0092BF41 /* Ext+UIApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8893EC2E587A890092BF41 /* Ext+UIApplication.swift */; };
 		BE8893EF2E58A33C0092BF41 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8893EE2E58A33C0092BF41 /* AppDelegate.swift */; };
-		BE8893F12E58A4B90092BF41 /* UploadButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8893F02E58A4B90092BF41 /* UploadButton.swift */; };
+		BE8893F12E58A4B90092BF41 /* UploadStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8893F02E58A4B90092BF41 /* UploadStatus.swift */; };
 		BE8893F32E58A5200092BF41 /* UploadPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8893F22E58A5200092BF41 /* UploadPicker.swift */; };
 		BEACC51B2E336142008F1B24 /* appTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEACC5192E336142008F1B24 /* appTests.swift */; };
 		BEACC51F2E336142008F1B24 /* appUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEACC51C2E336142008F1B24 /* appUITests.swift */; };
@@ -130,7 +130,7 @@
 		BE8893E42E56F9040092BF41 /* UploadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadView.swift; sourceTree = "<group>"; };
 		BE8893EC2E587A890092BF41 /* Ext+UIApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ext+UIApplication.swift"; sourceTree = "<group>"; };
 		BE8893EE2E58A33C0092BF41 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		BE8893F02E58A4B90092BF41 /* UploadButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadButton.swift; sourceTree = "<group>"; };
+		BE8893F02E58A4B90092BF41 /* UploadStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadStatus.swift; sourceTree = "<group>"; };
 		BE8893F22E58A5200092BF41 /* UploadPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadPicker.swift; sourceTree = "<group>"; };
 		BEACC4E22E336125008F1B24 /* app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = app.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BEACC4F22E336127008F1B24 /* appTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = appTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -245,7 +245,7 @@
 			isa = PBXGroup;
 			children = (
 				BE8893E42E56F9040092BF41 /* UploadView.swift */,
-				BE8893F02E58A4B90092BF41 /* UploadButton.swift */,
+				BE8893F02E58A4B90092BF41 /* UploadStatus.swift */,
 				BE8893F22E58A5200092BF41 /* UploadPicker.swift */,
 				BE7CE2D62E6034940083D39F /* UploadTitle.swift */,
 				BE7CE2F42E6097960083D39F /* UploadViewModel.swift */,
@@ -559,7 +559,7 @@
 				BE7CE2D52E6033F30083D39F /* Poppin.swift in Sources */,
 				BE7CE2D72E6034940083D39F /* UploadTitle.swift in Sources */,
 				BE8893DF2E56F8720092BF41 /* EditView.swift in Sources */,
-				BE8893F12E58A4B90092BF41 /* UploadButton.swift in Sources */,
+				BE8893F12E58A4B90092BF41 /* UploadStatus.swift in Sources */,
 				BEBECA702E431D6B00F65D26 /* GrainScaleRegressor.mlmodel in Sources */,
 				BEBECA9E2E4329BC00F65D26 /* Ext+UIScreen.swift in Sources */,
 				BEBECA772E431D6B00F65D26 /* appApp.swift in Sources */,

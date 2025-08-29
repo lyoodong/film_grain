@@ -6,16 +6,16 @@ struct UploadTitle: View {
     
     var body: some View {
         HStack {
-            if uploadVM.isLoading {
+            if uploadVM.loadingStatus != .none {
                 Spacer()
             }
             
-            Text(uploadVM.isLoading ? "" : "Select Your\nPhoto")
-                .font(uploadVM.isLoading ? Poppin.medium.font(size: 16) : Poppin.semiBold.font(size: 36))
+            Text(uploadVM.loadingStatus != .none ? "" : "Select Your\nPhoto")
+                .font(uploadVM.loadingStatus != .none ? Poppin.medium.font(size: 16) : Poppin.semiBold.font(size: 36))
             Spacer()
         }
-        .padding(.bottom, uploadVM.isLoading ? 44 : 0)
-        .padding(.top, uploadVM.isLoading ? 0 : 100)
-        .animation(.spring, value: uploadVM.isLoading)
+        .padding(.bottom, uploadVM.loadingStatus != .none ? 44 : 0)
+        .padding(.top, uploadVM.loadingStatus != .none ? 0 : 100)
+        .animation(.spring, value: uploadVM.loadingStatus)
     }
 }

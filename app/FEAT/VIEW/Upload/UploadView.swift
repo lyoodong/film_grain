@@ -2,7 +2,6 @@ import SwiftUI
 
 struct UploadView: View {
     @ObservedObject var uploadVM: UploadViewModel
-    @Namespace private var namespace
     
     var body: some View {
         ZStack {
@@ -10,7 +9,7 @@ struct UploadView: View {
                 uploadScreenContent
             } else {
                 editScreenContent
-                    .transition(.scale(scale: 0).animation(.easeInOut))
+                    .animation(.easeOut, value: uploadVM.activeScreen)
             }
         }
     }
@@ -18,7 +17,7 @@ struct UploadView: View {
     private var uploadScreenContent: some View {
         ZStack {
             VStack {
-                if uploadVM.isLoading {
+                if uploadVM.loadingStatus != .none {
                     Spacer()
                 }
                 
@@ -29,7 +28,7 @@ struct UploadView: View {
             
             VStack {
                 Spacer()
-                UploadButton(uploadVM: uploadVM)
+                UploadStatus(uploadVM: uploadVM)
                 Spacer()
             }
         }
@@ -44,6 +43,7 @@ struct UploadView: View {
         Group {
             if let image = uploadVM.originImage {
                 EditTmpView(editVM: .init(initialState: .init(image: image)))
+                    .transition(.scale(scale: 0).animation(.easeInOut))
             }
         }
     }

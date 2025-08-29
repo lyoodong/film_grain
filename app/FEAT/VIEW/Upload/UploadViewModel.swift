@@ -9,12 +9,17 @@ extension UploadViewModel: ViewModelType {
         case requestAuthorizationAlert
     }
     
+    enum Loading: Equatable {
+        case none
+        case imageLoading
+        case completeLoading
+    }
+    
     struct State {
         var activeScreen: ActiveScreen? = nil
-        var isLoading = false
+        var loadingStatus: Loading = .none
         
         var originImage: UIImage?
-        var displayImage: UIImage?
     }
     
     enum Action {
@@ -24,6 +29,8 @@ extension UploadViewModel: ViewModelType {
         
         case dataLoaded(Data)
         case imageLoaded(UIImage?)
+        
+        case showEdit
     }
 }
 
@@ -34,7 +41,8 @@ final class UploadViewModel: toVM<UploadViewModel> {
             state.activeScreen = checkPHAuthorizationStatus()
             
         case .onPicked(let id):
-            state.isLoading = true
+            print("onPicked")
+            state.loadingStatus = .imageLoading
             
             Task(priority: .userInitiated) {[weak self] in
                 guard let self else { return }
@@ -47,14 +55,16 @@ final class UploadViewModel: toVM<UploadViewModel> {
             Task(priority: .userInitiated) { [weak self] in
                 guard let self else { return }
                 let image = downsample(data: data)
-                try await Task.sleep(for: .seconds(2))
+                try await Task.sleep(for: .seconds(0.8))
                 effect(.imageLoaded(image))
             }
             
         case .imageLoaded(let image):
-            state.isLoading = false
+            state.loadingStatus = .completeLoading
             state.originImage = image
-            state.displayImage = image
+            
+        case .showEdit:
+            state.loadingStatus = .none
             state.activeScreen = .edit
             
         case .dismiss:
