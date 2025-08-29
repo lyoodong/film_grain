@@ -1,8 +1,10 @@
 import SwiftUI
 
 extension Color {
-    static var mainRed: Self = .init(hex: "990505")
-    static var bg: Self = .init(hex: "1C1918")
+    static var mainRed: Self = .init(hex: "0F0F0F")
+    static var mainGray: Self = .init(hex: "8D8D8D")
+    static var mainBlack: Self = .init(hex: "0F0F0F")
+    static var bg: Self = .init(hex: "D9D9D9")
     
     init(hex: String) {
         var hex = hex.trimmingCharacters(in: .whitespacesAndNewlines)

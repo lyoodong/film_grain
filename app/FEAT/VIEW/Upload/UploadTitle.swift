@@ -10,8 +10,16 @@ struct UploadTitle: View {
                 Spacer()
             }
             
-            Text(uploadVM.loadingStatus != .none ? "" : "Select Your\nPhoto")
-                .font(uploadVM.loadingStatus != .none ? Poppin.medium.font(size: 16) : Poppin.semiBold.font(size: 36))
+            VStack(alignment: .leading, spacing: 0) {
+                Text(uploadVM.loadingStatus != .none ? "" : "Select Your")
+                    .font(uploadVM.loadingStatus != .none ? Poppin.medium.font(size: 16) : Poppin.semiBold.font(size: 36))
+                    .foregroundStyle(Color.mainGray)
+                
+                Text(uploadVM.loadingStatus != .none ? "" : "Photo")
+                    .font(uploadVM.loadingStatus != .none ? Poppin.medium.font(size: 16) : Poppin.bold.font(size: 40))
+                    .foregroundStyle(Color.mainBlack)
+            }
+            
             Spacer()
         }
         .padding(.bottom, uploadVM.loadingStatus != .none ? 44 : 0)
