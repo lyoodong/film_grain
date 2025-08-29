@@ -1,118 +1,107 @@
 import SwiftUI
 
 struct EditZoomableImage: View {
-    let uiImage: UIImage
+    @ObservedObject var editVM: EditTmpViewModel
     
-    @State private var scale: CGFloat = 1
-    @State private var lastScale: CGFloat = 1
+    @State private var scale: CGFloat = 1.0
+    @State private var lastScale: CGFloat = 1.0
     @State private var offset: CGSize = .zero
     @State private var lastOffset: CGSize = .zero
     
     var body: some View {
         GeometryReader { proxy in
-            let container = proxy.size
-            let imgAspect = uiImage.size.width / uiImage.size.height
-            let containerAspect = container.width / container.height
+            let width = proxy.size.width
+            let height = proxy.size.height
             
-            let baseSize: CGSize = {
-                if imgAspect > containerAspect {
-                    let w = container.width
-                    let h = w / imgAspect
-                    return .init(width: w, height: h)
-                } else {
-                    let h = container.height
-                    let w = h * imgAspect
-                    return .init(width: w, height: h)
-                }
-            }()
-            
-            HStack {
-                Spacer()
-                
+            if let uiImage = editVM.displayImage {
                 Image(uiImage: uiImage)
                     .resizable()
-                    .aspectRatio(contentMode: .fit)
+                    .scaledToFit()
                     .scaleEffect(scale)
                     .offset(offset)
-                    .contentShape(Rectangle()) // 제스처 히트영역
-                    .gesture(
-                        MagnificationGesture()
-                            .onChanged { value in
-                                let newScale = min(max(lastScale * value, 1), 5)
-                                if newScale < scale {
-                                    scale = newScale
-                                    offset = clampedOffset(offset,
-                                                           scale: newScale,
-                                                           base: baseSize,
-                                                           container: container)
-                                } else {
-                                    scale = newScale
-                                    offset = clampedOffset(offset,
-                                                           scale: newScale,
-                                                           base: baseSize,
-                                                           container: container)
-                                }
-                            }
-                            .onEnded { _ in
-                                withAnimation(.interactiveSpring) {
-                                    lastScale = scale
-                                    if lastScale <= 1.1 {
-                                        scale = 1
-                                        offset = .zero
-                                        lastOffset = .zero
-                                    } else {
-                                        offset = clampedOffset(offset,
-                                                               scale: scale,
-                                                               base: baseSize,
-                                                               container: container)
-                                        lastOffset = offset
-                                    }
-                                }
-                            }
-                    )
-                    .simultaneousGesture(
-                        DragGesture()
-                            .onChanged { g in
-                                guard scale > 1 else {
-                                    offset = .zero
-                                    return
-                                }
-                                let proposed = CGSize(
-                                    width: lastOffset.width + g.translation.width,
-                                    height: lastOffset.height + g.translation.height
-                                )
-                                offset = clampedOffset(proposed,
-                                                       scale: scale,
-                                                       base: baseSize,
-                                                       container: container)
-                            }
-                            .onEnded { _ in
-                                lastOffset = offset
-                            }
-                    )
-                    .cornerRadius(16)
-                
-                Spacer()
+                    .frame(width: width, height: height, alignment: .center)
+                    .gesture(magnifyGesture(proxy: proxy, aspect: uiImage.aspectRatio).simultaneously(with: dragGesture(proxy: proxy, aspect: uiImage.aspectRatio)))
+                    .clipShape(RoundedRectangle(cornerRadius: 16))
+                    .clipped()
             }
         }
     }
     
-    /// 현재 스케일에서 이동 가능한 offset 범위로 보정.
-    private func clampedOffset(_ current: CGSize,
-                               scale: CGFloat,
-                               base: CGSize,
-                               container: CGSize) -> CGSize {
-        let scaledW = base.width  * scale
-        let scaledH = base.height * scale
+    private func magnifyGesture(proxy: GeometryProxy, aspect: CGFloat) -> some Gesture {
+        MagnifyGesture()
+            .onChanged { value in
+                withAnimation(.interactiveSpring(duration: 0.3)) {
+                    scale = scaleGestureOnChanged(value.magnification)
+                }
+            }
+            .onEnded { _ in
+                withAnimation(.interactiveSpring(duration: 0.3)) {
+                    scaleGestureOnEnded(proxy: proxy, aspect: aspect)
+                }
+            }
+    }
+    
+    private func dragGesture(proxy: GeometryProxy, aspect: CGFloat) -> some Gesture {
+        return DragGesture()
+            .onChanged { value in
+                offset = offsetGestureOnChanged(value.translation, proxy: proxy, aspect: aspect)
+            }
+            .onEnded { _ in
+                offsetGestureOnEnded()
+            }
+    }
+    
+    private func scaleGestureOnChanged(_ scale: CGFloat) -> CGFloat {
+        let newScale = scale * lastScale
+        let adjustedScale = min(max(newScale, 0.9), 5)
+        return adjustedScale
+    }
+    
+    private func scaleGestureOnEnded(proxy: GeometryProxy, aspect: CGFloat) {
+        scale = max(scale, 1)
+        lastScale = scale
         
-        // 각 축에서 남는 여백의 절반(이동 허용치)
-        let maxX = max((scaledW - container.width) / 2, 0)
-        let maxY = max((scaledH - container.height) / 2, 0)
-        
-        // 이미지가 컨테이너보다 작아진 축은 중앙 고정(0)
-        let x = (maxX == 0) ? 0 : min(max(current.width,  -maxX),  maxX)
-        let y = (maxY == 0) ? 0 : min(max(current.height, -maxY),  maxY)
-        
-        return CGSize(width: x, height: y)
+        if scale == 1 {
+            offset = .zero
+            lastOffset = .zero
+        } else {
+            offset = fitOffset(offset, proxy: proxy, aspect: aspect)
+            lastOffset = offset
+        }
+    }
+    
+    private func offsetGestureOnChanged(_ offset: CGSize, proxy: GeometryProxy, aspect: CGFloat) -> CGSize {
+        guard scale > 1 else { return .zero }
+
+        return fitOffset(offset, proxy: proxy, aspect: aspect)
+    }
+    
+    private func offsetGestureOnEnded() {
+        lastOffset = offset
+    }
+    
+    private func fitOffset(_ offset: CGSize, proxy: GeometryProxy, aspect: CGFloat) -> CGSize {
+        let container = proxy.size
+        let fit: CGSize = (container.width / container.height > aspect)
+        ? .init(width: container.height * aspect, height: container.height)
+        : .init(width: container.width, height: container.width / aspect)
+
+        let sw = fit.width  * scale
+        let sh = fit.height * scale
+
+        let maxX = max(0, (sw - container.width)  / 2)
+        let maxY = max(0, (sh - container.height) / 2)
+
+        let rawX = offset.width  + lastOffset.width
+        let rawY = offset.height + lastOffset.height
+
+        let x = clamp(value: rawX, lower: -maxX, upper: maxX)
+        let y = clamp(value: rawY, lower: -maxY, upper: maxY)
+
+        return .init(width: x, height: y)
+    }
+    
+    private func clamp(value: CGFloat, lower: CGFloat, upper: CGFloat) -> CGFloat {
+        return min(max(value, lower), upper)
     }
 }

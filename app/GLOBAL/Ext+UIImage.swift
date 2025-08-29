@@ -29,6 +29,14 @@ extension UIImage {
         let height = floor(size.height * ratio)
         return resized(to: .init(width: width, height: height))
     }
+    
+    var portraitRatio: CGFloat {
+        return self.size.height / self.size.width
+    }
+    
+    var aspectRatio: CGFloat {
+        return self.size.width / self.size.height
+    }
 }
 
 

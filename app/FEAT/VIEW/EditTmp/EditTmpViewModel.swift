@@ -10,6 +10,7 @@ extension EditTmpViewModel: ViewModelType {
         var selectedTap: ToolType? = nil
         
         var isAIAnalyzing: Bool = false
+        var isFirstAI: Bool = true
         
         var toolHeight: CGFloat = 60
         var toolMinHeight: CGFloat = 60
@@ -216,6 +217,11 @@ final class EditTmpViewModel: toVM<EditTmpViewModel> {
                 state.filter.grainAlpha = res.alpha
                 state.filter.grainScale = res.scale
                 state.isAIAnalyzing = false
+                
+                if state.isFirstAI {
+                    state.isAIAnalyzing = false
+                }
+                
                 let filter = state.filter
                 
                 Task.detached(priority: .userInitiated) { [weak self] in

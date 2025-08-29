@@ -6,19 +6,14 @@ struct EditTmpView: View {
     @ObservedObject var editVM: EditTmpViewModel
     
     var body: some View {
-        VStack(spacing: 0) {
-            if let uiImage = editVM.displayImage {
-                EditNavigation(editVM: editVM)
-                
-                Spacer()
-                
-                EditZoomableImage(uiImage: uiImage)
-                
-                Spacer()
-                
-                EditTmpAIButton(editVM: editVM)
-            }
+        VStack {
+            EditNavigation(editVM: editVM)
+            EditZoomableImage(editVM: editVM)
+            Spacer()
+            EditTmpAIButton(editVM: editVM)
+            EditTool(editVM: editVM)
         }
+        .animation(.bouncy, value: editVM.isFirstAI)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color.bg)
         .onAppear {
