@@ -8,6 +8,7 @@ struct EditTmpView: View {
     var body: some View {
         VStack {
             EditNavigation(editVM: editVM)
+                .padding(.bottom, 8)
             EditZoomableImage(editVM: editVM)
             TmpView(editVM: editVM)
         }
@@ -24,8 +25,11 @@ struct TmpView: View {
     
     var body: some View {
         VStack(alignment: .center) {
-            aiButtonStack
-            Tool(editVM: editVM)
+            if editVM.isSwipe {
+                Tool(editVM: editVM)
+            } else {
+                SwipeHandler(editVM: editVM)
+            }
         }
         .ignoresSafeArea()
     }
@@ -38,6 +42,31 @@ struct TmpView: View {
     }
 }
 
+struct SwipeHandler: View {
+    @ObservedObject var editVM: EditTmpViewModel
+    
+    var body: some View {
+        VStack(alignment: .center, spacing: 12) {
+            text
+            handler
+        }
+        .padding(.top, 16)
+        .padding(.bottom, 60)
+    }
+    
+    private var text: some View {
+        Text("Swipe to edit")
+            .font(Poppin.medium.font(size: 12))
+            .foregroundStyle(Color.textGray)
+    }
+    
+    private var handler: some View {
+        RoundedRectangle(cornerRadius: 3)
+            .fill(Color.mainWhite)
+            .frame(width: 36, height: 6)
+    }
+}
+
 struct Tool: View {
     @ObservedObject var editVM: EditTmpViewModel
     
@@ -47,7 +76,6 @@ struct Tool: View {
             ToolTap(editVM: editVM)
         }
         .background(.thinMaterial.opacity(editVM.tapOpacity))
-        .animation(.default, value: editVM.isEditing)
         .animation(.smooth, value: editVM.tapOpacity)
     }
 }

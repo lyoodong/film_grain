@@ -11,7 +11,7 @@ extension EditTmpViewModel: ViewModelType {
         
         var isAIAnalyzing: Bool = false
         var hadAIbuttonTextAnimated: Bool = false
-        var isEditing = false
+        var isSwipe = false
         
         var toolHeight: CGFloat = 60
         var toolMaxHeight: CGFloat = 200
