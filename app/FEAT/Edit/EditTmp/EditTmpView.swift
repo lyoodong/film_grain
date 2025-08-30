@@ -8,12 +8,13 @@ struct EditTmpView: View {
     var body: some View {
         VStack {
             EditNavigation(editVM: editVM)
-            EditZoomableImage(editVM: editVM)
-            Spacer()
-            EditTmpAIButton(editVM: editVM)
-            EditTool(editVM: editVM)
+            
+            ZStack(alignment: .bottomTrailing) {
+                EditZoomableImage(editVM: editVM)
+                EditTmpAIButton(editVM: editVM)
+                    .padding(16)
+            }
         }
-        .animation(.bouncy, value: editVM.isFirstAI)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color.mainBackground)
         .onAppear {

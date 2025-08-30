@@ -10,7 +10,7 @@ extension EditTmpViewModel: ViewModelType {
         var selectedTap: ToolType? = nil
         
         var isAIAnalyzing: Bool = false
-        var isFirstAI: Bool = true
+        var hadAIbuttonTextAnimated: Bool = false
         
         var toolHeight: CGFloat = 60
         var toolMinHeight: CGFloat = 60
@@ -32,6 +32,7 @@ extension EditTmpViewModel: ViewModelType {
     enum Action {
         //View LifeCycle
         case onAppear
+        case onTextAnimationEnded
         
         //load Image
         case dataLoaded(Data)
@@ -71,6 +72,14 @@ final class EditTmpViewModel: toVM<EditTmpViewModel> {
             state.displayImage = state.image
             state.filter.grainCI = state.filter.createGrainFilter(size: state.image.size)
             state.filter.baseCI = CIImage(image: state.image)
+            
+            Task {
+                try? await Task.sleep(for: .seconds(1.2))
+                effect(.onTextAnimationEnded)
+            }
+            
+        case .onTextAnimationEnded:
+            state.hadAIbuttonTextAnimated = true
             
         case .dataLoaded(let data):
             print("dataLoaded")
@@ -149,6 +158,7 @@ final class EditTmpViewModel: toVM<EditTmpViewModel> {
                 let iamge = filter.refresh()
                 effect(.filteredImageLoaded(iamge))
             }
+            
         case .thresholdChanged(let value):
             state.filter.threshold = value
             
@@ -158,6 +168,7 @@ final class EditTmpViewModel: toVM<EditTmpViewModel> {
                 let iamge = filter.refresh()
                 effect(.filteredImageLoaded(iamge))
             }
+            
         case .brightColorAlphaChanged(let value):
             state.filter.brightAlpha = value
             
@@ -218,12 +229,7 @@ final class EditTmpViewModel: toVM<EditTmpViewModel> {
                 state.filter.grainScale = res.scale
                 state.isAIAnalyzing = false
                 
-                if state.isFirstAI {
-                    state.isAIAnalyzing = false
-                }
-                
                 let filter = state.filter
-                
                 Task.detached(priority: .userInitiated) { [weak self] in
                     guard let self else { return }
                     let iamge = filter.refresh()

@@ -72,7 +72,7 @@ struct EditZoomableImage: View {
     
     private func offsetGestureOnChanged(_ offset: CGSize, proxy: GeometryProxy, aspect: CGFloat) -> CGSize {
         guard scale > 1 else { return .zero }
-
+        
         return fitOffset(offset, proxy: proxy, aspect: aspect)
     }
     
@@ -85,19 +85,19 @@ struct EditZoomableImage: View {
         let fit: CGSize = (container.width / container.height > aspect)
         ? .init(width: container.height * aspect, height: container.height)
         : .init(width: container.width, height: container.width / aspect)
-
+        
         let sw = fit.width  * scale
         let sh = fit.height * scale
-
+        
         let maxX = max(0, (sw - container.width)  / 2)
         let maxY = max(0, (sh - container.height) / 2)
-
+        
         let rawX = offset.width  + lastOffset.width
         let rawY = offset.height + lastOffset.height
-
+        
         let x = clamp(value: rawX, lower: -maxX, upper: maxX)
         let y = clamp(value: rawY, lower: -maxY, upper: maxY)
-
+        
         return .init(width: x, height: y)
     }
     

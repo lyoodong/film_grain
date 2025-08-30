@@ -2,35 +2,48 @@ import SwiftUI
 
 struct EditTmpAIButton: View {
     @ObservedObject var editVM: EditTmpViewModel
-    @State private var spin = false
     
     var body: some View {
         Button {
             editVM.send(.aiButtonTapped)
         } label: {
             ZStack(alignment: .center) {
-                Capsule()
-                    .fill(Color.mainBlack)
-                    .frame(width: editVM.isAIAnalyzing ? 50 : 180, height: 50)
+                background
                 
-                HStack {
-                    if !editVM.isAIAnalyzing {
-                        Text("AI Generate")
-                            .font(Poppin.medium.font(size: 16))
-                    } else {
-                        Image(systemName: "apple.intelligence")
-                            .rotationEffect(.degrees(spin ? 360 : 0))
-                            .animation(.linear(duration: 1.2).repeatForever(autoreverses: false), value: spin)
-                            .font(Poppin.medium.font(size: 16))
-                            .foregroundColor(.white)
-                            .onAppear { spin = true }
-                            .onDisappear { spin = false }
-                    }
-                }
+                if editVM.hadAIbuttonTextAnimated { icon }
+                else { text }
             }
         }
+        .animation(.easeInOut, value: editVM.hadAIbuttonTextAnimated)
         .buttonStyle(PressScaleButtonStyle())
-        .animation(.easeInOut, value: editVM.isAIAnalyzing)
+    }
+    
+    private var background: some View {
+        Capsule()
+            .fill(.ultraThinMaterial)
+            .frame(width: editVM.hadAIbuttonTextAnimated ? 40: 180 , height: 40)
+    }
+    
+    private var icon: some View {
+        Image(systemName: "apple.intelligence")
+            .font(Poppin.medium.font(size: 16))
+            .foregroundColor(.white)
+            .rotationEffect(.degrees(editVM.isAIAnalyzing ? 360.0 : 0.0))
+            .animation(editVM.isAIAnalyzing ? foreverAnimation : stopAnimation, value:  editVM.isAIAnalyzing)
+    }
+    
+    private var foreverAnimation: Animation {
+        .linear(duration: 1.0)
+        .repeatForever(autoreverses: false)
+    }
+    
+    private var stopAnimation: Animation {
+        .linear(duration: 0)
+    }
+
+    private var text: some View {
+        Text("AI Generate")
+            .font(Poppin.medium.font(size: 16))
     }
 }
 
