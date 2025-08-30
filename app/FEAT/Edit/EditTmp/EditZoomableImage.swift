@@ -20,11 +20,24 @@ struct EditZoomableImage: View {
                     .scaleEffect(scale)
                     .offset(offset)
                     .frame(width: width, height: height, alignment: .center)
-                    .gesture(magnifyGesture(proxy: proxy, aspect: uiImage.aspectRatio).simultaneously(with: dragGesture(proxy: proxy, aspect: uiImage.aspectRatio)))
+                    .contentShape(Rectangle())
                     .clipShape(RoundedRectangle(cornerRadius: 16))
                     .clipped()
+                    .gesture(dragAndScaleGesture(proxy: proxy, uiImage: uiImage))
             }
         }
+    }
+    
+    private func dragAndScaleGesture(proxy: GeometryProxy, uiImage: UIImage) ->  some Gesture {
+        return magnifyGesture(
+            proxy: proxy,
+            aspect: uiImage.aspectRatio
+        ).simultaneously(
+            with: dragGesture(
+                proxy: proxy,
+                aspect: uiImage.aspectRatio
+            )
+        )
     }
     
     private func magnifyGesture(proxy: GeometryProxy, aspect: CGFloat) -> some Gesture {

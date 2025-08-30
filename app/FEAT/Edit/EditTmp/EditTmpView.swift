@@ -8,7 +8,6 @@ struct EditTmpView: View {
     var body: some View {
         VStack {
             EditNavigation(editVM: editVM)
-                .padding(.bottom, 8)
             EditZoomableImage(editVM: editVM)
             TmpView(editVM: editVM)
         }
