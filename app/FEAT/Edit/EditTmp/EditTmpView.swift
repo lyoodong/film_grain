@@ -8,17 +8,30 @@ struct EditTmpView: View {
     var body: some View {
         VStack {
             EditNavigation(editVM: editVM)
-            
-            ZStack(alignment: .bottomTrailing) {
-                EditZoomableImage(editVM: editVM)
-                EditTmpAIButton(editVM: editVM)
-                    .padding(16)
-            }
+            EditZoomableImage(editVM: editVM)
+            TmpView(editVM: editVM)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color.mainBackground)
         .onAppear {
             editVM.send(.onAppear)
+        }
+    }
+}
+
+struct TmpView: View {
+    @ObservedObject var editVM: EditTmpViewModel
+    
+    var body: some View {
+        ZStack(alignment: .center) {
+            aiButtonStack
+        }
+    }
+    
+    private var aiButtonStack: some View {
+        HStack {
+            Spacer()
+            EditTmpAIButton(editVM: editVM)
         }
     }
 }
