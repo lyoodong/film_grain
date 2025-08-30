@@ -40,15 +40,16 @@ struct UploadStatus: View {
 
 struct UploadButton: View {
     var body: some View {
-        RoundedRectangle(cornerRadius: 16)
-            .fill(Color.mainBlack)
-            .frame(width: 100, height: 40)
-            .overlay(
-                Image(systemName: "square.and.arrow.down.on.square")
-                    .font(Poppin.medium.font(size: 16))
-                    .foregroundColor(.white)
-            )
-            .transition(.scale.combined(with: .opacity))
+        VStack(spacing: 8) {
+            Image(systemName: "square.and.arrow.down.on.square")
+                .font(Poppin.medium.font(size: 30))
+                .foregroundColor(.mainWhite)
+                .transition(.scale.combined(with: .opacity))
+            
+            Text("Choose an image to get started")
+                .font(Poppin.medium.font(size: 12))
+                .foregroundColor(.textGray)
+        }
     }
 }
 
@@ -59,11 +60,11 @@ struct UploadLoading: View {
     
     var body: some View {
         ZStack {
-            Circle().stroke(Color.mainBlack.opacity(0.18), lineWidth: line)
+            Circle().stroke(Color.pointRed.opacity(0.18), lineWidth: line)
             
             Circle()
                 .trim(from: 0.0, to: 0.6)
-                .stroke(Color.mainBlack, style: .init(lineWidth: line, lineCap: .round))
+                .stroke(Color.pointRed, style: .init(lineWidth: line, lineCap: .round))
                 .rotationEffect(.degrees(spin ? 360 : 0))
                 .animation(.linear(duration: 1.2).repeatForever(autoreverses: false), value: spin)
                 .onAppear { spin = true }
@@ -82,17 +83,17 @@ struct UploadComplete: View {
     var body: some View {
         ZStack {
             Circle()
-                .fill(Color.mainBlack)
+                .fill(Color.pointRed)
                 .overlay(
                     Image(systemName: "checkmark")
                         .font(.system(size: 22, weight: .bold))
-                        .foregroundColor(.white)
+                        .foregroundColor(.mainWhite)
                 )
                 .scaleEffect(successRipple ? 1.0 : 0.85)
                 .animation(.spring(response: 0.3, dampingFraction: 0.8), value: successRipple)
             
             Circle()
-                .stroke(Color.mainBlack.opacity(0.4), lineWidth: line)
+                .stroke(Color.pointRed.opacity(0.4), lineWidth: line)
                 .scaleEffect(successRipple ? 1.28 : 1.0)
                 .opacity(successRipple ? 0.0 : 1.0)
                 .animation(.easeOut(duration: 0.8), value: successRipple)
@@ -101,7 +102,6 @@ struct UploadComplete: View {
         .onAppear { successRipple = true }
         .onDisappear { successRipple = false }
         .transition(.scale.combined(with: .opacity))
-        
     }
 }
 

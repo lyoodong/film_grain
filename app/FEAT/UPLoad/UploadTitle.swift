@@ -6,14 +6,9 @@ struct UploadTitle: View {
     var body: some View {
         HStack {
             VStack(alignment: .leading, spacing: 0) {
-                Text(uploadVM.loadingStatus != .none ? "" : "Select Your")
-                    .font(Poppin.bold.font(size: 36))
-                    .foregroundStyle(Color.mainGray)
-                
-                
-                Text(uploadVM.loadingStatus != .none ? "" : "Photo")
-                    .font(Poppin.bold.font(size: 40))
-                    .foregroundStyle(Color.mainBlack)
+                Text(uploadVM.loadingStatus != .none ? "" : "Select Your\nPhoto")
+                    .font(Poppin.semiBold.font(size: 36))
+                    .foregroundStyle(Color.mainWhite)
             }
             
             Spacer()

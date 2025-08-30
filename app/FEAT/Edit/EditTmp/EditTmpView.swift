@@ -12,7 +12,7 @@ struct EditTmpView: View {
             TmpView(editVM: editVM)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color.mainBackground)
+        .background(Color.mainBlack)
         .onAppear {
             editVM.send(.onAppear)
         }

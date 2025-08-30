@@ -12,7 +12,7 @@ struct EditNavigation: View {
                 dismiss()
             } label: {
                 ZStack {
-                    Circle().fill(.ultraThinMaterial)
+                    Circle().fill(Color.mainGray)
                     
                     Image(systemName: "xmark")
                         .font(Poppin.medium.font(size: 16))
@@ -29,7 +29,7 @@ struct EditNavigation: View {
             } label: {
                 ZStack {
                     Capsule()
-                        .fill(.thinMaterial)
+                        .fill(Color.mainGray)
                     
                     Image(systemName: "square.and.arrow.up")
                         .font(Poppin.medium.font(size: 16))

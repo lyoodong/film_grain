@@ -2,8 +2,13 @@ import SwiftUI
 
 extension Color {
     static var mainGray: Self = .init(hex: "8D8D8D")
-    static var mainBlack: Self = .init(hex: "0F0F0F")
-    static var mainBackground: Self = .init(hex: "D9D9D9")
+    static var mainWhite: Self = .init(hex: "F3F5F7")
+    static var mainBlack: Self = .init(hex: "101010")
+    
+    static var sheetGray: Self = .init(hex: "181818")
+    static var textGray: Self = .init(hex: "777777")
+    
+    static var pointRed: Self = .init(hex: "FF4A17")
     
     init(hex: String) {
         var hex = hex.trimmingCharacters(in: .whitespacesAndNewlines)
