@@ -14,8 +14,7 @@ extension EditTmpViewModel: ViewModelType {
         var isEditing = false
         
         var toolHeight: CGFloat = 60
-        var toolMinHeight: CGFloat = 60
-        var toolMaxHeight: CGFloat = 60
+        var toolMaxHeight: CGFloat = 200
         var tapOpacity: Double = 0
     
         var isDraging = false
@@ -94,7 +93,6 @@ final class EditTmpViewModel: toVM<EditTmpViewModel> {
 
         case .tapSelected(let type):
             if let type = type {
-                state.toolMaxHeight = type.maxViewHeight
                 state.toolHeight = state.toolMaxHeight
                 state.selectedTap = type
                 state.tapOpacity = 1
@@ -103,7 +101,6 @@ final class EditTmpViewModel: toVM<EditTmpViewModel> {
         case .dragToolOnChanged(let moved):
             state.isDraging = true
             let movedHeight = state.toolHeight - moved
-            state.toolHeight = clamp(movedHeight, min: state.toolMinHeight, max: state.toolMaxHeight)
             
             
         case .dragToolOnEnded(let moved):
@@ -114,8 +111,6 @@ final class EditTmpViewModel: toVM<EditTmpViewModel> {
                 state.toolHeight = state.toolMaxHeight
                 state.tapOpacity = 1
             } else {
-                state.toolHeight = state.toolMinHeight
-                state.toolMaxHeight = state.toolMinHeight
                 state.selectedTap = nil
                 state.tapOpacity = 0
             }
@@ -279,10 +274,6 @@ final class EditTmpViewModel: toVM<EditTmpViewModel> {
                 continuation.resume(returning: data)
             }
         }
-    }
-    
-    private func clamp(_ x: CGFloat, min: CGFloat, max: CGFloat) -> CGFloat {
-        Swift.min(Swift.max(x, min), max)
     }
     
     private func predictPreset(for uiImage: UIImage) -> (alpha: Double, scale: Double, contrast: Double)? {

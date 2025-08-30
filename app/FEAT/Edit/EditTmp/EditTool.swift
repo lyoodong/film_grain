@@ -26,9 +26,10 @@ enum ToolType: String, Hashable, CaseIterable {
     
     var maxViewHeight: CGFloat {
         switch self {
-        case .grain: 400
-        case .color: 300
+        case .grain: 200
+        case .color: 200
         case .adjust: 200
+            
         }
     }
 }
@@ -45,34 +46,6 @@ struct EditTool: View {
     }
 }
 
-
-struct ToolButtonStack: View {
-    @ObservedObject var editVM: EditTmpViewModel
-    
-    var body: some View {
-        HStack(alignment: .center) {
-            ToolButton(type: .grain, editVM: editVM)
-            ToolButton(type: .color, editVM: editVM)
-            ToolButton(type: .adjust, editVM: editVM)
-        }
-        .background(.thinMaterial.opacity(editVM.tapOpacity))
-        .highPriorityGesture(dragGesture)
-    }
-    
-    private var dragGesture: some Gesture {
-        DragGesture(minimumDistance: 10)
-            .onChanged{ editVM.send(.dragToolOnChanged($0.translation.height)) }
-            .onEnded { value in
-                withAnimation(.interactiveSpring(
-                    response: 0.2,
-                    dampingFraction: 0.7,
-                    blendDuration: 0.3
-                )) {
-                    editVM.send(.dragToolOnEnded(value.translation.height))
-                }
-            }
-    }
-}
 
 struct ToolButton: View {
     let type: ToolType
@@ -97,22 +70,5 @@ struct ToolButton: View {
         }
         .frame(height: 60)
         .foregroundColor(editVM.state.toolButtonTextColor(type))
-    }
-}
-
-struct ToolTap: View {
-    @ObservedObject var editVM: EditTmpViewModel
-    
-    var body: some View {
-        if let tap = editVM.selectedTap {
-            switch tap {
-            case .grain:
-                EditTmpGrain(editVM: editVM)
-            case .color:
-                EditColor(editVM: editVM)
-            case .adjust:
-                EditAdjust(editVM: editVM)
-            }
-        }
     }
 }
