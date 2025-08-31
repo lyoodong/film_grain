@@ -20,7 +20,7 @@ extension EditTmpViewModel: ViewModelType {
         var isDraging = false
         
         func toolButtonTextColor(_ type: ToolType) -> Color {
-            return type == selectedTap ? .red : .white
+            return type == selectedTap ? .mainWhite : .sheeTextGray
         }
         
         var filter: Filter = .init()

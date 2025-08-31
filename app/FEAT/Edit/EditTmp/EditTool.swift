@@ -17,7 +17,7 @@ enum ToolType: String, Hashable, CaseIterable {
     }
     
     var title: String {
-        rawValue.capitalized
+        rawValue.uppercased()
     }
     
     var index: Int {

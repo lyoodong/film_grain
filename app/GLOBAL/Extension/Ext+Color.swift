@@ -7,6 +7,7 @@ extension Color {
     
     static var sheetGray: Self = .init(hex: "181818")
     static var textGray: Self = .init(hex: "777777")
+    static var sheeTextGray: Self = .init(hex: "616161")
     
     static var pointRed: Self = .init(hex: "FF4A17")
     
