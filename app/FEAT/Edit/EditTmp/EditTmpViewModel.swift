@@ -93,9 +93,7 @@ final class EditTmpViewModel: toVM<EditTmpViewModel> {
 
         case .tapSelected(let type):
             if let type = type {
-                state.toolHeight = state.toolMaxHeight
                 state.selectedTap = type
-                state.tapOpacity = 1
             }
             
         case .dragToolOnChanged(let moved):

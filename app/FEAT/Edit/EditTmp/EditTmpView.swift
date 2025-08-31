@@ -9,6 +9,7 @@ struct EditTmpView: View {
         VStack {
             EditNavigation(editVM: editVM)
             EditZoomableImage(editVM: editVM)
+            Spacer(minLength: 32)
             TmpView(editVM: editVM)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -30,7 +31,12 @@ struct TmpView: View {
     }
     
     private var background: some View {
-        Color.sheetGray
+        var color: Color
+        
+        if let _ = editVM.selectedTap { color = .sheetGray }
+        else { color = .clear }
+        
+        return color
             .clipShape(unevenRadius)
             .ignoresSafeArea()
     }
@@ -46,12 +52,35 @@ struct Tool: View {
     
     var body: some View {
         VStack(alignment: .center) {
-            ToolHandler()
-                .padding(.top, 12)
-                .padding(.bottom, 8)
+            VStack {
+                if let _ = editVM.selectedTap  {
+                    ToolHandler()
+                        .padding(.top, 12)
+                        .padding(.bottom, 8)
+                }
+                
+                ToolButtonStack(editVM: editVM)
+            }
+            .highPriorityGesture(dragGesture)
             
-            ToolButtonStack(editVM: editVM)
+            if let _ = editVM.selectedTap  {
+                ToolTap(editVM: editVM)
+            }
         }
+    }
+    
+    private var dragGesture: some Gesture {
+        DragGesture(minimumDistance: 5)
+            .onChanged(handleDragGestureOnChnaged)
+            .onEnded(handleDragGestureOnEnded)
+    }
+    
+    private func handleDragGestureOnChnaged(_ value: DragGesture.Value) {
+        editVM.send(.dragToolOnChanged(value.translation.height))
+    }
+    
+    private func handleDragGestureOnEnded(_ value: DragGesture.Value) {
+        editVM.send(.dragToolOnEnded(value.translation.height))
     }
 }
 
@@ -72,21 +101,6 @@ struct ToolButtonStack: View {
             ToolButton(type: .color, editVM: editVM)
             ToolButton(type: .adjust, editVM: editVM)
         }
-        .highPriorityGesture(dragGesture)
-    }
-    
-    private var dragGesture: some Gesture {
-        DragGesture(minimumDistance: 5)
-            .onChanged(handleDragGestureOnChnaged)
-            .onEnded(handleDragGestureOnEnded)
-    }
-    
-    private func handleDragGestureOnChnaged(_ value: DragGesture.Value) {
-        editVM.send(.dragToolOnChanged(value.translation.height))
-    }
-    
-    private func handleDragGestureOnEnded(_ value: DragGesture.Value) {
-        editVM.send(.dragToolOnEnded(value.translation.height))
     }
 }
 
@@ -100,7 +114,6 @@ struct ToolTap: View {
                 EditTmpGrain(editVM: editVM)
             case .color:
                 EditColor(editVM: editVM)
-                EditTmpGrain(editVM: editVM)
             case .adjust:
                 EditAdjust(editVM: editVM)
             }
