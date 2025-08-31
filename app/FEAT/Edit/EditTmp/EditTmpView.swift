@@ -82,7 +82,7 @@ struct Tool: View {
     }
     
     private var dragGesture: some Gesture {
-        DragGesture(minimumDistance: 5)
+        DragGesture(minimumDistance: 5, coordinateSpace: .global)
             .onChanged(handleDragGestureOnChnaged)
             .onEnded(handleDragGestureOnEnded)
     }
