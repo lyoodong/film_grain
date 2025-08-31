@@ -99,15 +99,10 @@ final class EditTmpViewModel: toVM<EditTmpViewModel> {
             state.movedEditSheetHeight = height
             
         case .dragToolOnChanged(let moved):
-            if moved > 60 {
-                state.selectedTap = nil
-            }
+            state.movedEditSheetHeight = max(0, state.initialEditSheetHeight - moved)
             
-            
-        case .dragToolOnEnded(let moved):
-            if moved > 60 {
-                state.selectedTap = nil
-            }
+        case .dragToolOnEnded(_):
+            state.initialEditSheetHeight = state.movedEditSheetHeight
             
         case .grainAlphaChanged(let value):
             state.filter.grainAlpha = value
