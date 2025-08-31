@@ -67,6 +67,7 @@ struct Tool: View {
                 ToolTap(editVM: editVM)
             }
         }
+        .animation(.interactiveSpring, value: editVM.selectedTap)
     }
     
     private var dragGesture: some Gesture {

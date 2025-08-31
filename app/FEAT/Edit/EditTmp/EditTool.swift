@@ -42,7 +42,6 @@ struct EditTool: View {
             ToolButtonStack(editVM: editVM)
             ToolTap(editVM: editVM)
         }
-        .frame(height: editVM.toolHeight)
     }
 }
 

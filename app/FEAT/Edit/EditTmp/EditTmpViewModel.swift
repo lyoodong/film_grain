@@ -11,13 +11,6 @@ extension EditTmpViewModel: ViewModelType {
         
         var isAIAnalyzing: Bool = false
         var hadAIbuttonTextAnimated: Bool = false
-        var isSwipe = false
-        
-        var toolHeight: CGFloat = 60
-        var toolMaxHeight: CGFloat = 200
-        var tapOpacity: Double = 0
-    
-        var isDraging = false
         
         func toolButtonTextColor(_ type: ToolType) -> Color {
             return type == selectedTap ? .mainWhite : .sheeTextGray
@@ -97,20 +90,14 @@ final class EditTmpViewModel: toVM<EditTmpViewModel> {
             }
             
         case .dragToolOnChanged(let moved):
-            state.isDraging = true
-            let movedHeight = state.toolHeight - moved
+            if moved > 60 {
+                state.selectedTap = nil
+            }
             
             
         case .dragToolOnEnded(let moved):
-            state.isDraging = false
-            let movedHeight = state.toolHeight - moved
-
-            if movedHeight > state.toolHeight {
-                state.toolHeight = state.toolMaxHeight
-                state.tapOpacity = 1
-            } else {
+            if moved > 60 {
                 state.selectedTap = nil
-                state.tapOpacity = 0
             }
             
         case .grainAlphaChanged(let value):
