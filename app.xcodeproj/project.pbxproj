@@ -33,7 +33,6 @@
 		BE7CE2D52E6033F30083D39F /* Poppin.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE7CE2D42E6033F30083D39F /* Poppin.swift */; };
 		BE7CE2D72E6034940083D39F /* UploadTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE7CE2D62E6034940083D39F /* UploadTitle.swift */; };
 		BE7CE2F52E6097960083D39F /* UploadViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE7CE2F42E6097960083D39F /* UploadViewModel.swift */; };
-		BE7CE3002E61C30E0083D39F /* EditTmpAIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE7CE2FF2E61C30E0083D39F /* EditTmpAIButton.swift */; };
 		BE7CE3082E61F1980083D39F /* Ext+Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE7CE3022E61F1980083D39F /* Ext+Color.swift */; };
 		BE7CE3092E61F1980083D39F /* Ext+PhotosPickerItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE7CE3032E61F1980083D39F /* Ext+PhotosPickerItem.swift */; };
 		BE7CE30A2E61F1980083D39F /* Ext+UIApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE7CE3042E61F1980083D39F /* Ext+UIApplication.swift */; };
@@ -117,7 +116,6 @@
 		BE7CE2D42E6033F30083D39F /* Poppin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Poppin.swift; sourceTree = "<group>"; };
 		BE7CE2D62E6034940083D39F /* UploadTitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadTitle.swift; sourceTree = "<group>"; };
 		BE7CE2F42E6097960083D39F /* UploadViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadViewModel.swift; sourceTree = "<group>"; };
-		BE7CE2FF2E61C30E0083D39F /* EditTmpAIButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTmpAIButton.swift; sourceTree = "<group>"; };
 		BE7CE3022E61F1980083D39F /* Ext+Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ext+Color.swift"; sourceTree = "<group>"; };
 		BE7CE3032E61F1980083D39F /* Ext+PhotosPickerItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ext+PhotosPickerItem.swift"; sourceTree = "<group>"; };
 		BE7CE3042E61F1980083D39F /* Ext+UIApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ext+UIApplication.swift"; sourceTree = "<group>"; };
@@ -190,7 +188,6 @@
 				BE562A962E5C1DE400CF1EE9 /* EditTmpView.swift */,
 				BE102E322E5FFF25005468DA /* EditNavigation.swift */,
 				BE55FAF92E5C4D6500A32CDC /* EditZoomableImage.swift */,
-				BE7CE2FF2E61C30E0083D39F /* EditTmpAIButton.swift */,
 				BE55FAFB2E5C500D00A32CDC /* EditTool.swift */,
 				BED4C4EF2E5EFA8D00D276BC /* EditTmpSlider.swift */,
 				BED4C4E92E5EF40D00D276BC /* EditTmpGrain.swift */,
@@ -566,7 +563,6 @@
 				BEBECA6F2E431D6B00F65D26 /* GrainAlphaRegressor.mlmodel in Sources */,
 				BE7CE3132E61F1BD0083D39F /* Filter.swift in Sources */,
 				BE8893D62E56F8720092BF41 /* EditAiButton.swift in Sources */,
-				BE7CE3002E61C30E0083D39F /* EditTmpAIButton.swift in Sources */,
 				BE8893D72E56F8720092BF41 /* EditColorGrading.swift in Sources */,
 				BE8893E52E56F9040092BF41 /* UploadView.swift in Sources */,
 				BE8893D82E56F8720092BF41 /* EditContrast.swift in Sources */,
