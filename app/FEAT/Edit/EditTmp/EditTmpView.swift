@@ -72,11 +72,14 @@ struct Tool: View {
     }
     
     private var background: some View {
-        GeometryReader { geo in
+        GeometryReader { proxy in
             Color.clear
                 .onAppear {
-                    let height = geo.size.height
+                    let height = proxy.size.height
                     editVM.send(.initialEditSheetHeightChnaged(height))
+                }
+                .onChange(of: proxy.size) { _, size in
+                    editVM.send(.initialEditSheetHeightChnaged(size.height))
                 }
         }
     }

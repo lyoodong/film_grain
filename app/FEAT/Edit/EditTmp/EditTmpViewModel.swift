@@ -103,6 +103,7 @@ final class EditTmpViewModel: toVM<EditTmpViewModel> {
             }
             
         case .initialEditSheetHeightChnaged(let height):
+            print("initialEditSheetHeightChnaged", height)
             state.initialEditSheetHeight = height
             state.lastEditSheetHeight = height
             state.movingEditSheetHeight = height
@@ -110,23 +111,27 @@ final class EditTmpViewModel: toVM<EditTmpViewModel> {
         case .dragToolOnChanged(let moved):
             // moved는 드래그 시작 지점에서 부터 값.
             // 절대 좌표 아니다.
+            // 누적량
  
-//            if moved > state.initialEditSheetHeight / 3 {
-//                state.tapOpacity = 0.0
-//            } else {
-//                state.tapOpacity = 1 *  ((state.initialEditSheetHeight / 3) - moved) / (state.initialEditSheetHeight / 3)
-//            }
+            let threshold = state.dragThreshold
+            
+            if moved > threshold {
+                state.tapOpacity = 0.0
+            } else {
+                state.tapOpacity = 1 *  (threshold - moved) / (threshold)
+            }
             
             state.movingEditSheetHeight = min(max(0, state.lastEditSheetHeight - moved), state.initialEditSheetHeight)
             
         case .dragToolOnEnded(let moved):
-//            guard moved > 0 else { return }
+            let threshold = state.dragThreshold
             
-//            if moved > state.initialEditSheetHeight / 3 {
-//                state.selectedTap = nil
-//            }
-            
-            state.lastEditSheetHeight = state.movingEditSheetHeight
+            if moved > threshold {
+                state.selectedTap = nil
+            } else {
+                state.movingEditSheetHeight = state.initialEditSheetHeight
+                state.lastEditSheetHeight = state.movingEditSheetHeight
+            }
             
         case .grainAlphaChanged(let value):
             state.filter.grainAlpha = value
