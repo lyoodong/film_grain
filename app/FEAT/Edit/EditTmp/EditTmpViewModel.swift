@@ -18,6 +18,7 @@ extension EditTmpViewModel: ViewModelType {
         
         var initialEditSheetHeight: CGFloat = 0.0
         var movedEditSheetHeight: CGFloat = 0.0
+        var tapOpacity: Double = 0
         
         var filter: Filter = .init()
         var colorGradingItems = ColorGradingItems.preset()
@@ -92,6 +93,7 @@ final class EditTmpViewModel: toVM<EditTmpViewModel> {
         case .tapSelected(let type):
             if let type = type {
                 state.selectedTap = type
+                state.tapOpacity = 1
             }
             
         case .initialEditSheetHeightChnaged(let height):
@@ -99,9 +101,25 @@ final class EditTmpViewModel: toVM<EditTmpViewModel> {
             state.movedEditSheetHeight = height
             
         case .dragToolOnChanged(let moved):
+            // 0이하의 값 즉, 최대 높이 이상으로 올리는 것은 원천 차단
+            guard moved > 0 else { return }
+            
+            if moved > state.initialEditSheetHeight / 3 {
+                state.tapOpacity = 0.0
+            } else {
+//                print("(state.initialEditSheetHeight / 3) / moved", (state.initialEditSheetHeight / 3) / moved)
+                state.tapOpacity = 1 *  ((state.initialEditSheetHeight / 3) - moved) / (state.initialEditSheetHeight / 3)
+            }
+            
             state.movedEditSheetHeight = max(0, state.initialEditSheetHeight - moved)
             
-        case .dragToolOnEnded(_):
+        case .dragToolOnEnded(let moved):
+            guard moved > 0 else { return }
+            
+            if moved > state.initialEditSheetHeight / 3 {
+                state.selectedTap = nil
+            }
+            
             state.initialEditSheetHeight = state.movedEditSheetHeight
             
         case .grainAlphaChanged(let value):

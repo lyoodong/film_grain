@@ -69,7 +69,6 @@ struct Tool: View {
                     .frame(height: editVM.movedEditSheetHeight)
             }
         }
-        .animation(.interactiveSpring, value: editVM.selectedTap)
     }
     
     private var background: some View {
@@ -121,15 +120,18 @@ struct ToolTap: View {
     @ObservedObject var editVM: EditTmpViewModel
     
     var body: some View {
-        if let tap = editVM.selectedTap {
-            switch tap {
-            case .grain:
-                EditTmpGrain(editVM: editVM)
-            case .color:
-                EditColor(editVM: editVM)
-            case .adjust:
-                EditAdjust(editVM: editVM)
+        VStack {
+            if let tap = editVM.selectedTap {
+                switch tap {
+                case .grain:
+                    EditTmpGrain(editVM: editVM)
+                case .color:
+                    EditColor(editVM: editVM)
+                case .adjust:
+                    EditAdjust(editVM: editVM)
+                }
             }
         }
+        .opacity(editVM.tapOpacity)
     }
 }
