@@ -16,6 +16,9 @@ extension EditTmpViewModel: ViewModelType {
             return type == selectedTap ? .mainWhite : .sheeTextGray
         }
         
+        var initialEditSheetHeight: CGFloat = 0.0
+        var movedEditSheetHeight: CGFloat = 0.0
+        
         var filter: Filter = .init()
         var colorGradingItems = ColorGradingItems.preset()
         var selectedIndex: Int?
@@ -54,6 +57,8 @@ extension EditTmpViewModel: ViewModelType {
         case aiButtonTapped
         
         case saveButtonTapped
+        
+        case initialEditSheetHeightChnaged(CGFloat)
     }
 }
 
@@ -88,6 +93,10 @@ final class EditTmpViewModel: toVM<EditTmpViewModel> {
             if let type = type {
                 state.selectedTap = type
             }
+            
+        case .initialEditSheetHeightChnaged(let height):
+            state.initialEditSheetHeight = height
+            state.movedEditSheetHeight = height
             
         case .dragToolOnChanged(let moved):
             if moved > 60 {

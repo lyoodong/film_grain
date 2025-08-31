@@ -65,9 +65,20 @@ struct Tool: View {
             
             if let _ = editVM.selectedTap  {
                 ToolTap(editVM: editVM)
+                    .background(background)
             }
         }
         .animation(.interactiveSpring, value: editVM.selectedTap)
+    }
+    
+    private var background: some View {
+        GeometryReader { geo in
+            Color.clear
+                .onAppear {
+                    let height = geo.size.height
+                    editVM.send(.initialEditSheetHeightChnaged(height))
+                }
+        }
     }
     
     private var dragGesture: some Gesture {
