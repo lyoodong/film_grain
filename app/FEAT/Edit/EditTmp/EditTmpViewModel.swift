@@ -16,8 +16,14 @@ extension EditTmpViewModel: ViewModelType {
             return type == selectedTap ? .mainWhite : .sheeTextGray
         }
         
-        var initialEditSheetHeight: CGFloat = 0.0
-        var movedEditSheetHeight: CGFloat = 0.0
+        var initialEditSheetHeight: CGFloat = 0.0  // 초기 값
+        var lastEditSheetHeight: CGFloat = 0.0 // 이동이 마무리된 값
+        var movingEditSheetHeight: CGFloat = 0.0 // 이동이 진행중인 값
+        
+        var dragThreshold: CGFloat {
+            return initialEditSheetHeight / 3
+        }
+        
         var tapOpacity: Double = 0
         
         var filter: Filter = .init()
@@ -98,29 +104,29 @@ final class EditTmpViewModel: toVM<EditTmpViewModel> {
             
         case .initialEditSheetHeightChnaged(let height):
             state.initialEditSheetHeight = height
-            state.movedEditSheetHeight = height
+            state.lastEditSheetHeight = height
+            state.movingEditSheetHeight = height
             
         case .dragToolOnChanged(let moved):
-            // 0이하의 값 즉, 최대 높이 이상으로 올리는 것은 원천 차단
-            guard moved > 0 else { return }
+            // moved는 드래그 시작 지점에서 부터 값.
+            // 절대 좌표 아니다.
+ 
+//            if moved > state.initialEditSheetHeight / 3 {
+//                state.tapOpacity = 0.0
+//            } else {
+//                state.tapOpacity = 1 *  ((state.initialEditSheetHeight / 3) - moved) / (state.initialEditSheetHeight / 3)
+//            }
             
-            if moved > state.initialEditSheetHeight / 3 {
-                state.tapOpacity = 0.0
-            } else {
-//                print("(state.initialEditSheetHeight / 3) / moved", (state.initialEditSheetHeight / 3) / moved)
-                state.tapOpacity = 1 *  ((state.initialEditSheetHeight / 3) - moved) / (state.initialEditSheetHeight / 3)
-            }
-            
-            state.movedEditSheetHeight = max(0, state.initialEditSheetHeight - moved)
+            state.movingEditSheetHeight = min(max(0, state.lastEditSheetHeight - moved), state.initialEditSheetHeight)
             
         case .dragToolOnEnded(let moved):
-            guard moved > 0 else { return }
+//            guard moved > 0 else { return }
             
-            if moved > state.initialEditSheetHeight / 3 {
-                state.selectedTap = nil
-            }
+//            if moved > state.initialEditSheetHeight / 3 {
+//                state.selectedTap = nil
+//            }
             
-            state.initialEditSheetHeight = state.movedEditSheetHeight
+            state.lastEditSheetHeight = state.movingEditSheetHeight
             
         case .grainAlphaChanged(let value):
             state.filter.grainAlpha = value

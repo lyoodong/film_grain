@@ -66,7 +66,7 @@ struct Tool: View {
             if let _ = editVM.selectedTap  {
                 ToolTap(editVM: editVM)
                     .background(background)
-                    .frame(height: editVM.movedEditSheetHeight)
+                    .frame(height: editVM.movingEditSheetHeight)
             }
         }
     }
