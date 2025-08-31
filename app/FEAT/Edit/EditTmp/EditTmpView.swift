@@ -24,58 +24,42 @@ struct TmpView: View {
     
     var body: some View {
         VStack(alignment: .center) {
-            if editVM.isSwipe {
-                Tool(editVM: editVM)
-            } else {
-                SwipeHandler(editVM: editVM)
-            }
+            Tool(editVM: editVM)
         }
-        .ignoresSafeArea()
+        .background(background)
     }
     
-    private var aiButtonStack: some View {
-        HStack {
-            Spacer()
-            EditTmpAIButton(editVM: editVM)
-        }
+    private var background: some View {
+        Color.sheetGray
+            .clipShape(unevenRadius)
+            .ignoresSafeArea()
+    }
+
+    private var unevenRadius: some Shape {
+        UnevenRoundedRectangle(topLeadingRadius: 16, topTrailingRadius: 16)
     }
 }
 
-struct SwipeHandler: View {
-    @ObservedObject var editVM: EditTmpViewModel
-    
-    var body: some View {
-        VStack(alignment: .center, spacing: 12) {
-            text
-            handler
-        }
-        .padding(.top, 16)
-        .padding(.bottom, 60)
-    }
-    
-    private var text: some View {
-        Text("Swipe to edit")
-            .font(Poppin.medium.font(size: 12))
-            .foregroundStyle(Color.textGray)
-    }
-    
-    private var handler: some View {
-        RoundedRectangle(cornerRadius: 3)
-            .fill(Color.mainWhite)
-            .frame(width: 36, height: 6)
-    }
-}
 
 struct Tool: View {
     @ObservedObject var editVM: EditTmpViewModel
     
     var body: some View {
         VStack(alignment: .center) {
+            ToolHandler()
+                .padding(.top, 12)
+                .padding(.bottom, 8)
+            
             ToolButtonStack(editVM: editVM)
-            ToolTap(editVM: editVM)
         }
-        .background(.thinMaterial.opacity(editVM.tapOpacity))
-        .animation(.smooth, value: editVM.tapOpacity)
+    }
+}
+
+struct ToolHandler: View {
+    var body: some View {
+        RoundedRectangle(cornerRadius: 3)
+            .fill(Color.mainWhite)
+            .frame(width: 36, height: 6)
     }
 }
 
@@ -115,7 +99,7 @@ struct ToolTap: View {
             case .grain:
                 EditTmpGrain(editVM: editVM)
             case .color:
-//                EditColor(editVM: editVM)
+                EditColor(editVM: editVM)
                 EditTmpGrain(editVM: editVM)
             case .adjust:
                 EditAdjust(editVM: editVM)

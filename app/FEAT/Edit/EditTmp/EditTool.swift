@@ -64,11 +64,11 @@ struct ToolButton: View {
             HStack {
                 Spacer()
                 Text(type.title)
-                    .fontWeight(.semibold)
+                    .font(Poppin.semiBold.font(size: 16))
                 Spacer()
             }
         }
-        .frame(height: 60)
+        .frame(height: 24)
         .foregroundColor(editVM.state.toolButtonTextColor(type))
     }
 }
