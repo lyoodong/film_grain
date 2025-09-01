@@ -194,8 +194,8 @@ struct EditColorTmp: View {
             .padding(.horizontal, 16)
             
             if isOn {
-                EditTmpSlider(type: .grainAlpha, value: editVM.filter.grainAlpha) {
-                    editVM.send(.grainAlphaChanged($0))
+                EditTmpSlider(type: .brightColorAlpha, value: editVM.filter.brightAlpha) {
+                    editVM.send(.brightColorAlphaChanged($0))
                 }
             }
         }
@@ -204,12 +204,6 @@ struct EditColorTmp: View {
     private var text: some View {
         Text("Highlight")
             .font(iconFont)
-    }
-    
-    private func colorCircle(color: Color) -> some View {
-        Circle()
-            .fill(.red)
-            .frame(width: 31, height: 31)
     }
     
     private var toggle: some View {

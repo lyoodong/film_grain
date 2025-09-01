@@ -86,8 +86,17 @@ struct EditTmpSlider: View {
     
     var body: some View {
         VStack(alignment: .center, spacing: 8) {
-            sliderMeta
-            slider
+            if type == .brightColorAlpha || type == .darkColorAlpha {
+                HStack {
+                    colorCirlce
+                    slider
+                }
+            } else {
+                VStack {
+                    sliderMeta
+                    slider
+                }
+            }
         }
         .frame(height: height)
         .padding(.horizontal, 24)
@@ -131,5 +140,15 @@ struct EditTmpSlider: View {
             step: type.step
         )
         .background(bgColor)
+    }
+    
+    private var colorCirlce: some View {
+        Button {
+            
+        } label: {
+            Circle()
+                .fill(.red)
+        }
+        .frame(width: 24, height: 24)
     }
 }
