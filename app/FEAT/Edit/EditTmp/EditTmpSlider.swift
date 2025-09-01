@@ -163,12 +163,15 @@ struct EditTmpSlider: View {
     }
     
     private var colorCirlce: some View {
-        Button {
-            colorSelected(self.color)
-        } label: {
-            Circle()
-                .fill(color)
-        }
+        ColorPicker(
+            "",
+            selection: Binding(
+                get: { color },
+                set: { colorSelected($0)}
+            ),
+            supportsOpacity: false
+        )
+        .labelsHidden()
         .frame(width: 24, height: 24)
     }
 }

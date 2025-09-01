@@ -237,10 +237,24 @@ final class EditTmpViewModel: toVM<EditTmpViewModel> {
             }
             
         case .highlightColorButtonTapped(let color):
-            print("color",color)
+            state.filter.brightColor = color
+            
+            let filter = state.filter
+            Task.detached(priority: .userInitiated) { [weak self] in
+                guard let self else { return }
+                let iamge = filter.refresh()
+                effect(.filteredImageLoaded(iamge))
+            }
             
         case .shadowColorButtonTapped(let color):
-            print("color",color)
+            state.filter.darkColor = color
+            
+            let filter = state.filter
+            Task.detached(priority: .userInitiated) { [weak self] in
+                guard let self else { return }
+                let iamge = filter.refresh()
+                effect(.filteredImageLoaded(iamge))
+            }
         }
     }
     
