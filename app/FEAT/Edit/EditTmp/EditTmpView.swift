@@ -10,7 +10,7 @@ struct EditTmpView: View {
             EditNavigation(editVM: editVM)
             EditZoomableImage(editVM: editVM)
             Spacer(minLength: 32)
-            EditToolTmpView(editVM: editVM)
+            ToolCircleButtonStack(editVM: editVM)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color.mainBlack)
