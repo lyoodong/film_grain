@@ -75,6 +75,7 @@ struct PhotoPickerModifier: ViewModifier {
             UploadPicker { id in
                 uploadVM.send(.onPicked(id))
             }
+            .ignoresSafeArea()
         }
     }
 }
