@@ -46,7 +46,6 @@ extension EditViewModel: ViewModelType {
 }
 
 final class EditViewModel: toVM<EditViewModel> {
-    
     override func reduce(state: inout State, action: Action) {
         switch action {
         case .onAppear:
@@ -210,26 +209,6 @@ final class EditViewModel: toVM<EditViewModel> {
                 effect(.filteredImageLoaded(iamge))
             }
         }
-    }
-    
-    private func downsample(data: Data) -> UIImage? {
-        let imageSourceOptions = [kCGImageSourceShouldCache: false] as CFDictionary
-        guard let imageSource = CGImageSourceCreateWithData(data as CFData, imageSourceOptions) else {
-            return nil
-        }
-        
-        let downsampleOptions = [
-            kCGImageSourceCreateThumbnailFromImageAlways: true,
-            kCGImageSourceShouldCacheImmediately: true,
-            kCGImageSourceCreateThumbnailWithTransform: true,
-            kCGImageSourceThumbnailMaxPixelSize: UIScreen.targetPixels
-        ] as CFDictionary
-        
-        guard let downsampledImage = CGImageSourceCreateThumbnailAtIndex(imageSource, 0, downsampleOptions) else {
-            return nil
-        }
-        
-        return UIImage(cgImage: downsampledImage)
     }
     
     private func loadData(id: String) async -> Data? {

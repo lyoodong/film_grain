@@ -53,7 +53,7 @@ final class UploadViewModel: toVM<UploadViewModel> {
         case .dataLoaded(let data):
             Task(priority: .userInitiated) { [weak self] in
                 guard let self else { return }
-                let image = downsample(data: data)
+                let image = data.downsampleToImage()
                 try await Task.sleep(for: .seconds(0.8))
                 effect(.imageLoaded(image))
             }
@@ -102,26 +102,5 @@ extension UploadViewModel {
                 continuation.resume(returning: data)
             }
         }
-    }
-    
-    // 이미지 다운샘플링
-    private func downsample(data: Data) -> UIImage? {
-        let imageSourceOptions = [kCGImageSourceShouldCache: false] as CFDictionary
-        guard let imageSource = CGImageSourceCreateWithData(data as CFData, imageSourceOptions) else {
-            return nil
-        }
-        
-        let downsampleOptions = [
-            kCGImageSourceCreateThumbnailFromImageAlways: true,
-            kCGImageSourceShouldCacheImmediately: true,
-            kCGImageSourceCreateThumbnailWithTransform: true,
-            kCGImageSourceThumbnailMaxPixelSize: UIScreen.targetPixels
-        ] as CFDictionary
-        
-        guard let downsampledImage = CGImageSourceCreateThumbnailAtIndex(imageSource, 0, downsampleOptions) else {
-            return nil
-        }
-        
-        return UIImage(cgImage: downsampledImage)
     }
 }
