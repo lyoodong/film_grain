@@ -5,8 +5,7 @@ import SpriteKit
 
 class Filter {
     private(set) var context = CIContext(options: [.cacheIntermediates: true])
-    
-    var originData: Data = Data()
+
     var baseCI: CIImage?
     var grainCI: CIImage?
     
@@ -20,11 +19,11 @@ class Filter {
    
     var isOnBrightColor: Bool = false
     var brightColor: Color = .mainOrange
-    var brightAlpha: Double = 1
+    var brightAlpha: Double = 0.5
     
     var isOndarkColor: Bool = false
     var darkColor: Color = .mainTeal
-    var darkAlpha: Double = 1
+    var darkAlpha: Double = 0.5
     
     private static let colorGradingKernel: CIColorKernel = {
         let src = """
@@ -63,7 +62,31 @@ class Filter {
         return CIImage(cgImage: cgNoise)
     }
     
-    func applyGrainAlpha(
+    func refresh() -> UIImage? {
+        guard let baseCI,
+              let grainCI else { return nil }
+        
+        let brightColor = CIColor(brightColor)
+        let darkColor = CIColor(darkColor)
+        
+        let colorCI = applyColorGrading(baseCI, threshold: threshold, brightColor: brightColor, brightAlpha: brightAlpha, darkColor: darkColor, darkAlpha: darkAlpha)
+        let contrastCI = applyContrast(colorCI, contrast: contrast)
+        let tempertureCI = applyTemperture(contrastCI, temperature: temperture)
+        let baseAdjustedCI = tempertureCI
+
+        let grainAlphaCI = applyGrainAlpha(grainCI, alpha: grainAlpha)
+        let grainScaleCI = applyGrainScale(grainAlphaCI, scale: grainScale)
+        let grainAdjustedCI = grainScaleCI
+        
+        let blendCI = blend(input: grainAdjustedCI, background: baseAdjustedCI)
+        
+        guard let out = blendCI,
+              let cg = context.createCGImage(out, from: baseCI.extent) else { return nil }
+        
+        return UIImage(cgImage: cg)
+    }
+    
+    private func applyGrainAlpha(
         _ input: CIImage?,
         alpha: Double
     ) -> CIImage? {
@@ -74,7 +97,7 @@ class Filter {
         return alphaF.outputImage
     }
     
-    func applyGrainScale(
+    private func applyGrainScale(
         _ input: CIImage?,
         scale: CGFloat,
         maxScale: CGFloat = 0
@@ -92,7 +115,7 @@ class Filter {
         return scaleF.outputImage
     }
     
-    func applyColorGrading(
+    private func applyColorGrading(
         _ input: CIImage?,
         threshold: CGFloat,
         brightColor b: CIColor,
@@ -118,7 +141,7 @@ class Filter {
         return comp
     }
     
-    func applyContrast(
+    private func applyContrast(
         _ input: CIImage?,
         contrast: Double
     ) -> CIImage? {
@@ -131,7 +154,7 @@ class Filter {
         return contrastF.outputImage
     }
     
-    func applyTemperture(
+    private func applyTemperture(
         _ input: CIImage?,
         temperature: Double
     ) -> CIImage? {
@@ -147,7 +170,7 @@ class Filter {
     }
     
     
-    func blend(
+    private func blend(
         input: CIImage?,
         background: CIImage?
     ) -> CIImage? {
@@ -156,29 +179,5 @@ class Filter {
         blend.backgroundImage = background
         
         return blend.outputImage
-    }
-    
-    func refresh() -> UIImage? {
-        guard let baseCI,
-              let grainCI else { return nil }
-        
-        let brightColor = CIColor(brightColor)
-        let darkColor = CIColor(darkColor)
-        
-        let colorCI = applyColorGrading(baseCI, threshold: threshold, brightColor: brightColor, brightAlpha: brightAlpha, darkColor: darkColor, darkAlpha: darkAlpha)
-        let contrastCI = applyContrast(colorCI, contrast: contrast)
-        let tempertureCI = applyTemperture(contrastCI, temperature: temperture)
-        let baseAdjustedCI = tempertureCI
-
-        let grainAlphaCI = applyGrainAlpha(grainCI, alpha: grainAlpha)
-        let grainScaleCI = applyGrainScale(grainAlphaCI, scale: grainScale)
-        let grainAdjustedCI = grainScaleCI
-        
-        let blendCI = blend(input: grainAdjustedCI, background: baseAdjustedCI)
-        
-        guard let out = blendCI,
-              let cg = context.createCGImage(out, from: baseCI.extent) else { return nil }
-        
-        return UIImage(cgImage: cg)
     }
 }
