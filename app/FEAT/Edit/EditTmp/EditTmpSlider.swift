@@ -107,7 +107,7 @@ struct EditTmpSlider: View {
     var body: some View {
         VStack(alignment: .center, spacing: 8) {
             if type == .brightColorAlpha || type == .darkColorAlpha {
-                HStack {
+                HStack(spacing: 16) {
                     colorCirlce
                     slider
                 }

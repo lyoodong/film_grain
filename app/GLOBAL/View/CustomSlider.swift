@@ -14,6 +14,7 @@ struct CustomSlider: View {
             let x = progress * width
 
             VStack {
+                Spacer()
                 ZStack(alignment: .leading) {
                     BaseTrack()
                         .frame(height: 16)
@@ -26,6 +27,7 @@ struct CustomSlider: View {
                     )
                 }
                 .gesture(dragGesture(width))
+                Spacer()
             }
         }
     }
