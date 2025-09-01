@@ -7,15 +7,35 @@ struct EditNavigation: View {
     private let diameter: CGFloat = 40
     private let font = Poppin.semiBold.font(size: 20)
     
+    @State private var isPresentToast: Bool = false
+    
     var body: some View {
-        HStack(spacing: 12) {
-            xButton
-            Spacer()
-            aiButton
-            saveButton
+        ZStack {
+            HStack(spacing: 12) {
+                xButton
+                Spacer()
+                aiButton
+                saveButton
+            }
+            
+            eidtToast
+                .opacity(isPresentToast ? 1 : 0)
+                .animation(.spring(duration: 0.2), value: isPresentToast)
         }
         .padding(.horizontal, 16)
         .padding(.bottom, 16)
+        .onAppear {
+            Task {
+                isPresentToast = true
+                try? await Task.sleep(for: .seconds(2))
+                isPresentToast = false
+            }
+        }
+    }
+    
+    private var eidtToast: some View {
+        Text("AI 적용이 완료되었습니다.")
+            .font(Poppin.medium.font(size: 12))
     }
     
     private var xButton: some View {
@@ -75,7 +95,7 @@ struct PressScaleButtonStyle: ButtonStyle {
     init(_ diameter: CGFloat) {
         self.diameter = diameter
     }
-
+    
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .background(

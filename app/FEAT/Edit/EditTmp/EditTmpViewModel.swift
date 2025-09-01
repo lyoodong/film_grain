@@ -16,9 +16,9 @@ extension EditTmpViewModel: ViewModelType {
             return type == selectedTap ? .mainWhite : .sheeTextGray
         }
         
-        var initialEditSheetHeight: CGFloat = 0.0  // 초기 값
-        var lastEditSheetHeight: CGFloat = 0.0 // 이동이 마무리된 값
-        var movingEditSheetHeight: CGFloat = 0.0 // 이동이 진행중인 값
+        var initialEditSheetHeight: CGFloat = 0.0
+        var lastEditSheetHeight: CGFloat = 0.0
+        var movingEditSheetHeight: CGFloat = 0.0
         
         var dragThreshold: CGFloat {
             return initialEditSheetHeight / 3
