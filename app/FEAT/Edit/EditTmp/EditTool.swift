@@ -70,6 +70,7 @@ struct ToolCircleButtonStack: View {
     private var aiButton: some View {
         ToolCircleButton(type: .ai, selected: editVM.selectedTap) {
             editVM.send(.tapSelected(.ai))
+            editVM.send(.aiButtonTapped)
         }
     }
 }
@@ -83,7 +84,7 @@ struct ToolTap: View {
             case .grain:
                 EditTmpGrain(editVM: editVM)
             case .tone:
-                EditColor(editVM: editVM)
+                EditColorTmp(editVM: editVM)
             case .adjust:
                 EditAdjust(editVM: editVM)
             default:

@@ -55,7 +55,7 @@ struct ColorGradingList: View {
     var noneButtonTapped: () -> Void
     var colorButtonTapped: (Int) -> Void
     var customButtonTapped: () -> Void
-
+    
     var body: some View {
         VStack(spacing: 16) {
             TitleStack(title: "Color")
@@ -168,6 +168,55 @@ fileprivate struct NoneCircle: View {
         Circle()
             .fill(.blue)
             .frame(width: size, height: size)
+    }
+}
+
+
+
+struct EditColorTmp: View {
+    @ObservedObject var editVM: EditTmpViewModel
+    @State var isOn = true
+    let iconFont = Poppin.semiBold.font(size: 12)
+    
+    var body: some View {
+        VStack {
+            colorStack
+        }
+    }
+    
+    private var colorStack: some View {
+        VStack {
+            HStack(spacing: 16) {
+                text
+                Spacer()
+                toggle
+            }
+            .padding(.horizontal, 16)
+            
+            if isOn {
+                EditTmpSlider(type: .grainAlpha, value: editVM.filter.grainAlpha) {
+                    editVM.send(.grainAlphaChanged($0))
+                }
+            }
+        }
+    }
+    
+    private var text: some View {
+        Text("Highlight")
+            .font(iconFont)
+    }
+    
+    private func colorCircle(color: Color) -> some View {
+        Circle()
+            .fill(.red)
+            .frame(width: 31, height: 31)
+    }
+    
+    private var toggle: some View {
+        Toggle("", isOn: $isOn)
+            .labelsHidden()
+            .tint(.white.opacity(0.6))
+            .scaleEffect(0.9)
     }
 }
 
