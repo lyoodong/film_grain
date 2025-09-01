@@ -27,7 +27,6 @@ struct CustomSlider: View {
                 }
                 .gesture(dragGesture(width))
             }
-            .background(Color.red)
         }
     }
     
