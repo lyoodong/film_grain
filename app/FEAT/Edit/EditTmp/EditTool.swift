@@ -136,6 +136,6 @@ struct ToolCircleButton: View {
     
     private var stroke: some View {
         Circle()
-            .stroke(selected == type ? Color.blue : .clear, lineWidth: 2)
+            .stroke(selected == type ? Color.pointRed : .clear, lineWidth: 2)
     }
 }
