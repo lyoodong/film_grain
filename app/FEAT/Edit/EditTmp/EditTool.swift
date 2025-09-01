@@ -2,7 +2,7 @@ import SwiftUI
 
 enum ToolType: String, Hashable, CaseIterable {
     case grain
-    case color
+    case tone
     case adjust
     case ai
     case none
@@ -11,8 +11,8 @@ enum ToolType: String, Hashable, CaseIterable {
         switch self {
         case .grain:
             return "circle.bottomrighthalf.pattern.checkered"
-        case .color:
-            return "swatchpalette"
+        case .tone:
+            return "camera.filters"
         case .adjust:
             return "dial.medium"
         case .ai:
@@ -49,8 +49,8 @@ struct ToolCircleButtonStack: View {
     }
     
     private var colorButton: some View {
-        ToolCircleButton(type: .color, selected: editVM.selectedTap) {
-            editVM.send(.tapSelected(.color))
+        ToolCircleButton(type: .tone, selected: editVM.selectedTap) {
+            editVM.send(.tapSelected(.tone))
         }
     }
     
@@ -82,7 +82,7 @@ struct ToolTap: View {
             switch editVM.selectedTap {
             case .grain:
                 EditTmpGrain(editVM: editVM)
-            case .color:
+            case .tone:
                 EditColor(editVM: editVM)
             case .adjust:
                 EditAdjust(editVM: editVM)
