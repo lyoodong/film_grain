@@ -6,60 +6,42 @@ extension EditViewModel: ViewModelType {
     struct State {
         var image: UIImage
         var displayImage: UIImage?
-        
         var selectedTap: ToolType = .none
-        
-        var isAIAnalyzing: Bool = false
-        var hadAIbuttonTextAnimated: Bool = false
-        
-        var initialEditSheetHeight: CGFloat = 0.0
-        var lastEditSheetHeight: CGFloat = 0.0
-        var movingEditSheetHeight: CGFloat = 0.0
-        
-        var filter: Filter = .init()
-
-        var selectedIndex: Int?
-        var isHiddenColorSlider: Bool = true
-        
         var toast: Toast = .init()
+        var filter: Filter = .init()
     }
     
     enum Action {
-        //View LifeCycle
         case onAppear
-        case onTextAnimationEnded
         
-        //load Image
+        // Image
         case filteredImageLoaded(UIImage?)
         
-        case tapSelected(ToolType)
-        
+        // Grain
         case grainAlphaChanged(Double)
         case grainScaleChanged(Double)
         
+        // Adjust
         case contrastChanged(Double)
         case tempertureChanged(Double)
         
+        // Tone
         case thresholdChanged(Double)
         case brightColorAlphaChanged(Double)
         case darkColorAlphaChanged(Double)
-        
-        case aiAnalyzeCompleted((alpha: Double, scale: Double, contrast: Double)?)
-        
-        case noneButtonTapped
-        case colorButtonTapped(Int)
-        case customButtonTapped
-        case aiButtonTapped
-        
-        case saveButtonTapped
-        
-        case dismissToast
-        
         case highlightToggle(Bool)
         case shadowToggle(Bool)
-        
         case highlightColorButtonTapped(Color)
         case shadowColorButtonTapped(Color)
+        
+        // AI
+        case aiButtonTapped
+        case aiAnalyzeCompleted((alpha: Double, scale: Double, contrast: Double)?)
+        
+        // ETC
+        case tapSelected(ToolType)
+        case saveButtonTapped
+        case dismissToast
     }
 }
 
@@ -68,17 +50,13 @@ final class EditViewModel: toVM<EditViewModel> {
     override func reduce(state: inout State, action: Action) {
         switch action {
         case .onAppear:
-            state.displayImage = state.image
-            state.filter.grainCI = state.filter.createGrainFilter(size: state.image.size)
+            let originImage = state.image
+            state.displayImage = originImage
+            
+            let size = originImage.size
+            state.filter.grainCI = state.filter.createGrainFilter(size: size)
+            
             state.filter.baseCI = CIImage(image: state.image)
-            
-            Task {
-                try? await Task.sleep(for: .seconds(1.2))
-                effect(.onTextAnimationEnded)
-            }
-            
-        case .onTextAnimationEnded:
-            state.hadAIbuttonTextAnimated = true
             
         case .filteredImageLoaded(let image):
             state.displayImage = image
@@ -155,30 +133,7 @@ final class EditViewModel: toVM<EditViewModel> {
                 effect(.filteredImageLoaded(iamge))
             }
             
-        case .noneButtonTapped:
-            state.selectedIndex = nil
-            state.isHiddenColorSlider = true
-            state.filter.brightColor = .clear
-            state.filter.darkColor = .clear
-            
-            let filter = state.filter
-            
-            Task.detached(priority: .userInitiated) { [weak self] in
-                guard let self else { return }
-                let iamge = filter.refresh()
-                effect(.filteredImageLoaded(iamge))
-            }
-            
-        case .colorButtonTapped(let index):
-            state.selectedIndex = index
-            state.isHiddenColorSlider = false
-            
-        case .customButtonTapped:
-            state.selectedIndex = nil
-            state.isHiddenColorSlider = true
-            
         case .aiButtonTapped:
-            state.isAIAnalyzing = true
             let image = state.image
             
             Task.detached(priority: .userInitiated) { [weak self] in
@@ -192,7 +147,6 @@ final class EditViewModel: toVM<EditViewModel> {
             if let res = res {
                 state.filter.grainAlpha = res.alpha
                 state.filter.grainScale = res.scale
-                state.isAIAnalyzing = false
                 state.toast.show("AI Completed")
                 
                 let filter = state.filter

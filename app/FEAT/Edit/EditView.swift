@@ -9,7 +9,6 @@ struct EditView: View {
         VStack {
             EditNavigation(editVM: editVM)
             EditZoomableImage(editVM: editVM)
-            Spacer(minLength: 32)
             ToolTap(editVM: editVM)
             ToolCircleButtonStack(editVM: editVM)
         }
