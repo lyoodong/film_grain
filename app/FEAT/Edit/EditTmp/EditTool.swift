@@ -75,6 +75,26 @@ struct ToolCircleButtonStack: View {
     }
 }
 
+struct ToolTap: View {
+    @ObservedObject var editVM: EditTmpViewModel
+    
+    var body: some View {
+        VStack {
+            switch editVM.selectedTap {
+            case .grain:
+                EditTmpGrain(editVM: editVM)
+            case .color:
+                EditColor(editVM: editVM)
+            case .adjust:
+                EditAdjust(editVM: editVM)
+            default:
+                EmptyView()
+            }
+        }
+    }
+}
+
+
 struct ToolCircleButton: View {
     let type: ToolType
     let selected: ToolType

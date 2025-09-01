@@ -10,6 +10,7 @@ struct EditTmpView: View {
             EditNavigation(editVM: editVM)
             EditZoomableImage(editVM: editVM)
             Spacer(minLength: 32)
+            ToolTap(editVM: editVM)
             ToolCircleButtonStack(editVM: editVM)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
