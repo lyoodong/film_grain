@@ -17,8 +17,7 @@ extension EditTmpViewModel: ViewModelType {
         var movingEditSheetHeight: CGFloat = 0.0
         
         var filter: Filter = .init()
-        
-        var colorGradingItems = ColorGradingItems.preset()
+
         var selectedIndex: Int?
         var isHiddenColorSlider: Bool = true
         
