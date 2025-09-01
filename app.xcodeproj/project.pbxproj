@@ -164,22 +164,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		BE562A982E5C1DE400CF1EE9 /* EditTmp */ = {
-			isa = PBXGroup;
-			children = (
-				BE562A962E5C1DE400CF1EE9 /* EditTmpView.swift */,
-				BE102E322E5FFF25005468DA /* EditNavigation.swift */,
-				BE55FAF92E5C4D6500A32CDC /* EditZoomableImage.swift */,
-				BE55FAFB2E5C500D00A32CDC /* EditTool.swift */,
-				BED4C4EF2E5EFA8D00D276BC /* EditTmpSlider.swift */,
-				BED4C4E92E5EF40D00D276BC /* EditTmpGrain.swift */,
-				BED4C4F32E5F108A00D276BC /* EditAdjust.swift */,
-				BED4C4F52E5F195600D276BC /* EditColor.swift */,
-				BE562A972E5C1DE400CF1EE9 /* EditTmpViewModel.swift */,
-			);
-			path = EditTmp;
-			sourceTree = "<group>";
-		};
 		BE7CE2AE2E6032F20083D39F /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
@@ -350,7 +334,15 @@
 		BEBECA892E431DF900F65D26 /* Edit */ = {
 			isa = PBXGroup;
 			children = (
-				BE562A982E5C1DE400CF1EE9 /* EditTmp */,
+				BE562A962E5C1DE400CF1EE9 /* EditTmpView.swift */,
+				BE102E322E5FFF25005468DA /* EditNavigation.swift */,
+				BE55FAF92E5C4D6500A32CDC /* EditZoomableImage.swift */,
+				BE55FAFB2E5C500D00A32CDC /* EditTool.swift */,
+				BED4C4EF2E5EFA8D00D276BC /* EditTmpSlider.swift */,
+				BED4C4E92E5EF40D00D276BC /* EditTmpGrain.swift */,
+				BED4C4F32E5F108A00D276BC /* EditAdjust.swift */,
+				BED4C4F52E5F195600D276BC /* EditColor.swift */,
+				BE562A972E5C1DE400CF1EE9 /* EditTmpViewModel.swift */,
 			);
 			path = Edit;
 			sourceTree = "<group>";
