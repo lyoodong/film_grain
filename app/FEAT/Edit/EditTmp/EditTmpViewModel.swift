@@ -7,24 +7,14 @@ extension EditTmpViewModel: ViewModelType {
         var image: UIImage
         var displayImage: UIImage?
         
-        var selectedTap: ToolType? = nil
+        var selectedTap: ToolType = .none
         
         var isAIAnalyzing: Bool = false
         var hadAIbuttonTextAnimated: Bool = false
         
-        func toolButtonTextColor(_ type: ToolType) -> Color {
-            return type == selectedTap ? .mainWhite : .sheeTextGray
-        }
-        
         var initialEditSheetHeight: CGFloat = 0.0
         var lastEditSheetHeight: CGFloat = 0.0
         var movingEditSheetHeight: CGFloat = 0.0
-        
-        var dragThreshold: CGFloat {
-            return initialEditSheetHeight / 3
-        }
-        
-        var tapOpacity: Double = 0
         
         var filter: Filter = .init()
         var colorGradingItems = ColorGradingItems.preset()
@@ -42,9 +32,7 @@ extension EditTmpViewModel: ViewModelType {
         //load Image
         case filteredImageLoaded(UIImage?)
         
-        case tapSelected(ToolType?)
-        case dragToolOnChanged(CGFloat)
-        case dragToolOnEnded(CGFloat)
+        case tapSelected(ToolType)
         
         case grainAlphaChanged(Double)
         case grainScaleChanged(Double)
@@ -64,8 +52,6 @@ extension EditTmpViewModel: ViewModelType {
         case aiButtonTapped
         
         case saveButtonTapped
-        
-        case initialEditSheetHeightChnaged(CGFloat)
         
         case dismissToast
     }
@@ -92,40 +78,8 @@ final class EditTmpViewModel: toVM<EditTmpViewModel> {
             state.displayImage = image
 
         case .tapSelected(let type):
-            if let type = type {
-                state.selectedTap = type
-                state.tapOpacity = 1
-            }
-            
-        case .initialEditSheetHeightChnaged(let height):
-            state.initialEditSheetHeight = height
-            state.lastEditSheetHeight = height
-            state.movingEditSheetHeight = height
-            
-        case .dragToolOnChanged(let moved):
-            let h = max(0, min(state.lastEditSheetHeight - moved, state.initialEditSheetHeight))
-            state.movingEditSheetHeight = h
-                        
-            let threshold = state.dragThreshold
-            
-            if moved > threshold {
-                state.tapOpacity = 0.0
-            } else {
-                state.tapOpacity = 1 *  (threshold - moved) / (threshold)
-            }
-            
-        case .dragToolOnEnded(let moved):
-            let threshold = state.dragThreshold
-            
-            if moved > threshold {
-                state.selectedTap = nil
-                state.movingEditSheetHeight = 0
-                state.lastEditSheetHeight = 0
-            } else {
-                state.movingEditSheetHeight = state.initialEditSheetHeight
-                state.lastEditSheetHeight = state.initialEditSheetHeight
-            }
-            
+            state.selectedTap = type
+
         case .grainAlphaChanged(let value):
             state.filter.grainAlpha = value
             
