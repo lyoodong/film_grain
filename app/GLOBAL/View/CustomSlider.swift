@@ -14,9 +14,9 @@ struct CustomSlider: View {
             let x = progress * width
 
             VStack {
-                Spacer()
                 ZStack(alignment: .leading) {
                     BaseTrack()
+                        .frame(height: 16)
                     ProgressedTrack(x: x)
                     Thumb(
                         value: $value,
@@ -26,8 +26,8 @@ struct CustomSlider: View {
                     )
                 }
                 .gesture(dragGesture(width))
-                Spacer()
             }
+            .background(Color.red)
         }
     }
     
