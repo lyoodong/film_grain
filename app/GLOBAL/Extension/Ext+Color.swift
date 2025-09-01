@@ -11,6 +11,9 @@ extension Color {
     
     static var pointRed: Self = .init(hex: "FF4A17")
     
+    static var mainTeal: Self = .init(hex: "00CCB3")
+    static var mainOrange: Self = .init(hex: "FF9900")
+    
     init(hex: String) {
         var hex = hex.trimmingCharacters(in: .whitespacesAndNewlines)
         hex = hex.hasPrefix("#") ? String(hex.dropFirst()) : hex

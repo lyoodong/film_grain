@@ -17,6 +17,7 @@ extension EditTmpViewModel: ViewModelType {
         var movingEditSheetHeight: CGFloat = 0.0
         
         var filter: Filter = .init()
+        
         var colorGradingItems = ColorGradingItems.preset()
         var selectedIndex: Int?
         var isHiddenColorSlider: Bool = true
@@ -54,6 +55,12 @@ extension EditTmpViewModel: ViewModelType {
         case saveButtonTapped
         
         case dismissToast
+        
+        case highlightToggle(Bool)
+        case shadowToggle(Bool)
+        
+        case highlightColorButtonTapped(Color)
+        case shadowColorButtonTapped(Color)
     }
 }
 
@@ -165,8 +172,6 @@ final class EditTmpViewModel: toVM<EditTmpViewModel> {
             
         case .colorButtonTapped(let index):
             state.selectedIndex = index
-            state.filter.brightColor = state.colorGradingItems[index].bright
-            state.filter.darkColor = state.colorGradingItems[index].dark
             state.isHiddenColorSlider = false
             
         case .customButtonTapped:
@@ -211,6 +216,32 @@ final class EditTmpViewModel: toVM<EditTmpViewModel> {
             
         case .dismissToast:
             state.toast.clear()
+            
+        case .highlightToggle(let isOn):
+            state.filter.isOnBrightColor = isOn
+            let filter = state.filter
+            
+            Task.detached(priority: .userInitiated) { [weak self] in
+                guard let self else { return }
+                let iamge = filter.refresh()
+                effect(.filteredImageLoaded(iamge))
+            }
+            
+        case .shadowToggle(let isOn):
+            state.filter.isOndarkColor = isOn
+            let filter = state.filter
+            
+            Task.detached(priority: .userInitiated) { [weak self] in
+                guard let self else { return }
+                let iamge = filter.refresh()
+                effect(.filteredImageLoaded(iamge))
+            }
+            
+        case .highlightColorButtonTapped(let color):
+            print("color",color)
+            
+        case .shadowColorButtonTapped(let color):
+            print("color",color)
         }
     }
     

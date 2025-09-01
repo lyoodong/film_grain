@@ -17,11 +17,13 @@ class Filter {
     var temperture: Double = 6500
     
     var threshold: Double = 0.5
-    
-    var brightColor: CIColor = .clear
+   
+    var isOnBrightColor: Bool = false
+    var brightColor: Color = .mainOrange
     var brightAlpha: Double = 1
     
-    var darkColor: CIColor = .clear
+    var isOndarkColor: Bool = false
+    var darkColor: Color = .mainTeal
     var darkAlpha: Double = 1
     
     private static let colorGradingKernel: CIColorKernel = {
@@ -100,21 +102,20 @@ class Filter {
     ) -> CIImage? {
         
         guard let input else { return nil }
+        
+        let brightAlpha: CGFloat = isOnBrightColor ? brightAlpha : 0
+        let darkAlpha: CGFloat = isOndarkColor ? darkAlpha : 0
 
-        if b == .clear && d == .clear {
-            return input
-        } else {
-            let brightColor = CIColor(red: b.red, green: b.green, blue: b.blue, alpha: brightAlpha)
-            let darkColor = CIColor(red: d.red, green: d.green, blue: d.blue, alpha: darkAlpha)
-            
-            guard let overlay = Self.colorGradingKernel.apply(
-              extent: input.extent,
-              arguments: [input, threshold, darkColor, brightColor]
-            ) else { return nil }
-            
-            let comp = overlay.composited(over: input)
-            return comp
-        }
+        let brightColor = CIColor(red: b.red, green: b.green, blue: b.blue, alpha: brightAlpha)
+        let darkColor = CIColor(red: d.red, green: d.green, blue: d.blue, alpha: darkAlpha)
+        
+        guard let overlay = Self.colorGradingKernel.apply(
+            extent: input.extent,
+            arguments: [input, threshold, darkColor, brightColor]
+        ) else { return nil }
+        
+        let comp = overlay.composited(over: input)
+        return comp
     }
     
     func applyContrast(
@@ -160,6 +161,9 @@ class Filter {
     func refresh() -> UIImage? {
         guard let baseCI,
               let grainCI else { return nil }
+        
+        let brightColor = CIColor(brightColor)
+        let darkColor = CIColor(darkColor)
         
         let colorCI = applyColorGrading(baseCI, threshold: threshold, brightColor: brightColor, brightAlpha: brightAlpha, darkColor: darkColor, darkAlpha: darkAlpha)
         let contrastCI = applyContrast(colorCI, contrast: contrast)

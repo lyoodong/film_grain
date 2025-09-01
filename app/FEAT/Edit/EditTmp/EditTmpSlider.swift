@@ -78,11 +78,31 @@ enum SliderType {
 
 struct EditTmpSlider: View {
     let type: SliderType
-    let height: CGFloat = 60
-    let bgColor: Color = .clear
     let value: Double
-    let font = Poppin.medium.font(size: 12)
     let onChanged: (Double) -> ()
+
+    let color: Color
+    let height: CGFloat
+    let font: Font
+    let colorSelected: (Color) -> Void
+
+    init(
+        type: SliderType,
+        value: Double,
+        color: Color = .clear,
+        height: CGFloat = 60,
+        font: Font = Poppin.medium.font(size: 12),
+        colorSelected: @escaping (Color) -> Void = { _ in },
+        onChanged: @escaping (Double) -> Void
+    ) {
+        self.type = type
+        self.value = value
+        self.color = color
+        self.height = height
+        self.font = font
+        self.colorSelected = colorSelected
+        self.onChanged = onChanged
+    }
     
     var body: some View {
         VStack(alignment: .center, spacing: 8) {
@@ -139,15 +159,15 @@ struct EditTmpSlider: View {
             range: type.range,
             step: type.step
         )
-        .background(bgColor)
+        .background(.clear)
     }
     
     private var colorCirlce: some View {
         Button {
-            
+            colorSelected(self.color)
         } label: {
             Circle()
-                .fill(.red)
+                .fill(color)
         }
         .frame(width: 24, height: 24)
     }
