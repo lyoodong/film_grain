@@ -7,8 +7,6 @@ struct EditNavigation: View {
     private let diameter: CGFloat = 40
     private let font = Poppin.semiBold.font(size: 20)
     
-    @State private var isPresentToast: Bool = false
-    
     var body: some View {
         ZStack {
             HStack(spacing: 12) {
@@ -19,23 +17,11 @@ struct EditNavigation: View {
             }
             
             eidtToast
-                .opacity(isPresentToast ? 1 : 0)
-                .animation(.spring(duration: 0.2), value: isPresentToast)
+                .opacity(editVM.toast.isPresent ? 1 : 0)
+                .animation(.easeInOut(duration: 0.5), value: editVM.toast.isPresent)
         }
         .padding(.horizontal, 16)
         .padding(.bottom, 16)
-        .onAppear {
-            Task {
-                isPresentToast = true
-                try? await Task.sleep(for: .seconds(2))
-                isPresentToast = false
-            }
-        }
-    }
-    
-    private var eidtToast: some View {
-        Text("AI 적용이 완료되었습니다.")
-            .font(Poppin.medium.font(size: 12))
     }
     
     private var xButton: some View {
@@ -84,6 +70,11 @@ struct EditNavigation: View {
     
     private var stopAnimation: Animation {
         .linear(duration: 0)
+    }
+    
+    private var eidtToast: some View {
+        Text(editVM.toast.text)
+            .font(Poppin.medium.font(size: 12))
     }
 }
 

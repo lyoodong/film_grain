@@ -30,6 +30,8 @@ extension EditTmpViewModel: ViewModelType {
         var colorGradingItems = ColorGradingItems.preset()
         var selectedIndex: Int?
         var isHiddenColorSlider: Bool = true
+        
+        var toast: Toast = .init()
     }
     
     enum Action {
@@ -38,8 +40,6 @@ extension EditTmpViewModel: ViewModelType {
         case onTextAnimationEnded
         
         //load Image
-        case dataLoaded(Data)
-        case imageLoaded(UIImage?)
         case filteredImageLoaded(UIImage?)
         
         case tapSelected(ToolType?)
@@ -66,6 +66,8 @@ extension EditTmpViewModel: ViewModelType {
         case saveButtonTapped
         
         case initialEditSheetHeightChnaged(CGFloat)
+        
+        case dismissToast
     }
 }
 
@@ -85,13 +87,6 @@ final class EditTmpViewModel: toVM<EditTmpViewModel> {
             
         case .onTextAnimationEnded:
             state.hadAIbuttonTextAnimated = true
-            
-        case .dataLoaded(let data):
-            print("dataLoaded")
-        
-            
-        case .imageLoaded(let image):
-            print("imageLoaded")
             
         case .filteredImageLoaded(let image):
             state.displayImage = image
@@ -240,6 +235,7 @@ final class EditTmpViewModel: toVM<EditTmpViewModel> {
                 state.filter.grainAlpha = res.alpha
                 state.filter.grainScale = res.scale
                 state.isAIAnalyzing = false
+                state.toast.show("AI Completed")
                 
                 let filter = state.filter
                 Task.detached(priority: .userInitiated) { [weak self] in
@@ -247,12 +243,20 @@ final class EditTmpViewModel: toVM<EditTmpViewModel> {
                     let iamge = filter.refresh()
                     effect(.filteredImageLoaded(iamge))
                 }
+                
+                Task {
+                    try? await Task.sleep(for: .seconds(2))
+                    effect(.dismissToast)
+                }
             }
 
         case .saveButtonTapped:
             if let image = state.displayImage {
                 UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
             }
+            
+        case .dismissToast:
+            state.toast.clear()
         }
     }
     
