@@ -5,22 +5,8 @@ struct UploadView: View {
     
     var body: some View {
         ZStack {
-            uploadScreenContent
-        }
-    }
-    
-    private var uploadScreenContent: some View {
-        ZStack {
-            VStack {
-                UploadTitle(uploadVM: uploadVM)
-                Spacer()
-            }
-            
-            VStack {
-                Spacer()
-                UploadStatus(uploadVM: uploadVM)
-                Spacer()
-            }
+            title
+            status
         }
         .padding(.horizontal, 16)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -28,6 +14,21 @@ struct UploadView: View {
         .photoPermissionAlert(uploadVM: uploadVM)
         .PhotoPickerFullScreen(uploadVM: uploadVM)
         .EditFullScreen(uploadVM: uploadVM)
+    }
+    
+    private var title: some View {
+        VStack {
+            UploadTitle(uploadVM: uploadVM)
+            Spacer()
+        }
+    }
+    
+    private var status: some View {
+        VStack {
+            Spacer()
+            UploadStatus(uploadVM: uploadVM)
+            Spacer()
+        }
     }
 }
 
@@ -45,7 +46,7 @@ extension View {
     }
 }
 
-struct EditModifier: ViewModifier {
+fileprivate struct EditModifier: ViewModifier {
     @ObservedObject var uploadVM: UploadViewModel
     
     func body(content: Content) -> some View {
@@ -62,7 +63,7 @@ struct EditModifier: ViewModifier {
     }
 }
 
-struct PhotoPickerModifier: ViewModifier {
+fileprivate struct PhotoPickerModifier: ViewModifier {
     @ObservedObject var uploadVM: UploadViewModel
     
     func body(content: Content) -> some View {
@@ -80,7 +81,7 @@ struct PhotoPickerModifier: ViewModifier {
     }
 }
 
-struct PhotoPermissionAlertModifier: ViewModifier {
+fileprivate struct PhotoPermissionAlertModifier: ViewModifier {
     @ObservedObject var uploadVM: UploadViewModel
     
     func body(content: Content) -> some View {

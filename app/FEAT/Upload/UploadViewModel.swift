@@ -59,8 +59,8 @@ final class UploadViewModel: toVM<UploadViewModel> {
             }
             
         case .imageLoaded(let image):
-            state.loadingStatus = .completeLoading
             state.originImage = image
+            state.loadingStatus = .completeLoading
             
         case .showEdit:
             state.loadingStatus = .none

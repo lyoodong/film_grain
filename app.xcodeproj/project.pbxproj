@@ -323,9 +323,9 @@
 			isa = PBXGroup;
 			children = (
 				BE8893E42E56F9040092BF41 /* UploadView.swift */,
+				BE7CE2D62E6034940083D39F /* UploadTitle.swift */,
 				BE8893F02E58A4B90092BF41 /* UploadStatus.swift */,
 				BE8893F22E58A5200092BF41 /* UploadPicker.swift */,
-				BE7CE2D62E6034940083D39F /* UploadTitle.swift */,
 				BE7CE2F42E6097960083D39F /* UploadViewModel.swift */,
 			);
 			path = Upload;
