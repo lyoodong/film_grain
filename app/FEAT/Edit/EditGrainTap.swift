@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct EditGrain: View {
+struct EditGrainTap: View {
     @ObservedObject var editVM: EditViewModel
     
     var body: some View {

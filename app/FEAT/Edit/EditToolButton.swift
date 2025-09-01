@@ -27,7 +27,7 @@ enum ToolType: String, Hashable, CaseIterable {
     }
 }
 
-struct ToolCircleButtonStack: View {
+struct EditToolButton: View {
     @ObservedObject var editVM: EditViewModel
     
     var body: some View {
@@ -74,26 +74,6 @@ struct ToolCircleButtonStack: View {
         }
     }
 }
-
-struct ToolTap: View {
-    @ObservedObject var editVM: EditViewModel
-    
-    var body: some View {
-        VStack {
-            switch editVM.selectedTap {
-            case .grain:
-                EditGrain(editVM: editVM)
-            case .tone:
-                EditColorTmp(editVM: editVM)
-            case .adjust:
-                EditAdjust(editVM: editVM)
-            default:
-                EmptyView()
-            }
-        }
-    }
-}
-
 
 struct ToolCircleButton: View {
     let type: ToolType

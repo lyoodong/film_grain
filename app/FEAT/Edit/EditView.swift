@@ -9,13 +9,11 @@ struct EditView: View {
         VStack {
             EditNavigation(editVM: editVM)
             EditZoomableImage(editVM: editVM)
-            ToolTap(editVM: editVM)
-            ToolCircleButtonStack(editVM: editVM)
+            EditToolTap(editVM: editVM)
+            EditToolButton(editVM: editVM)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color.mainBlack)
-        .onAppear {
-            editVM.send(.onAppear)
-        }
+        .onAppear { editVM.send(.onAppear) }
     }
 }

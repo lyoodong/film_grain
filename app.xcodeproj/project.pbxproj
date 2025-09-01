@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		BE102E332E5FFF25005468DA /* EditNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE102E322E5FFF25005468DA /* EditNavigation.swift */; };
 		BE55FAFA2E5C4D6500A32CDC /* EditZoomableImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE55FAF92E5C4D6500A32CDC /* EditZoomableImage.swift */; };
-		BE55FAFC2E5C500D00A32CDC /* EditTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE55FAFB2E5C500D00A32CDC /* EditTool.swift */; };
+		BE55FAFC2E5C500D00A32CDC /* EditToolButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE55FAFB2E5C500D00A32CDC /* EditToolButton.swift */; };
 		BE562A992E5C1DE400CF1EE9 /* EditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE562A962E5C1DE400CF1EE9 /* EditView.swift */; };
 		BE562A9A2E5C1DE400CF1EE9 /* EditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE562A972E5C1DE400CF1EE9 /* EditViewModel.swift */; };
 		BE7CE2C12E6032F30083D39F /* Poppins-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BE7CE2AF2E6032F30083D39F /* Poppins-Black.ttf */; };
@@ -55,11 +55,12 @@
 		BEC4876D2E65679400BD7490 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC4876C2E65679400BD7490 /* Toast.swift */; };
 		BEC487782E65B74800BD7490 /* Ext+CIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC487772E65B74800BD7490 /* Ext+CIColor.swift */; };
 		BEC4877A2E65D99A00BD7490 /* Ext+Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC487792E65D99A00BD7490 /* Ext+Data.swift */; };
-		BED4C4EA2E5EF40D00D276BC /* EditGrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED4C4E92E5EF40D00D276BC /* EditGrain.swift */; };
+		BEC4877D2E65E07900BD7490 /* EditToolTap.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC4877C2E65E07900BD7490 /* EditToolTap.swift */; };
+		BED4C4EA2E5EF40D00D276BC /* EditGrainTap.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED4C4E92E5EF40D00D276BC /* EditGrainTap.swift */; };
 		BED4C4EE2E5EFA8200D276BC /* CustomSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED4C4EC2E5EFA8200D276BC /* CustomSlider.swift */; };
 		BED4C4F02E5EFA8D00D276BC /* EditSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED4C4EF2E5EFA8D00D276BC /* EditSlider.swift */; };
-		BED4C4F42E5F108A00D276BC /* EditAdjust.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED4C4F32E5F108A00D276BC /* EditAdjust.swift */; };
-		BED4C4F62E5F195600D276BC /* EditColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED4C4F52E5F195600D276BC /* EditColor.swift */; };
+		BED4C4F42E5F108A00D276BC /* EditAdjustTap.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED4C4F32E5F108A00D276BC /* EditAdjustTap.swift */; };
+		BED4C4F62E5F195600D276BC /* EditToneTap.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED4C4F52E5F195600D276BC /* EditToneTap.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -82,7 +83,7 @@
 /* Begin PBXFileReference section */
 		BE102E322E5FFF25005468DA /* EditNavigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditNavigation.swift; sourceTree = "<group>"; };
 		BE55FAF92E5C4D6500A32CDC /* EditZoomableImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditZoomableImage.swift; sourceTree = "<group>"; };
-		BE55FAFB2E5C500D00A32CDC /* EditTool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTool.swift; sourceTree = "<group>"; };
+		BE55FAFB2E5C500D00A32CDC /* EditToolButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditToolButton.swift; sourceTree = "<group>"; };
 		BE562A962E5C1DE400CF1EE9 /* EditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditView.swift; sourceTree = "<group>"; };
 		BE562A972E5C1DE400CF1EE9 /* EditViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewModel.swift; sourceTree = "<group>"; };
 		BE7CE2AF2E6032F30083D39F /* Poppins-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Black.ttf"; sourceTree = "<group>"; };
@@ -132,11 +133,12 @@
 		BEC4876C2E65679400BD7490 /* Toast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
 		BEC487772E65B74800BD7490 /* Ext+CIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ext+CIColor.swift"; sourceTree = "<group>"; };
 		BEC487792E65D99A00BD7490 /* Ext+Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ext+Data.swift"; sourceTree = "<group>"; };
-		BED4C4E92E5EF40D00D276BC /* EditGrain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditGrain.swift; sourceTree = "<group>"; };
+		BEC4877C2E65E07900BD7490 /* EditToolTap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditToolTap.swift; sourceTree = "<group>"; };
+		BED4C4E92E5EF40D00D276BC /* EditGrainTap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditGrainTap.swift; sourceTree = "<group>"; };
 		BED4C4EC2E5EFA8200D276BC /* CustomSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSlider.swift; sourceTree = "<group>"; };
 		BED4C4EF2E5EFA8D00D276BC /* EditSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSlider.swift; sourceTree = "<group>"; };
-		BED4C4F32E5F108A00D276BC /* EditAdjust.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditAdjust.swift; sourceTree = "<group>"; };
-		BED4C4F52E5F195600D276BC /* EditColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditColor.swift; sourceTree = "<group>"; };
+		BED4C4F32E5F108A00D276BC /* EditAdjustTap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditAdjustTap.swift; sourceTree = "<group>"; };
+		BED4C4F52E5F195600D276BC /* EditToneTap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditToneTap.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -337,11 +339,12 @@
 				BE562A962E5C1DE400CF1EE9 /* EditView.swift */,
 				BE102E322E5FFF25005468DA /* EditNavigation.swift */,
 				BE55FAF92E5C4D6500A32CDC /* EditZoomableImage.swift */,
-				BE55FAFB2E5C500D00A32CDC /* EditTool.swift */,
+				BEC4877C2E65E07900BD7490 /* EditToolTap.swift */,
+				BE55FAFB2E5C500D00A32CDC /* EditToolButton.swift */,
 				BED4C4EF2E5EFA8D00D276BC /* EditSlider.swift */,
-				BED4C4E92E5EF40D00D276BC /* EditGrain.swift */,
-				BED4C4F32E5F108A00D276BC /* EditAdjust.swift */,
-				BED4C4F52E5F195600D276BC /* EditColor.swift */,
+				BED4C4E92E5EF40D00D276BC /* EditGrainTap.swift */,
+				BED4C4F32E5F108A00D276BC /* EditAdjustTap.swift */,
+				BED4C4F52E5F195600D276BC /* EditToneTap.swift */,
 				BE562A972E5C1DE400CF1EE9 /* EditViewModel.swift */,
 			);
 			path = Edit;
@@ -513,7 +516,7 @@
 			files = (
 				BEBECA6E2E431D6B00F65D26 /* ContrastRegressor.mlmodel in Sources */,
 				BE562A992E5C1DE400CF1EE9 /* EditView.swift in Sources */,
-				BED4C4F62E5F195600D276BC /* EditColor.swift in Sources */,
+				BED4C4F62E5F195600D276BC /* EditToneTap.swift in Sources */,
 				BE562A9A2E5C1DE400CF1EE9 /* EditViewModel.swift in Sources */,
 				BED4C4F02E5EFA8D00D276BC /* EditSlider.swift in Sources */,
 				BEBECA6F2E431D6B00F65D26 /* GrainAlphaRegressor.mlmodel in Sources */,
@@ -522,7 +525,7 @@
 				BE8893E52E56F9040092BF41 /* UploadView.swift in Sources */,
 				BE8893F32E58A5200092BF41 /* UploadPicker.swift in Sources */,
 				BED4C4EE2E5EFA8200D276BC /* CustomSlider.swift in Sources */,
-				BED4C4F42E5F108A00D276BC /* EditAdjust.swift in Sources */,
+				BED4C4F42E5F108A00D276BC /* EditAdjustTap.swift in Sources */,
 				BE7CE3082E61F1980083D39F /* Ext+Color.swift in Sources */,
 				BEC4876D2E65679400BD7490 /* Toast.swift in Sources */,
 				BE7CE30A2E61F1980083D39F /* Ext+UIApplication.swift in Sources */,
@@ -532,14 +535,15 @@
 				BE7CE3182E61F1BD0083D39F /* AppDelegate.swift in Sources */,
 				BE102E332E5FFF25005468DA /* EditNavigation.swift in Sources */,
 				BE55FAFA2E5C4D6500A32CDC /* EditZoomableImage.swift in Sources */,
+				BEC4877D2E65E07900BD7490 /* EditToolTap.swift in Sources */,
 				BE7CE2D52E6033F30083D39F /* Poppin.swift in Sources */,
 				BE7CE2D72E6034940083D39F /* UploadTitle.swift in Sources */,
 				BE8893F12E58A4B90092BF41 /* UploadStatus.swift in Sources */,
 				BEBECA702E431D6B00F65D26 /* GrainScaleRegressor.mlmodel in Sources */,
 				BE7CE2F52E6097960083D39F /* UploadViewModel.swift in Sources */,
-				BED4C4EA2E5EF40D00D276BC /* EditGrain.swift in Sources */,
+				BED4C4EA2E5EF40D00D276BC /* EditGrainTap.swift in Sources */,
 				BEBECA7A2E431D6B00F65D26 /* ViewModel.swift in Sources */,
-				BE55FAFC2E5C500D00A32CDC /* EditTool.swift in Sources */,
+				BE55FAFC2E5C500D00A32CDC /* EditToolButton.swift in Sources */,
 				BEBECA712E431D6B00F65D26 /* GrainModels.swift in Sources */,
 				BEC4877A2E65D99A00BD7490 /* Ext+Data.swift in Sources */,
 			);

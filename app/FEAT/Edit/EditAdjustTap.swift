@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct EditAdjust: View {
+struct EditAdjustTap: View {
     @ObservedObject var editVM: EditViewModel
     
     var body: some View {
