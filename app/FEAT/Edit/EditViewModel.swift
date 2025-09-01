@@ -2,7 +2,7 @@ import SwiftUI
 import Photos
 import PhotosUI
 
-extension EditTmpViewModel: ViewModelType {
+extension EditViewModel: ViewModelType {
     struct State {
         var image: UIImage
         var displayImage: UIImage?
@@ -63,7 +63,7 @@ extension EditTmpViewModel: ViewModelType {
     }
 }
 
-final class EditTmpViewModel: toVM<EditTmpViewModel> {
+final class EditViewModel: toVM<EditViewModel> {
     
     override func reduce(state: inout State, action: Action) {
         switch action {

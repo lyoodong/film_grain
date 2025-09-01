@@ -76,7 +76,7 @@ enum SliderType {
     }
 }
 
-struct EditTmpSlider: View {
+struct EditSlider: View {
     let type: SliderType
     let value: Double
     let onChanged: (Double) -> ()

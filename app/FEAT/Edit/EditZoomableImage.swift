@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct EditZoomableImage: View {
-    @ObservedObject var editVM: EditTmpViewModel
+    @ObservedObject var editVM: EditViewModel
     
     @State private var scale: CGFloat = 1.0
     @State private var lastScale: CGFloat = 1.0

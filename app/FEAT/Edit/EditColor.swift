@@ -2,12 +2,12 @@ import SwiftUI
 //MARK: - REFACTORING
 
 struct EditColorTmp: View {
-    @ObservedObject var editVM: EditTmpViewModel
+    @ObservedObject var editVM: EditViewModel
     
     var body: some View {
         VStack {
             if editVM.filter.isOnBrightColor || editVM.filter.isOndarkColor {
-                EditTmpSlider(
+                EditSlider(
                     type: .threshold,
                     value: editVM.filter.threshold
                 ) {
@@ -24,7 +24,7 @@ struct EditColorTmp: View {
             )
             
             if editVM.filter.isOnBrightColor {
-                EditTmpSlider(
+                EditSlider(
                     type: .brightColorAlpha,
                     value: editVM.filter.brightAlpha,
                     color: editVM.filter.brightColor,
@@ -42,7 +42,7 @@ struct EditColorTmp: View {
             )
             
             if editVM.filter.isOndarkColor {
-                EditTmpSlider(
+                EditSlider(
                     type: .darkColorAlpha,
                     value: editVM.filter.darkAlpha,
                     color: editVM.filter.darkColor,

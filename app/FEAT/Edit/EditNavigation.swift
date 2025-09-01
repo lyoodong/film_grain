@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct EditNavigation: View {
-    @ObservedObject var editVM: EditTmpViewModel
+    @ObservedObject var editVM: EditViewModel
     @Environment(\.dismiss) var dismiss
     
     private let diameter: CGFloat = 40

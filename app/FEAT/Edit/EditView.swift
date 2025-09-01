@@ -2,8 +2,8 @@ import SwiftUI
 import Photos
 import PhotosUI
 
-struct EditTmpView: View {
-    @ObservedObject var editVM: EditTmpViewModel
+struct EditView: View {
+    @ObservedObject var editVM: EditViewModel
     
     var body: some View {
         VStack {

@@ -56,7 +56,7 @@ struct EditModifier: ViewModifier {
             )
         ) {
             if let image = uploadVM.originImage {
-                EditTmpView(editVM: .init(initialState: .init(image: image)))
+                EditView(editVM: .init(initialState: .init(image: image)))
             }
         }
     }
