@@ -4,16 +4,19 @@ enum ToolType: String, Hashable, CaseIterable {
     case grain
     case color
     case adjust
+    case ai
     case none
     
     var systemName: String {
         switch self {
         case .grain:
-            return "circle.grid.3x3.fill"
+            return "circle.bottomrighthalf.pattern.checkered"
         case .color:
-            return "paintpalette"
+            return "swatchpalette"
         case .adjust:
-            return "slider.horizontal.3"
+            return "dial.medium"
+        case .ai:
+            return "sparkles"
         case .none:
             return ""
         }
@@ -66,8 +69,8 @@ struct ToolCircleButtonStack: View {
     }
     
     private var aiButton: some View {
-        ToolCircleButton(type: .grain, selected: .grain) {
-            editVM.send(.tapSelected(.grain))
+        ToolCircleButton(type: .ai, selected: editVM.selectedTap) {
+            editVM.send(.tapSelected(.ai))
         }
     }
 }
