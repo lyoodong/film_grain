@@ -23,11 +23,10 @@ enum ToolType: String, Hashable, CaseIterable {
     }
     
     var title: String {
-        rawValue.uppercased()
+        rawValue.capitalized
     }
 }
 
-//MARK: - REFACTOR
 struct ToolCircleButtonStack: View {
     @ObservedObject var editVM: EditTmpViewModel
     
@@ -98,15 +97,20 @@ struct ToolTap: View {
 struct ToolCircleButton: View {
     let type: ToolType
     let selected: ToolType
+    let textFont = Poppin.regular.font(size: 10)
+    let iconFont = Poppin.regular.font(size: 16)
+    let diameter: CGFloat = 40
     let action: () -> Void
-    
-    private let diameter: CGFloat = 44
     
     var body: some View {
         VStack(spacing: 6) {
-            Button(action: action, label: label)
+            button
             title
         }
+    }
+    
+    private var button: some View {
+        Button(action: action, label: label)
     }
     
     private func label() -> some View {
@@ -120,8 +124,7 @@ struct ToolCircleButton: View {
     
     private var title: some View {
         Text(type.title)
-            .font(.caption2)
-            .foregroundColor(.white.opacity(0.9))
+            .font(textFont)
     }
     
     private var backgroundCircle: some View {
@@ -130,7 +133,7 @@ struct ToolCircleButton: View {
     
     private var image: some View {
         Image(systemName: type.systemName)
-            .font(.system(size: 18, weight: .semibold))
+            .font(iconFont)
             .foregroundColor(.white)
     }
     

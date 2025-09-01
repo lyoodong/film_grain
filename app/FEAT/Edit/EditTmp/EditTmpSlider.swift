@@ -67,7 +67,12 @@ enum SliderType {
     }
     
     var valueFormat: String {
-        return "%.2f"
+        switch self {
+        case .temperture:
+            return "%.0f"
+        default:
+            return "%.2f"
+        }
     }
 }
 
@@ -76,6 +81,7 @@ struct EditTmpSlider: View {
     let height: CGFloat = 60
     let bgColor: Color = .clear
     let value: Double
+    let font = Poppin.medium.font(size: 12)
     let onChanged: (Double) -> ()
     
     var body: some View {
@@ -97,10 +103,22 @@ struct EditTmpSlider: View {
     
     private var title: some View {
         Text(type.title)
+            .font(font)
+            .padding(.horizontal, 8)
+            .padding(.vertical, 4)
+            .background(background)
     }
     
     private var valueText: some View {
-        Text(String(format: "%.2f", value))
+        Text(String(format: type.valueFormat, value))
+            .font(font)
+            .padding(.horizontal, 8)
+            .padding(.vertical, 4)
+            .background(background)
+    }
+    
+    private var background: some View {
+        Capsule().fill(Color.sheetGray)
     }
     
     private var slider: some View {
