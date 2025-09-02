@@ -42,20 +42,10 @@ final class UploadViewModel: toVM<UploadViewModel> {
             
         case .onPicked(let id):
             state.loadingStatus = .imageLoading
-            
-            Task(priority: .userInitiated) {
-                if let data = await loadData(id: id) {
-                    effect(.dataLoaded(data))
-                }
-            }
+            fetchData(id)
             
         case .dataLoaded(let data):
-            
-            Task(priority: .userInitiated) {
-                let image = data.downsampleToImage()
-                try await Task.sleep(for: .seconds(0.8))
-                effect(.imageLoaded(image))
-            }
+            fetchImage(data)
             
         case .imageLoaded(let image):
             state.originImage = image
@@ -100,6 +90,22 @@ extension UploadViewModel {
             PHImageManager.default().requestImageDataAndOrientation(for: asset, options: options) { data, uti, orientation, info in
                 continuation.resume(returning: data)
             }
+        }
+    }
+    
+    private func fetchData(_ id: String) {
+        Task(priority: .userInitiated) {
+            if let data = await loadData(id: id) {
+                effect(.dataLoaded(data))
+            }
+        }
+    }
+    
+    private func fetchImage(_ data: Data) {
+        Task(priority: .userInitiated) {
+            let image = data.downsampleToImage()
+            try await Task.sleep(for: .seconds(0.8))
+            effect(.imageLoaded(image))
         }
     }
 }

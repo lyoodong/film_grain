@@ -87,8 +87,7 @@ final class EditViewModel: toVM<EditViewModel> {
             case .ai:
                 let image = state.image
                 
-                Task.detached(priority: .userInitiated) { [weak self] in
-                    guard let self else { return }
+                Task {
                     let res = predictPreset(for: image)
                     try await Task.sleep(for: .seconds(0.8))
                     effect(.aiAnalyzeCompleted(res))
@@ -163,8 +162,7 @@ final class EditViewModel: toVM<EditViewModel> {
                 state.filter.pushDeque()
                 
                 let filter = state.filter
-                Task.detached(priority: .userInitiated) { [weak self] in
-                    guard let self else { return }
+                Task {
                     let iamge = filter.refresh()
                     effect(.filteredImageLoaded(iamge))
                 }
