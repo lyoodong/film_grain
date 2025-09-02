@@ -57,6 +57,8 @@ extension EditViewModel: ViewModelType {
 }
 
 final class EditViewModel: toVM<EditViewModel> {
+    private var refreshTask: Task<Void, Never>?
+    
     override func reduce(state: inout State, action: Action) {
         switch action {
         case .onAppear:
@@ -212,7 +214,9 @@ final class EditViewModel: toVM<EditViewModel> {
     }
     
     private func emitRefreshedImage(from filter: Filter) {
-        Task.detached(priority: .userInitiated) { [weak self] in
+        refreshTask?.cancel()
+        
+        refreshTask = Task(priority: .userInitiated) { [weak self] in
             guard let self else { return }
             let image = filter.refresh()
             self.effect(.filteredImageLoaded(image))
