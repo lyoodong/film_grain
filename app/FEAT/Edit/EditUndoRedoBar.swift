@@ -20,6 +20,7 @@ struct EditUndoRedoBar: View {
     
     private func undoButtonAction() {
         impact()
+        editVM.send(.undoButtonTapped)
     }
     
     private func undoIcon() ->some View {
@@ -34,6 +35,7 @@ struct EditUndoRedoBar: View {
     
     private func redoButtonAction() {
         impact()
+        editVM.send(.redoButtonTapped)
     }
     
     private func redoIcon() -> some View {

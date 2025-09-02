@@ -38,6 +38,10 @@ extension EditViewModel: ViewModelType {
         case aiButtonTapped
         case aiAnalyzeCompleted((alpha: Double, scale: Double, contrast: Double)?)
         
+        // Status
+        case undoButtonTapped
+        case redoButtonTapped
+        
         // ETC
         case tapSelected(ToolType)
         case saveButtonTapped
@@ -227,6 +231,13 @@ final class EditViewModel: toVM<EditViewModel> {
                 let iamge = filter.refresh()
                 effect(.filteredImageLoaded(iamge))
             }
+            
+        case .undoButtonTapped:
+            print("undoButtonTapped")
+            
+        case .redoButtonTapped:
+            print("redoButtonTapped")
+            
         }
     }
     
