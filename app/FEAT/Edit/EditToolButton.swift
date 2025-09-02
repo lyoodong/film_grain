@@ -46,7 +46,7 @@ struct EditToolButton: View {
         ToolCircleButton(
             type: .grain,
             selected: editVM.selectedTap,
-            isChanged: editVM.filter.isGrainChanged
+            isChanged: editVM.filter.param.isGrainChanged
         ) {
             editVM.send(.tapSelected(.grain))
         }
@@ -56,7 +56,7 @@ struct EditToolButton: View {
         ToolCircleButton(
             type: .tone,
             selected: editVM.selectedTap,
-            isChanged: editVM.filter.isToneChanged
+            isChanged: editVM.filter.param.isToneChanged
         ) {
             editVM.send(.tapSelected(.tone))
         }
@@ -66,7 +66,7 @@ struct EditToolButton: View {
         ToolCircleButton(
             type: .adjust,
             selected: editVM.selectedTap,
-            isChanged: editVM.filter.isAdjustChanged
+            isChanged: editVM.filter.param.isAdjustChanged
         ) {
             editVM.send(.tapSelected(.adjust))
         }

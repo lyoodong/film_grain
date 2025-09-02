@@ -5,18 +5,18 @@ struct EditToneTap: View {
     
     var body: some View {
         VStack {
-            if editVM.filter.isOnBrightColor || editVM.filter.isOndarkColor { thresholdSlider }
+            if editVM.filter.param.isOnBrightColor || editVM.filter.param.isOndarkColor { thresholdSlider }
             highlightColor
-            if editVM.filter.isOnBrightColor { highlighAlphaSlider }
+            if editVM.filter.param.isOnBrightColor { highlighAlphaSlider }
             shadowColor
-            if editVM.filter.isOndarkColor { shadowAlphaSlider }
+            if editVM.filter.param.isOndarkColor { shadowAlphaSlider }
         }
     }
     
     private var thresholdSlider: some View {
         EditSlider(
             type: .threshold,
-            value: editVM.filter.threshold,
+            value: editVM.filter.param.threshold,
             onChanged: thresholdSliderOnChanged,
             onEnded: thresholdSliderOnEnded
         )
@@ -34,7 +34,7 @@ struct EditToneTap: View {
         ColorToggleStack(
             title: "Highlight",
             isOn: Binding(
-                get: { editVM.filter.isOnBrightColor },
+                get: { editVM.filter.param.isOnBrightColor },
                 set: { editVM.send(.highlightToggle($0)) }
             )
         )
@@ -43,8 +43,8 @@ struct EditToneTap: View {
     private var highlighAlphaSlider: some View {
         EditSlider(
             type: .brightColorAlpha,
-            value: editVM.filter.brightAlpha,
-            color: editVM.filter.brightColor,
+            value: editVM.filter.param.brightAlpha,
+            color: editVM.filter.param.brightColor,
             colorSelected: { editVM.send(.highlightColorButtonTapped($0)) },
             onChanged: brightAlphaSliderOnChanged,
             onEnded: brightAlphaSliderOnEnded
@@ -63,7 +63,7 @@ struct EditToneTap: View {
         ColorToggleStack(
             title: "Shadow",
             isOn: Binding(
-                get: { editVM.filter.isOndarkColor },
+                get: { editVM.filter.param.isOndarkColor },
                 set: { editVM.send(.shadowToggle($0)) }
             )
         )
@@ -72,8 +72,8 @@ struct EditToneTap: View {
     private var shadowAlphaSlider: some View {
         EditSlider(
             type: .darkColorAlpha,
-            value: editVM.filter.darkAlpha,
-            color: editVM.filter.darkColor,
+            value: editVM.filter.param.darkAlpha,
+            color: editVM.filter.param.darkColor,
             colorSelected: { editVM.send(.shadowColorButtonTapped($0)) },
             onChanged: darkAlphaSliderOnChanged,
             onEnded: darkAlphaSliderOnEnded

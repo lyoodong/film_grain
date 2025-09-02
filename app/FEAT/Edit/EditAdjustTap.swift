@@ -7,14 +7,14 @@ struct EditAdjustTap: View {
         VStack {
             EditSlider(
                 type: .contrast,
-                value: editVM.filter.contrast,
+                value: editVM.filter.param.contrast,
                 onChanged: contrastSliderOnChanged,
                 onEnded: contrastSliderOnEnded
             )
             
             EditSlider(
                 type: .temperture,
-                value: editVM.filter.temperture,
+                value: editVM.filter.param.temperture,
                 onChanged: tempertureSliderOnChanged,
                 onEnded: tempertureSliderOnEnded
             )

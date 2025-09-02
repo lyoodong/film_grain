@@ -51,54 +51,18 @@ class Filter {
     var baseCI: CIImage?
     var grainCI: CIImage?
     
-    var grainAlpha: Double = 0.0
-    var grainScale: Double = 1.0
-    
-    var isGrainMute: Bool = false
-    
-    var isGrainChanged: Bool {
-        let changed = grainAlpha != 0.0 || grainScale != 1.0
-        return isGrainMute ? false : changed
-    }
-    
-    var contrast: Double = 1
-    var temperture: Double = 6500
-    
-    var isAdjustMute: Bool = false
-    
-    var isAdjustChanged: Bool {
-        let changed = contrast != 1.0 || temperture != 6500.0
-        return isAdjustMute ? false : changed
-    }
-    
-    var threshold: Double = 0.5
-    
-    var isOnBrightColor: Bool = false
-    var brightColor: Color = .mainOrange
-    var brightAlpha: Double = 0.5
-    
-    var isOndarkColor: Bool = false
-    var darkColor: Color = .mainTeal
-    var darkAlpha: Double = 0.5
-    
-    var isToneMute: Bool = false
-    
-    var isToneChanged: Bool {
-        let changed = threshold != 0.5 ||
-        isOnBrightColor != false ||
-        brightColor != .mainOrange ||
-        brightAlpha != 0.5 ||
-        isOndarkColor != false ||
-        darkColor != .mainTeal ||
-        darkAlpha != 0.5
-        
-        return isToneMute ? false : changed
-    }
-    
-    
     //MARK: - REFACTOR
     var param = FilterParam()
     var paramDeque: Deque<FilterParam> = []
+    var index: Int = 0
+    
+    func pushDeque() {
+        paramDeque.append(param)
+    }
+    
+    func popDeque() {
+        
+    }
     
     //MARK: - REFACTOR
     
@@ -143,16 +107,16 @@ class Filter {
         guard let baseCI,
               let grainCI else { return nil }
         
-        let brightColor = CIColor(brightColor)
-        let darkColor = CIColor(darkColor)
+        let brightColor = CIColor(param.brightColor)
+        let darkColor = CIColor(param.darkColor)
         
-        let colorCI = applyColorGrading(baseCI, threshold: threshold, brightColor: brightColor, brightAlpha: brightAlpha, darkColor: darkColor, darkAlpha: darkAlpha)
-        let contrastCI = applyContrast(colorCI, contrast: contrast)
-        let tempertureCI = applyTemperture(contrastCI, temperature: temperture)
+        let colorCI = applyColorGrading(baseCI, threshold: param.threshold, brightColor: brightColor, brightAlpha: param.brightAlpha, darkColor: darkColor, darkAlpha: param.darkAlpha)
+        let contrastCI = applyContrast(colorCI, contrast: param.contrast)
+        let tempertureCI = applyTemperture(contrastCI, temperature: param.temperture)
         let baseAdjustedCI = tempertureCI
         
-        let grainAlphaCI = applyGrainAlpha(grainCI, alpha: grainAlpha)
-        let grainScaleCI = applyGrainScale(grainAlphaCI, scale: grainScale)
+        let grainAlphaCI = applyGrainAlpha(grainCI, alpha: param.grainAlpha)
+        let grainScaleCI = applyGrainScale(grainAlphaCI, scale: param.grainScale)
         let grainAdjustedCI = grainScaleCI
         
         let blendCI = blend(input: grainAdjustedCI, background: baseAdjustedCI)
@@ -169,7 +133,7 @@ class Filter {
     ) -> CIImage? {
         let alphaF = CIFilter.colorMatrix()
         alphaF.inputImage = input
-        alphaF.aVector = CIVector(x: 0, y: 0, z: 0, w: isGrainMute ? 0 : alpha)
+        alphaF.aVector = CIVector(x: 0, y: 0, z: 0, w: param.isGrainMute ? 0 : alpha)
         
         return alphaF.outputImage
     }
@@ -202,8 +166,8 @@ class Filter {
     ) -> CIImage? {
         guard let input else { return nil }
         
-        let brightAlpha: CGFloat = isOnBrightColor && !isToneMute ? brightAlpha : 0
-        let darkAlpha: CGFloat = isOndarkColor && !isToneMute ? darkAlpha : 0
+        let brightAlpha: CGFloat = param.isOnBrightColor && !param.isToneMute ? brightAlpha : 0
+        let darkAlpha: CGFloat = param.isOndarkColor && !param.isToneMute ? darkAlpha : 0
         
         let brightColor = CIColor(red: b.red, green: b.green, blue: b.blue, alpha: brightAlpha)
         let darkColor = CIColor(red: d.red, green: d.green, blue: d.blue, alpha: darkAlpha)
@@ -225,7 +189,7 @@ class Filter {
         
         let contrastF = CIFilter.colorControls()
         contrastF.inputImage = input
-        contrastF.contrast = Float(isAdjustMute ? 1 : contrast)
+        contrastF.contrast = Float(param.isAdjustMute ? 1 : contrast)
         
         return contrastF.outputImage
     }
@@ -240,7 +204,7 @@ class Filter {
         tmpF.inputImage = input
         
         let orignTint = tmpF.neutral.y
-        let tmp = isAdjustMute ? 6500 : temperature
+        let tmp = param.isAdjustMute ? 6500 : temperature
         tmpF.neutral = CIVector(x: CGFloat(tmp), y: orignTint)
         
         return tmpF.outputImage

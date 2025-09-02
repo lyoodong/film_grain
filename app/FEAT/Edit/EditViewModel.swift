@@ -78,11 +78,11 @@ final class EditViewModel: toVM<EditViewModel> {
 
             switch type {
             case .grain:
-                state.filter.isGrainMute = canceled
+                state.filter.param.isGrainMute = canceled
             case .tone:
-                state.filter.isToneMute = canceled
+                state.filter.param.isToneMute = canceled
             case .adjust:
-                state.filter.isAdjustMute = canceled
+                state.filter.param.isAdjustMute = canceled
             default:
                 break
             }
@@ -95,7 +95,7 @@ final class EditViewModel: toVM<EditViewModel> {
             }
 
         case .grainAlphaChanged(let value):
-            state.filter.grainAlpha = value
+            state.filter.param.grainAlpha = value
             
             let filter = state.filter
             Task.detached(priority: .userInitiated) { [weak self] in
@@ -105,10 +105,11 @@ final class EditViewModel: toVM<EditViewModel> {
             }
             
         case .grainAlphaEnded(let value):
-            print("grainAlphaEnded")
+            state.filter.param.grainAlpha = value
+            state.filter.pushDeque()
             
         case .grainScaleChanged(let value):
-            state.filter.grainScale = value
+            state.filter.param.grainScale = value
             
             let filter = state.filter
             Task.detached(priority: .userInitiated) { [weak self] in
@@ -121,7 +122,7 @@ final class EditViewModel: toVM<EditViewModel> {
             print("grainScaleEnded")
             
         case .contrastChanged(let value):
-            state.filter.contrast = value
+            state.filter.param.contrast = value
             
             let filter = state.filter
             Task.detached(priority: .userInitiated) { [weak self] in
@@ -134,7 +135,7 @@ final class EditViewModel: toVM<EditViewModel> {
             print("contrastEnded")
             
         case .tempertureChanged(let value):
-            state.filter.temperture = value
+            state.filter.param.temperture = value
             
             let filter = state.filter
             Task.detached(priority: .userInitiated) { [weak self] in
@@ -147,7 +148,7 @@ final class EditViewModel: toVM<EditViewModel> {
             print("tempertureEnded")
             
         case .thresholdChanged(let value):
-            state.filter.threshold = value
+            state.filter.param.threshold = value
             
             let filter = state.filter
             Task.detached(priority: .userInitiated) { [weak self] in
@@ -160,7 +161,7 @@ final class EditViewModel: toVM<EditViewModel> {
             print("thresholdEnded")
             
         case .brightColorAlphaChanged(let value):
-            state.filter.brightAlpha = value
+            state.filter.param.brightAlpha = value
             
             let filter = state.filter
             Task.detached(priority: .userInitiated) { [weak self] in
@@ -173,7 +174,7 @@ final class EditViewModel: toVM<EditViewModel> {
             print("brightColorAlphaEnded")
             
         case .darkColorAlphaChanged(let value):
-            state.filter.darkAlpha = value
+            state.filter.param.darkAlpha = value
             
             let filter = state.filter
             Task.detached(priority: .userInitiated) { [weak self] in
@@ -197,8 +198,8 @@ final class EditViewModel: toVM<EditViewModel> {
             
         case .aiAnalyzeCompleted(let res):
             if let res = res {
-                state.filter.grainAlpha = res.alpha
-                state.filter.grainScale = res.scale
+                state.filter.param.grainAlpha = res.alpha
+                state.filter.param.grainScale = res.scale
                 state.toast.show("AI Completed")
                 
                 let filter = state.filter
@@ -223,7 +224,7 @@ final class EditViewModel: toVM<EditViewModel> {
             state.toast.clear()
             
         case .highlightToggle(let isOn):
-            state.filter.isOnBrightColor = isOn
+            state.filter.param.isOnBrightColor = isOn
             let filter = state.filter
             
             Task.detached(priority: .userInitiated) { [weak self] in
@@ -233,7 +234,7 @@ final class EditViewModel: toVM<EditViewModel> {
             }
             
         case .shadowToggle(let isOn):
-            state.filter.isOndarkColor = isOn
+            state.filter.param.isOndarkColor = isOn
             let filter = state.filter
             
             Task.detached(priority: .userInitiated) { [weak self] in
@@ -243,7 +244,7 @@ final class EditViewModel: toVM<EditViewModel> {
             }
             
         case .highlightColorButtonTapped(let color):
-            state.filter.brightColor = color
+            state.filter.param.brightColor = color
             
             let filter = state.filter
             Task.detached(priority: .userInitiated) { [weak self] in
@@ -253,7 +254,7 @@ final class EditViewModel: toVM<EditViewModel> {
             }
             
         case .shadowColorButtonTapped(let color):
-            state.filter.darkColor = color
+            state.filter.param.darkColor = color
             
             let filter = state.filter
             Task.detached(priority: .userInitiated) { [weak self] in

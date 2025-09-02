@@ -7,14 +7,14 @@ struct EditGrainTap: View {
         VStack {
             EditSlider(
                 type: .grainAlpha,
-                value: editVM.filter.grainAlpha,
+                value: editVM.filter.param.grainAlpha,
                 onChanged: grainAlphaSliderOnChanged,
                 onEnded: grainAlphaSliderOnEnded
             )
             
             EditSlider(
                 type: .grainScale,
-                value: editVM.filter.grainScale,
+                value: editVM.filter.param.grainScale,
                 onChanged: grainScaleSliderOnChanged,
                 onEnded: grainScaleSliderOnEnded
             )
