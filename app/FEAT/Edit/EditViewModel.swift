@@ -19,16 +19,24 @@ extension EditViewModel: ViewModelType {
         
         // Grain
         case grainAlphaChanged(Double)
+        case grainAlphaEnded(Double)
+        
         case grainScaleChanged(Double)
+        case grainScaleEnded(Double)
         
         // Adjust
         case contrastChanged(Double)
+        case contrastEnded(Double)
         case tempertureChanged(Double)
+        case tempertureEnded(Double)
         
         // Tone
         case thresholdChanged(Double)
+        case thresholdEnded(Double)
         case brightColorAlphaChanged(Double)
+        case brightColorAlphaEnded(Double)
         case darkColorAlphaChanged(Double)
+        case darkColorAlphaEnded(Double)
         case highlightToggle(Bool)
         case shadowToggle(Bool)
         case highlightColorButtonTapped(Color)
@@ -96,6 +104,9 @@ final class EditViewModel: toVM<EditViewModel> {
                 effect(.filteredImageLoaded(iamge))
             }
             
+        case .grainAlphaEnded(let value):
+            print("grainAlphaEnded")
+            
         case .grainScaleChanged(let value):
             state.filter.grainScale = value
             
@@ -105,6 +116,9 @@ final class EditViewModel: toVM<EditViewModel> {
                 let iamge = filter.refresh()
                 effect(.filteredImageLoaded(iamge))
             }
+            
+        case .grainScaleEnded(let value):
+            print("grainScaleEnded")
             
         case .contrastChanged(let value):
             state.filter.contrast = value
@@ -116,6 +130,9 @@ final class EditViewModel: toVM<EditViewModel> {
                 effect(.filteredImageLoaded(iamge))
             }
             
+        case .contrastEnded(let value):
+            print("contrastEnded")
+            
         case .tempertureChanged(let value):
             state.filter.temperture = value
             
@@ -125,6 +142,9 @@ final class EditViewModel: toVM<EditViewModel> {
                 let iamge = filter.refresh()
                 effect(.filteredImageLoaded(iamge))
             }
+            
+        case .tempertureEnded(let value):
+            print("tempertureEnded")
             
         case .thresholdChanged(let value):
             state.filter.threshold = value
@@ -136,6 +156,9 @@ final class EditViewModel: toVM<EditViewModel> {
                 effect(.filteredImageLoaded(iamge))
             }
             
+        case .thresholdEnded(let value):
+            print("thresholdEnded")
+            
         case .brightColorAlphaChanged(let value):
             state.filter.brightAlpha = value
             
@@ -145,6 +168,10 @@ final class EditViewModel: toVM<EditViewModel> {
                 let iamge = filter.refresh()
                 effect(.filteredImageLoaded(iamge))
             }
+            
+        case .brightColorAlphaEnded(let value):
+            print("brightColorAlphaEnded")
+            
         case .darkColorAlphaChanged(let value):
             state.filter.darkAlpha = value
             
@@ -154,6 +181,9 @@ final class EditViewModel: toVM<EditViewModel> {
                 let iamge = filter.refresh()
                 effect(.filteredImageLoaded(iamge))
             }
+            
+        case .darkColorAlphaEnded(let value):
+            print("darkColorAlphaEnded")
             
         case .aiButtonTapped:
             let image = state.image

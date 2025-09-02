@@ -16,10 +16,18 @@ struct EditToneTap: View {
     private var thresholdSlider: some View {
         EditSlider(
             type: .threshold,
-            value: editVM.filter.threshold
-        ) {
-            editVM.send(.thresholdChanged($0))
-        }
+            value: editVM.filter.threshold,
+            onChanged: thresholdSliderOnChanged,
+            onEnded: thresholdSliderOnEnded
+        )
+    }
+    
+    private func thresholdSliderOnChanged(_ value: Double) {
+        editVM.send(.thresholdChanged(value))
+    }
+    
+    private func thresholdSliderOnEnded(_ value: Double) {
+        editVM.send(.thresholdEnded(value))
     }
     
     private var highlightColor: some View {
@@ -38,8 +46,17 @@ struct EditToneTap: View {
             value: editVM.filter.brightAlpha,
             color: editVM.filter.brightColor,
             colorSelected: { editVM.send(.highlightColorButtonTapped($0)) },
-            onChanged: { editVM.send(.brightColorAlphaChanged($0)) }
+            onChanged: brightAlphaSliderOnChanged,
+            onEnded: brightAlphaSliderOnEnded
         )
+    }
+    
+    private func brightAlphaSliderOnChanged(_ value: Double) {
+        editVM.send(.brightColorAlphaChanged(value))
+    }
+    
+    private func brightAlphaSliderOnEnded(_ value: Double) {
+        editVM.send(.brightColorAlphaEnded(value))
     }
     
     private var shadowColor: some View {
@@ -58,10 +75,20 @@ struct EditToneTap: View {
             value: editVM.filter.darkAlpha,
             color: editVM.filter.darkColor,
             colorSelected: { editVM.send(.shadowColorButtonTapped($0)) },
-            onChanged: { editVM.send(.darkColorAlphaChanged($0)) }
+            onChanged: darkAlphaSliderOnChanged,
+            onEnded: darkAlphaSliderOnEnded
         )
     }
+    
+    private func darkAlphaSliderOnChanged(_ value: Double) {
+        editVM.send(.darkColorAlphaChanged(value))
+    }
+    
+    private func darkAlphaSliderOnEnded(_ value: Double) {
+        editVM.send(.darkColorAlphaEnded(value))
+    }
 }
+
 
 struct ColorToggleStack: View {
     let title: String

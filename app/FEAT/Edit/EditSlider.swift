@@ -80,6 +80,7 @@ struct EditSlider: View {
     let type: SliderType
     let value: Double
     let onChanged: (Double) -> ()
+    let onEnded: (Double) -> ()
 
     let color: Color
     let height: CGFloat
@@ -93,7 +94,8 @@ struct EditSlider: View {
         height: CGFloat = 60,
         font: Font = Poppin.medium.font(size: 12),
         colorSelected: @escaping (Color) -> Void = { _ in },
-        onChanged: @escaping (Double) -> Void
+        onChanged: @escaping (Double) -> Void,
+        onEnded:  @escaping (Double) -> ()
     ) {
         self.type = type
         self.value = value
@@ -102,6 +104,7 @@ struct EditSlider: View {
         self.font = font
         self.colorSelected = colorSelected
         self.onChanged = onChanged
+        self.onEnded = onEnded
     }
     
     var body: some View {
@@ -157,7 +160,8 @@ struct EditSlider: View {
                 set: onChanged
             ),
             range: type.range,
-            step: type.step
+            step: type.step,
+            onEnded: onEnded
         )
         .background(.clear)
     }

@@ -4,6 +4,7 @@ struct CustomSlider: View {
     @Binding var value: Double
     let range: ClosedRange<Double>
     let step: Double
+    let onEnded: (Double) -> Void
 
     @GestureState private var isDragging = false
 
@@ -46,6 +47,7 @@ struct CustomSlider: View {
                 let t  = px / width
                 let v  = range.lowerBound + Double(t) * (range.upperBound - range.lowerBound)
                 value  = snap(v, to: step, in: range)
+                onEnded(value)
             }
     }
     

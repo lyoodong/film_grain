@@ -5,13 +5,35 @@ struct EditAdjustTap: View {
     
     var body: some View {
         VStack {
-            EditSlider(type: .contrast, value: editVM.filter.contrast) {
-                editVM.send(.contrastChanged($0))
-            }
+            EditSlider(
+                type: .contrast,
+                value: editVM.filter.contrast,
+                onChanged: contrastSliderOnChanged,
+                onEnded: contrastSliderOnEnded
+            )
             
-            EditSlider(type: .temperture, value: editVM.filter.temperture) {
-                editVM.send(.tempertureChanged($0))
-            }
+            EditSlider(
+                type: .temperture,
+                value: editVM.filter.temperture,
+                onChanged: tempertureSliderOnChanged,
+                onEnded: tempertureSliderOnEnded
+            )
         }
+    }
+    
+    private func contrastSliderOnChanged(_ value: Double) {
+        editVM.send(.contrastChanged(value))
+    }
+    
+    private func contrastSliderOnEnded(_ value: Double) {
+        editVM.send(.contrastEnded(value))
+    }
+    
+    private func tempertureSliderOnChanged(_ value: Double) {
+        editVM.send(.tempertureChanged(value))
+    }
+    
+    private func tempertureSliderOnEnded(_ value: Double) {
+        editVM.send(.tempertureEnded(value))
     }
 }
