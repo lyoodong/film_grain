@@ -43,7 +43,6 @@ extension EditViewModel: ViewModelType {
         case shadowColorButtonTapped(Color)
         
         // AI
-        case aiButtonTapped
         case aiAnalyzeCompleted((alpha: Double, scale: Double, contrast: Double)?)
         
         // Status
@@ -83,26 +82,24 @@ final class EditViewModel: toVM<EditViewModel> {
                 state.filter.param.isToneMute = canceled
             case .adjust:
                 state.filter.param.isAdjustMute = canceled
+            case .ai:
+                let image = state.image
+                
+                Task.detached(priority: .userInitiated) { [weak self] in
+                    guard let self else { return }
+                    let res = predictPreset(for: image)
+                    try await Task.sleep(for: .seconds(0.8))
+                    effect(.aiAnalyzeCompleted(res))
+                }
             default:
                 break
             }
             
-            let filter = state.filter
-            Task.detached(priority: .userInitiated) { [weak self] in
-                guard let self else { return }
-                let iamge = filter.refresh()
-                effect(.filteredImageLoaded(iamge))
-            }
+            emitRefreshedImage(from: state.filter)
 
         case .grainAlphaChanged(let value):
             state.filter.param.grainAlpha = value
-            
-            let filter = state.filter
-            Task.detached(priority: .userInitiated) { [weak self] in
-                guard let self else { return }
-                let iamge = filter.refresh()
-                effect(.filteredImageLoaded(iamge))
-            }
+            emitRefreshedImage(from: state.filter)
             
         case .grainAlphaEnded(let value):
             state.filter.param.grainAlpha = value
@@ -110,13 +107,7 @@ final class EditViewModel: toVM<EditViewModel> {
             
         case .grainScaleChanged(let value):
             state.filter.param.grainScale = value
-            
-            let filter = state.filter
-            Task.detached(priority: .userInitiated) { [weak self] in
-                guard let self else { return }
-                let iamge = filter.refresh()
-                effect(.filteredImageLoaded(iamge))
-            }
+            emitRefreshedImage(from: state.filter)
             
         case .grainScaleEnded(let value):
             state.filter.param.grainScale = value
@@ -124,13 +115,7 @@ final class EditViewModel: toVM<EditViewModel> {
             
         case .contrastChanged(let value):
             state.filter.param.contrast = value
-            
-            let filter = state.filter
-            Task.detached(priority: .userInitiated) { [weak self] in
-                guard let self else { return }
-                let iamge = filter.refresh()
-                effect(.filteredImageLoaded(iamge))
-            }
+            emitRefreshedImage(from: state.filter)
             
         case .contrastEnded(let value):
             state.filter.param.contrast = value
@@ -138,13 +123,7 @@ final class EditViewModel: toVM<EditViewModel> {
             
         case .tempertureChanged(let value):
             state.filter.param.temperture = value
-            
-            let filter = state.filter
-            Task.detached(priority: .userInitiated) { [weak self] in
-                guard let self else { return }
-                let iamge = filter.refresh()
-                effect(.filteredImageLoaded(iamge))
-            }
+            emitRefreshedImage(from: state.filter)
             
         case .tempertureEnded(let value):
             state.filter.param.temperture = value
@@ -152,13 +131,7 @@ final class EditViewModel: toVM<EditViewModel> {
             
         case .thresholdChanged(let value):
             state.filter.param.threshold = value
-            
-            let filter = state.filter
-            Task.detached(priority: .userInitiated) { [weak self] in
-                guard let self else { return }
-                let iamge = filter.refresh()
-                effect(.filteredImageLoaded(iamge))
-            }
+            emitRefreshedImage(from: state.filter)
             
         case .thresholdEnded(let value):
             state.filter.param.threshold = value
@@ -166,13 +139,7 @@ final class EditViewModel: toVM<EditViewModel> {
             
         case .brightColorAlphaChanged(let value):
             state.filter.param.brightAlpha = value
-            
-            let filter = state.filter
-            Task.detached(priority: .userInitiated) { [weak self] in
-                guard let self else { return }
-                let iamge = filter.refresh()
-                effect(.filteredImageLoaded(iamge))
-            }
+            emitRefreshedImage(from: state.filter)
             
         case .brightColorAlphaEnded(let value):
             state.filter.param.brightAlpha = value
@@ -180,33 +147,18 @@ final class EditViewModel: toVM<EditViewModel> {
             
         case .darkColorAlphaChanged(let value):
             state.filter.param.darkAlpha = value
-            
-            let filter = state.filter
-            Task.detached(priority: .userInitiated) { [weak self] in
-                guard let self else { return }
-                let iamge = filter.refresh()
-                effect(.filteredImageLoaded(iamge))
-            }
+            emitRefreshedImage(from: state.filter)
             
         case .darkColorAlphaEnded(let value):
             state.filter.param.darkAlpha = value
             state.filter.pushDeque()
-            
-        case .aiButtonTapped:
-            let image = state.image
-            
-            Task.detached(priority: .userInitiated) { [weak self] in
-                guard let self else { return }
-                let res = predictPreset(for: image)
-                try await Task.sleep(for: .seconds(0.8))
-                effect(.aiAnalyzeCompleted(res))
-            }
             
         case .aiAnalyzeCompleted(let res):
             if let res = res {
                 state.filter.param.grainAlpha = res.alpha
                 state.filter.param.grainScale = res.scale
                 state.toast.show("AI Completed")
+                state.filter.pushDeque()
                 
                 let filter = state.filter
                 Task.detached(priority: .userInitiated) { [weak self] in
@@ -231,67 +183,39 @@ final class EditViewModel: toVM<EditViewModel> {
             
         case .highlightToggle(let isOn):
             state.filter.param.isOnBrightColor = isOn
-            let filter = state.filter
-            
-            Task.detached(priority: .userInitiated) { [weak self] in
-                guard let self else { return }
-                let iamge = filter.refresh()
-                effect(.filteredImageLoaded(iamge))
-            }
+            emitRefreshedImage(from: state.filter)
             
         case .shadowToggle(let isOn):
             state.filter.param.isOndarkColor = isOn
-            let filter = state.filter
-            
-            Task.detached(priority: .userInitiated) { [weak self] in
-                guard let self else { return }
-                let iamge = filter.refresh()
-                effect(.filteredImageLoaded(iamge))
-            }
+            emitRefreshedImage(from: state.filter)
             
         case .highlightColorButtonTapped(let color):
             state.filter.param.brightColor = color
             state.filter.pushDeque()
-            
-            let filter = state.filter
-            Task.detached(priority: .userInitiated) { [weak self] in
-                guard let self else { return }
-                let iamge = filter.refresh()
-                effect(.filteredImageLoaded(iamge))
-            }
+            emitRefreshedImage(from: state.filter)
             
         case .shadowColorButtonTapped(let color):
             state.filter.param.darkColor = color
             state.filter.pushDeque()
-            
-            let filter = state.filter
-            Task.detached(priority: .userInitiated) { [weak self] in
-                guard let self else { return }
-                let iamge = filter.refresh()
-                effect(.filteredImageLoaded(iamge))
-            }
+            emitRefreshedImage(from: state.filter)
             
         case .undoButtonTapped:
             state.filter.undo()
             state.filter.param = state.filter.currentParam()
-            
-            let filter = state.filter
-            Task.detached(priority: .userInitiated) { [weak self] in
-                guard let self else { return }
-                let image = filter.refresh()
-                effect(.filteredImageLoaded(image))
-            }
+            emitRefreshedImage(from: state.filter)
             
         case .redoButtonTapped:
             state.filter.redo()
             state.filter.param = state.filter.currentParam()
-            
-            let filter = state.filter
-            Task.detached(priority: .userInitiated) { [weak self] in
-                guard let self else { return }
-                let image = filter.refresh()
-                effect(.filteredImageLoaded(image))
-            }
+            emitRefreshedImage(from: state.filter)
+        }
+    }
+    
+    private func emitRefreshedImage(from filter: Filter) {
+        Task.detached(priority: .userInitiated) { [weak self] in
+            guard let self else { return }
+            let image = filter.refresh()
+            self.effect(.filteredImageLoaded(image))
         }
     }
     

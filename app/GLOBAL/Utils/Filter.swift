@@ -4,7 +4,7 @@ import GameplayKit
 import SpriteKit
 import Collections
 
-struct FilterParam {
+struct FilterParam: Equatable {
     // Grain
     var grainAlpha: Double = 0.0
     var grainScale: Double = 1.0
@@ -128,8 +128,12 @@ class Filter {
             paramDeque.removeSubrange((index + 1)..<paramDeque.count)
         }
         
-        paramDeque.append(param)
-        index = paramDeque.count - 1
+        if let last =  paramDeque.last {
+            if last != param {
+                paramDeque.append(param)
+                index = paramDeque.count - 1
+            }
+        }
     }
     
     func undo() {
