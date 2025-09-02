@@ -15,7 +15,7 @@ class FilterParam {
     var temperture: Double = 6500.0
     var isAdjustMute: Bool = false
 
-    // Tone / Color grading
+    // Tone
     var threshold: Double = 0.5
     var isOnBrightColor: Bool = false
     var brightColor: Color = .mainOrange
@@ -25,7 +25,6 @@ class FilterParam {
     var darkAlpha: Double = 0.5
     var isToneMute: Bool = false
 
-    // “changed” 계산도 여기로 (View 표시용)
     var isGrainChanged: Bool {
         let changed = grainAlpha != 0.0 || grainScale != 1.0
         return isGrainMute ? false : changed
@@ -53,15 +52,30 @@ class Filter {
     
     //MARK: - REFACTOR
     var param = FilterParam()
-    var paramDeque: Deque<FilterParam> = []
+    var paramDeque: Deque<FilterParam> = [.init()]
     var index: Int = 0
     
     func pushDeque() {
+        if index != paramDeque.count - 1 {
+            paramDeque.removeSubrange((index + 1)..<paramDeque.count)
+        }
+        
         paramDeque.append(param)
+        index = paramDeque.count - 1
     }
     
-    func popDeque() {
-        
+    func undo() {
+        guard index > 0 else { return }
+        index -= 1
+    }
+    
+    func redo() {
+        guard index < paramDeque.count - 1 else { return }
+        index += 1
+    }
+    
+    func currentParam() -> FilterParam {
+        return paramDeque[index]
     }
     
     //MARK: - REFACTOR
