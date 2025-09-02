@@ -2,6 +2,48 @@ import SwiftUI
 import CoreImage
 import GameplayKit
 import SpriteKit
+import Collections
+
+class FilterParam {
+    // Grain
+    var grainAlpha: Double = 0.0
+    var grainScale: Double = 1.0
+    var isGrainMute: Bool = false
+
+    // Adjust
+    var contrast: Double = 1.0
+    var temperture: Double = 6500.0
+    var isAdjustMute: Bool = false
+
+    // Tone / Color grading
+    var threshold: Double = 0.5
+    var isOnBrightColor: Bool = false
+    var brightColor: Color = .mainOrange
+    var brightAlpha: Double = 0.5
+    var isOndarkColor: Bool = false
+    var darkColor: Color = .mainTeal
+    var darkAlpha: Double = 0.5
+    var isToneMute: Bool = false
+
+    // “changed” 계산도 여기로 (View 표시용)
+    var isGrainChanged: Bool {
+        let changed = grainAlpha != 0.0 || grainScale != 1.0
+        return isGrainMute ? false : changed
+    }
+    var isAdjustChanged: Bool {
+        let changed = contrast != 1.0 || temperture != 6500.0
+        return isAdjustMute ? false : changed
+    }
+    var isToneChanged: Bool {
+        let changed = threshold != 0.5 ||
+        isOnBrightColor || brightColor != .mainOrange || brightAlpha != 0.5 ||
+        isOndarkColor  || darkColor   != .mainTeal   || darkAlpha  != 0.5
+        return isToneMute ? false : changed
+    }
+
+    static let `default` = FilterParam()
+}
+
 
 class Filter {
     private(set) var context = CIContext(options: [.cacheIntermediates: true])
@@ -52,6 +94,13 @@ class Filter {
         
         return isToneMute ? false : changed
     }
+    
+    
+    //MARK: - REFACTOR
+    var param = FilterParam()
+    var paramDeque: Deque<FilterParam> = []
+    
+    //MARK: - REFACTOR
     
     private static let colorGradingKernel: CIColorKernel = {
         let src = """
