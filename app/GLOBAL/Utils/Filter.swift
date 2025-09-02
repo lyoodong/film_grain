@@ -5,18 +5,32 @@ import SpriteKit
 
 class Filter {
     private(set) var context = CIContext(options: [.cacheIntermediates: true])
-
+    
     var baseCI: CIImage?
     var grainCI: CIImage?
     
-    var grainAlpha: Double = 0
-    var grainScale: Double = 1
+    var grainAlpha: Double = 0.0
+    var grainScale: Double = 1.0
+    
+    var isGrainMute: Bool = false
+    
+    var isGrainChanged: Bool {
+        let changed = grainAlpha != 0.0 || grainScale != 1.0
+        return isGrainMute ? false : changed
+    }
     
     var contrast: Double = 1
     var temperture: Double = 6500
     
+    var isAdjustMute: Bool = false
+    
+    var isAdjustChanged: Bool {
+        let changed = contrast != 1.0 || temperture != 6500.0
+        return isAdjustMute ? false : changed
+    }
+    
     var threshold: Double = 0.5
-   
+    
     var isOnBrightColor: Bool = false
     var brightColor: Color = .mainOrange
     var brightAlpha: Double = 0.5
@@ -24,6 +38,20 @@ class Filter {
     var isOndarkColor: Bool = false
     var darkColor: Color = .mainTeal
     var darkAlpha: Double = 0.5
+    
+    var isToneMute: Bool = false
+    
+    var isToneChanged: Bool {
+        let changed = threshold != 0.5 ||
+        isOnBrightColor != false ||
+        brightColor != .mainOrange ||
+        brightAlpha != 0.5 ||
+        isOndarkColor != false ||
+        darkColor != .mainTeal ||
+        darkAlpha != 0.5
+        
+        return isToneMute ? false : changed
+    }
     
     private static let colorGradingKernel: CIColorKernel = {
         let src = """
@@ -57,7 +85,7 @@ class Filter {
             sampleCount: vector_int2(Int32(w), Int32(h)),
             seamless:    true
         )
-
+        
         let cgNoise = SKTexture(noiseMap: map).cgImage()
         return CIImage(cgImage: cgNoise)
     }
@@ -73,7 +101,7 @@ class Filter {
         let contrastCI = applyContrast(colorCI, contrast: contrast)
         let tempertureCI = applyTemperture(contrastCI, temperature: temperture)
         let baseAdjustedCI = tempertureCI
-
+        
         let grainAlphaCI = applyGrainAlpha(grainCI, alpha: grainAlpha)
         let grainScaleCI = applyGrainScale(grainAlphaCI, scale: grainScale)
         let grainAdjustedCI = grainScaleCI
@@ -92,7 +120,7 @@ class Filter {
     ) -> CIImage? {
         let alphaF = CIFilter.colorMatrix()
         alphaF.inputImage = input
-        alphaF.aVector = CIVector(x: 0, y: 0, z: 0, w: alpha)
+        alphaF.aVector = CIVector(x: 0, y: 0, z: 0, w: isGrainMute ? 0 : alpha)
         
         return alphaF.outputImage
     }
@@ -123,12 +151,11 @@ class Filter {
         darkColor d: CIColor,
         darkAlpha: CGFloat
     ) -> CIImage? {
-        
         guard let input else { return nil }
         
-        let brightAlpha: CGFloat = isOnBrightColor ? brightAlpha : 0
-        let darkAlpha: CGFloat = isOndarkColor ? darkAlpha : 0
-
+        let brightAlpha: CGFloat = isOnBrightColor && !isToneMute ? brightAlpha : 0
+        let darkAlpha: CGFloat = isOndarkColor && !isToneMute ? darkAlpha : 0
+        
         let brightColor = CIColor(red: b.red, green: b.green, blue: b.blue, alpha: brightAlpha)
         let darkColor = CIColor(red: d.red, green: d.green, blue: d.blue, alpha: darkAlpha)
         
@@ -149,7 +176,7 @@ class Filter {
         
         let contrastF = CIFilter.colorControls()
         contrastF.inputImage = input
-        contrastF.contrast = Float(contrast)
+        contrastF.contrast = Float(isAdjustMute ? 1 : contrast)
         
         return contrastF.outputImage
     }
@@ -159,12 +186,13 @@ class Filter {
         temperature: Double
     ) -> CIImage? {
         guard let input = input else { return nil }
-    
+        
         let tmpF = CIFilter.temperatureAndTint()
         tmpF.inputImage = input
         
         let orignTint = tmpF.neutral.y
-        tmpF.neutral = CIVector(x: CGFloat(temperature), y: orignTint)
+        let tmp = isAdjustMute ? 6500 : temperature
+        tmpF.neutral = CIVector(x: CGFloat(tmp), y: orignTint)
         
         return tmpF.outputImage
     }

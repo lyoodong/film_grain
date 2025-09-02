@@ -61,7 +61,26 @@ final class EditViewModel: toVM<EditViewModel> {
             state.displayImage = image
 
         case .tapSelected(let type):
-            state.selectedTap = type
+            let canceled = (state.selectedTap == type && type != .none)
+            state.selectedTap = canceled ? .none : type
+
+            switch type {
+            case .grain:
+                state.filter.isGrainMute = canceled
+            case .tone:
+                state.filter.isToneMute = canceled
+            case .adjust:
+                state.filter.isAdjustMute = canceled
+            default:
+                break
+            }
+            
+            let filter = state.filter
+            Task.detached(priority: .userInitiated) { [weak self] in
+                guard let self else { return }
+                let iamge = filter.refresh()
+                effect(.filteredImageLoaded(iamge))
+            }
 
         case .grainAlphaChanged(let value):
             state.filter.grainAlpha = value

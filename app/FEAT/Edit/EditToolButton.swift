@@ -43,19 +43,31 @@ struct EditToolButton: View {
     }
     
     private var grainButton: some View {
-        ToolCircleButton(type: .grain, selected: editVM.selectedTap) {
+        ToolCircleButton(
+            type: .grain,
+            selected: editVM.selectedTap,
+            isChanged: editVM.filter.isGrainChanged
+        ) {
             editVM.send(.tapSelected(.grain))
         }
     }
     
     private var colorButton: some View {
-        ToolCircleButton(type: .tone, selected: editVM.selectedTap) {
+        ToolCircleButton(
+            type: .tone,
+            selected: editVM.selectedTap,
+            isChanged: editVM.filter.isToneChanged
+        ) {
             editVM.send(.tapSelected(.tone))
         }
     }
     
     private var adjustButton: some View {
-        ToolCircleButton(type: .adjust, selected: editVM.selectedTap) {
+        ToolCircleButton(
+            type: .adjust,
+            selected: editVM.selectedTap,
+            isChanged: editVM.filter.isAdjustChanged
+        ) {
             editVM.send(.tapSelected(.adjust))
         }
     }
@@ -68,7 +80,11 @@ struct EditToolButton: View {
     }
     
     private var aiButton: some View {
-        ToolCircleButton(type: .ai, selected: editVM.selectedTap) {
+        ToolCircleButton(
+            type: .ai,
+            selected: editVM.selectedTap,
+            isChanged: false
+        ) {
             editVM.send(.tapSelected(.ai))
             editVM.send(.aiButtonTapped)
         }
@@ -78,6 +94,7 @@ struct EditToolButton: View {
 struct ToolCircleButton: View {
     let type: ToolType
     let selected: ToolType
+    let isChanged: Bool
     let textFont = Poppin.regular.font(size: 10)
     let iconFont = Poppin.regular.font(size: 16)
     let diameter: CGFloat = 40
@@ -95,9 +112,17 @@ struct ToolCircleButton: View {
     }
     
     private func label() -> some View {
-        ZStack {
-            backgroundCircle
-            image
+        ZStack(alignment: .topTrailing) {
+            background
+            ZStack {
+                backgroundCircle
+                image
+            }
+            
+            if isChanged {
+                Circle().fill(Color.pointRed)
+                    .frame(width: 4, height: 4)
+            }
         }
         .frame(width: diameter, height: diameter)
         .overlay(stroke)
@@ -106,6 +131,10 @@ struct ToolCircleButton: View {
     private var title: some View {
         Text(type.title)
             .font(textFont)
+    }
+    
+    private var background: some View {
+        Rectangle().fill(Color(.clear))
     }
     
     private var backgroundCircle: some View {
