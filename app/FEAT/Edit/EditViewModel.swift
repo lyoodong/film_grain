@@ -107,7 +107,6 @@ final class EditViewModel: toVM<EditViewModel> {
         case .grainAlphaEnded(let value):
             state.filter.param.grainAlpha = value
             state.filter.pushDeque()
-            print(state.filter.paramDeque.count)
             
         case .grainScaleChanged(let value):
             state.filter.param.grainScale = value
@@ -122,7 +121,6 @@ final class EditViewModel: toVM<EditViewModel> {
         case .grainScaleEnded(let value):
             state.filter.param.grainScale = value
             state.filter.pushDeque()
-            print(state.filter.paramDeque.count)
             
         case .contrastChanged(let value):
             state.filter.param.contrast = value
@@ -137,7 +135,6 @@ final class EditViewModel: toVM<EditViewModel> {
         case .contrastEnded(let value):
             state.filter.param.contrast = value
             state.filter.pushDeque()
-            print(state.filter.paramDeque.count)
             
         case .tempertureChanged(let value):
             state.filter.param.temperture = value
@@ -150,10 +147,8 @@ final class EditViewModel: toVM<EditViewModel> {
             }
             
         case .tempertureEnded(let value):
-            print("tempertureEnded")
             state.filter.param.temperture = value
             state.filter.pushDeque()
-            print(state.filter.paramDeque.count)
             
         case .thresholdChanged(let value):
             state.filter.param.threshold = value
@@ -166,10 +161,8 @@ final class EditViewModel: toVM<EditViewModel> {
             }
             
         case .thresholdEnded(let value):
-            print("thresholdEnded")
             state.filter.param.threshold = value
             state.filter.pushDeque()
-            print(state.filter.paramDeque.count)
             
         case .brightColorAlphaChanged(let value):
             state.filter.param.brightAlpha = value
@@ -182,10 +175,8 @@ final class EditViewModel: toVM<EditViewModel> {
             }
             
         case .brightColorAlphaEnded(let value):
-            print("brightColorAlphaEnded")
             state.filter.param.brightAlpha = value
             state.filter.pushDeque()
-            print(state.filter.paramDeque.count)
             
         case .darkColorAlphaChanged(let value):
             state.filter.param.darkAlpha = value
@@ -198,10 +189,8 @@ final class EditViewModel: toVM<EditViewModel> {
             }
             
         case .darkColorAlphaEnded(let value):
-            print("darkColorAlphaEnded")
             state.filter.param.darkAlpha = value
             state.filter.pushDeque()
-            print(state.filter.paramDeque.count)
             
         case .aiButtonTapped:
             let image = state.image
@@ -263,7 +252,6 @@ final class EditViewModel: toVM<EditViewModel> {
         case .highlightColorButtonTapped(let color):
             state.filter.param.brightColor = color
             state.filter.pushDeque()
-            print(state.filter.paramDeque.count)
             
             let filter = state.filter
             Task.detached(priority: .userInitiated) { [weak self] in
@@ -275,7 +263,6 @@ final class EditViewModel: toVM<EditViewModel> {
         case .shadowColorButtonTapped(let color):
             state.filter.param.darkColor = color
             state.filter.pushDeque()
-            print(state.filter.paramDeque.count)
             
             let filter = state.filter
             Task.detached(priority: .userInitiated) { [weak self] in

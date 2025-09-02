@@ -4,7 +4,7 @@ import GameplayKit
 import SpriteKit
 import Collections
 
-class FilterParam {
+struct FilterParam {
     // Grain
     var grainAlpha: Double = 0.0
     var grainScale: Double = 1.0
@@ -50,36 +50,18 @@ class Filter {
     var baseCI: CIImage?
     var grainCI: CIImage?
     
-    //MARK: - REFACTOR
     var param = FilterParam()
     var paramDeque: Deque<FilterParam> = [.init()]
     var index: Int = 0
     
-    func pushDeque() {
-        if index != paramDeque.count - 1 {
-            paramDeque.removeSubrange((index + 1)..<paramDeque.count)
-        }
-        
-        paramDeque.append(param)
-        index = paramDeque.count - 1
+    var disableUndo: Bool {
+        return index < 1
     }
     
-    func undo() {
-        guard index > 0 else { return }
-        index -= 1
+    var disableRedo: Bool {
+        return  index >= paramDeque.count - 1
     }
-    
-    func redo() {
-        guard index < paramDeque.count - 1 else { return }
-        index += 1
-    }
-    
-    func currentParam() -> FilterParam {
-        return paramDeque[index]
-    }
-    
-    //MARK: - REFACTOR
-    
+
     private static let colorGradingKernel: CIColorKernel = {
         let src = """
         kernel vec4 contrastOverlay(__sample img, float threshold,
@@ -139,6 +121,30 @@ class Filter {
               let cg = context.createCGImage(out, from: baseCI.extent) else { return nil }
         
         return UIImage(cgImage: cg)
+    }
+    
+    func pushDeque() {
+        if index != paramDeque.count - 1 {
+            paramDeque.removeSubrange((index + 1)..<paramDeque.count)
+        }
+        
+        paramDeque.append(param)
+        index = paramDeque.count - 1
+    }
+    
+    func undo() {
+        
+        guard index > 0 else { return }
+        index -= 1
+    }
+    
+    func redo() {
+        guard index < paramDeque.count - 1 else { return }
+        index += 1
+    }
+    
+    func currentParam() -> FilterParam {
+        return paramDeque[index]
     }
     
     private func applyGrainAlpha(

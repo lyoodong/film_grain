@@ -16,6 +16,7 @@ struct EditUndoRedoBar: View {
     
     private var undoButton: some View {
         Button(action: undoButtonAction, label: undoIcon)
+            .disabled(editVM.filter.disableUndo)
     }
     
     private func undoButtonAction() {
@@ -26,11 +27,13 @@ struct EditUndoRedoBar: View {
     private func undoIcon() ->some View {
         Image(systemName: "arrow.uturn.backward")
             .font(.system(size: 15, weight: .semibold))
+            .foregroundColor(editVM.filter.disableUndo ? .textGray : .pointRed)
             .frame(width: 40, height: 40)
     }
     
     private var redoButton: some View {
         Button(action: redoButtonAction, label: redoIcon)
+            .disabled(editVM.filter.disableRedo)
     }
     
     private func redoButtonAction() {
@@ -41,6 +44,7 @@ struct EditUndoRedoBar: View {
     private func redoIcon() -> some View {
         Image(systemName: "arrow.uturn.forward")
             .font(.system(size: 15, weight: .semibold))
+            .foregroundColor(editVM.filter.disableRedo ? .textGray : .pointRed)
             .frame(width: 40, height: 40)
     }
     
