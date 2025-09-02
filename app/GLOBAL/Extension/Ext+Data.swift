@@ -20,6 +20,4 @@ extension Data {
         
         return UIImage(cgImage: downsampledImage)
     }
-
-    
 }

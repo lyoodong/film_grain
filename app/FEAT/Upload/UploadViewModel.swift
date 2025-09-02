@@ -43,16 +43,15 @@ final class UploadViewModel: toVM<UploadViewModel> {
         case .onPicked(let id):
             state.loadingStatus = .imageLoading
             
-            Task(priority: .userInitiated) {[weak self] in
-                guard let self else { return }
+            Task(priority: .userInitiated) {
                 if let data = await loadData(id: id) {
                     effect(.dataLoaded(data))
                 }
             }
             
         case .dataLoaded(let data):
-            Task(priority: .userInitiated) { [weak self] in
-                guard let self else { return }
+            
+            Task(priority: .userInitiated) {
                 let image = data.downsampleToImage()
                 try await Task.sleep(for: .seconds(0.8))
                 effect(.imageLoaded(image))
