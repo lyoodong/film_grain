@@ -61,18 +61,7 @@ class Filter {
     var disableRedo: Bool {
         return  index >= paramDeque.count - 1
     }
-
-    private static let colorGradingKernel: CIColorKernel = {
-        let src = """
-        kernel vec4 contrastOverlay(__sample img, float threshold,
-                                    __color darkC, __color brightC) {
-            float l = dot(img.rgb, vec3(0.299,0.587,0.114));
-            return (l < threshold) ? darkC : brightC;
-        }
-        """
-        return CIColorKernel(source: src)!
-    }()
-    
+  
     func createGrainFilter(size: CGSize) -> CIImage? {
         let w = Int(size.width)
         let h = Int(size.height)
@@ -196,13 +185,13 @@ class Filter {
         let brightColor = CIColor(red: b.red, green: b.green, blue: b.blue, alpha: brightAlpha)
         let darkColor = CIColor(red: d.red, green: d.green, blue: d.blue, alpha: darkAlpha)
         
-        guard let overlay = Self.colorGradingKernel.apply(
-            extent: input.extent,
-            arguments: [input, threshold, darkColor, brightColor]
-        ) else { return nil }
+        let colorGradingF = CIFilter.colorGrading()
+        colorGradingF.inputImage = input
+        colorGradingF.brightColor = brightColor
+        colorGradingF.darkColor = darkColor
+        colorGradingF.threshold = threshold
         
-        let comp = overlay.composited(over: input)
-        return comp
+        return colorGradingF.outputImage
     }
     
     private func applyContrast(
