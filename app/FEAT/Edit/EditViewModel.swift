@@ -183,10 +183,12 @@ final class EditViewModel: toVM<EditViewModel> {
             
         case .highlightToggle(let isOn):
             state.filter.param.isOnBrightColor = isOn
+            state.filter.param.isToneMute = !state.filter.param.isOnBrightColor && !state.filter.param.isOndarkColor
             emitRefreshedImage(from: state.filter)
             
         case .shadowToggle(let isOn):
             state.filter.param.isOndarkColor = isOn
+            state.filter.param.isToneMute = !state.filter.param.isOnBrightColor && !state.filter.param.isOndarkColor
             emitRefreshedImage(from: state.filter)
             
         case .highlightColorButtonTapped(let color):
