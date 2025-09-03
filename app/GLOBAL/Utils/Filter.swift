@@ -24,6 +24,7 @@ struct FilterParam: Equatable {
     var darkColor: Color = .mainTeal
     var darkAlpha: Double = 0.5
     var isToneMute: Bool = false
+    var isThresholdChanging: Bool = false
 
     var isGrainChanged: Bool {
         let changed = grainAlpha != 0.0 || grainScale != 1.0
@@ -179,9 +180,9 @@ class Filter {
     ) -> CIImage? {
         guard let input else { return nil }
         
-        let brightAlpha: CGFloat = param.isOnBrightColor && !param.isToneMute ? brightAlpha : 0
-        let darkAlpha: CGFloat = param.isOndarkColor && !param.isToneMute ? darkAlpha : 0
-        
+        let brightAlpha: CGFloat = param.isToneMute ? 0 : (param.isOnBrightColor ? (param.isThresholdChanging ? 1: brightAlpha) : 0)
+        let darkAlpha: CGFloat = param.isToneMute ? 0 : (param.isOndarkColor ? (param.isThresholdChanging ? 1: darkAlpha) : 0)
+
         let brightColor = CIColor(red: b.red, green: b.green, blue: b.blue, alpha: brightAlpha)
         let darkColor = CIColor(red: d.red, green: d.green, blue: d.blue, alpha: darkAlpha)
         

@@ -131,12 +131,15 @@ final class EditViewModel: toVM<EditViewModel> {
             state.filter.pushDeque()
             
         case .thresholdChanged(let value):
+            state.filter.param.isThresholdChanging = true
             state.filter.param.threshold = value
             emitRefreshedImage(from: state.filter)
             
         case .thresholdEnded(let value):
+            state.filter.param.isThresholdChanging = false
             state.filter.param.threshold = value
             state.filter.pushDeque()
+            emitRefreshedImage(from: state.filter)
             
         case .brightColorAlphaChanged(let value):
             state.filter.param.brightAlpha = value
