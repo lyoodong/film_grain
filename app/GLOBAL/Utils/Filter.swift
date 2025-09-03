@@ -107,6 +107,9 @@ class Filter {
         
         let blendCI = blend(input: grainAdjustedCI, background: baseAdjustedCI)
         
+        print("Thread: \(Thread.current)")
+        print("Is main thread: \(Thread.isMainThread)")
+        print("Context: \(context)")
         guard let out = blendCI,
               let cg = context.createCGImage(out, from: baseCI.extent) else { return nil }
         

@@ -9,7 +9,6 @@ extension EditViewModel: ViewModelType {
         var selectedTap: ToolType = .none
         var toast: Toast = .init()
         var filter: Filter = .init()
-        var refreshTask: Task<Void, Never>?
     }
     
     enum Action {
@@ -58,6 +57,9 @@ extension EditViewModel: ViewModelType {
 }
 
 final class EditViewModel: toVM<EditViewModel> {
+    
+    private var throttler = Throttler(for: 0.06)
+    
     override func reduce(state: inout State, action: Action) {
         switch action {
         case .onAppear:
@@ -95,13 +97,11 @@ final class EditViewModel: toVM<EditViewModel> {
                 break
             }
             
-            state.refreshTask?.cancel()
-            state.refreshTask = refreshTask(filter: state.filter)
+            throttleRefresh(state.filter)
 
         case .grainAlphaChanged(let value):
             state.filter.param.grainAlpha = value
-            state.refreshTask?.cancel()
-            state.refreshTask = refreshTask(filter: state.filter)
+            throttleRefresh(state.filter)
             
         case .grainAlphaEnded(let value):
             state.filter.param.grainAlpha = value
@@ -109,8 +109,7 @@ final class EditViewModel: toVM<EditViewModel> {
             
         case .grainScaleChanged(let value):
             state.filter.param.grainScale = value
-            state.refreshTask?.cancel()
-            state.refreshTask = refreshTask(filter: state.filter)
+            throttleRefresh(state.filter)
             
         case .grainScaleEnded(let value):
             state.filter.param.grainScale = value
@@ -118,8 +117,7 @@ final class EditViewModel: toVM<EditViewModel> {
             
         case .contrastChanged(let value):
             state.filter.param.contrast = value
-            state.refreshTask?.cancel()
-            state.refreshTask = refreshTask(filter: state.filter)
+            throttleRefresh(state.filter)
             
         case .contrastEnded(let value):
             state.filter.param.contrast = value
@@ -127,8 +125,7 @@ final class EditViewModel: toVM<EditViewModel> {
             
         case .tempertureChanged(let value):
             state.filter.param.temperture = value
-            state.refreshTask?.cancel()
-            state.refreshTask = refreshTask(filter: state.filter)
+            throttleRefresh(state.filter)
             
         case .tempertureEnded(let value):
             state.filter.param.temperture = value
@@ -137,20 +134,17 @@ final class EditViewModel: toVM<EditViewModel> {
         case .thresholdChanged(let value):
             state.filter.param.isThresholdChanging = true
             state.filter.param.threshold = value
-            state.refreshTask?.cancel()
-            state.refreshTask = refreshTask(filter: state.filter)
+            throttleRefresh(state.filter)
             
         case .thresholdEnded(let value):
             state.filter.param.isThresholdChanging = false
             state.filter.param.threshold = value
             state.filter.pushDeque()
-            state.refreshTask?.cancel()
-            state.refreshTask = refreshTask(filter: state.filter)
+            throttleRefresh(state.filter)
             
         case .brightColorAlphaChanged(let value):
             state.filter.param.brightAlpha = value
-            state.refreshTask?.cancel()
-            state.refreshTask = refreshTask(filter: state.filter)
+            throttleRefresh(state.filter)
             
         case .brightColorAlphaEnded(let value):
             state.filter.param.brightAlpha = value
@@ -158,8 +152,7 @@ final class EditViewModel: toVM<EditViewModel> {
             
         case .darkColorAlphaChanged(let value):
             state.filter.param.darkAlpha = value
-            state.refreshTask?.cancel()
-            state.refreshTask = refreshTask(filter: state.filter)
+            throttleRefresh(state.filter)
             
         case .darkColorAlphaEnded(let value):
             state.filter.param.darkAlpha = value
@@ -171,17 +164,8 @@ final class EditViewModel: toVM<EditViewModel> {
                 state.filter.param.grainScale = res.scale
                 state.toast.show("AI Completed")
                 state.filter.pushDeque()
-                
-                let filter = state.filter
-                Task {
-                    let iamge = filter.refresh()
-                    effect(.filteredImageLoaded(iamge))
-                }
-                
-                Task {
-                    try? await Task.sleep(for: .seconds(2))
-                    effect(.dismissToast)
-                }
+                throttleRefresh(state.filter)
+                dismissToast()
             }
 
         case .saveButtonTapped:
@@ -195,43 +179,45 @@ final class EditViewModel: toVM<EditViewModel> {
         case .highlightToggle(let isOn):
             state.filter.param.isOnBrightColor = isOn
             state.filter.param.isToneMute = !state.filter.param.isOnBrightColor && !state.filter.param.isOndarkColor
-            state.refreshTask?.cancel()
-            state.refreshTask = refreshTask(filter: state.filter)
+            throttleRefresh(state.filter)
             
         case .shadowToggle(let isOn):
             state.filter.param.isOndarkColor = isOn
             state.filter.param.isToneMute = !state.filter.param.isOnBrightColor && !state.filter.param.isOndarkColor
-            state.refreshTask?.cancel()
-            state.refreshTask = refreshTask(filter: state.filter)
+            throttleRefresh(state.filter)
             
         case .highlightColorButtonTapped(let color):
             state.filter.param.brightColor = color
             state.filter.pushDeque()
-            state.refreshTask?.cancel()
-            state.refreshTask = refreshTask(filter: state.filter)
+            throttleRefresh(state.filter)
             
         case .shadowColorButtonTapped(let color):
             state.filter.param.darkColor = color
             state.filter.pushDeque()
-            state.refreshTask?.cancel()
-            state.refreshTask = refreshTask(filter: state.filter)
+            throttleRefresh(state.filter)
             
         case .undoButtonTapped:
             state.filter.undo()
             state.filter.param = state.filter.currentParam()
-            state.refreshTask?.cancel()
-            state.refreshTask = refreshTask(filter: state.filter)
+            throttleRefresh(state.filter)
             
         case .redoButtonTapped:
             state.filter.redo()
             state.filter.param = state.filter.currentParam()
-            state.refreshTask?.cancel()
-            state.refreshTask = refreshTask(filter: state.filter)
+            throttleRefresh(state.filter)
         }
     }
-
-    private func refreshTask(filter: Filter) -> Task<Void, Never>? {
-        return Task(priority: .userInitiated) {
+    
+    private func dismissToast() {
+        Task {
+            try? await Task.sleep(for: .seconds(2))
+            effect(.dismissToast)
+        }
+    }
+    
+    private func throttleRefresh(_ filter: Filter) {
+        throttler { [weak self] in
+            guard let self else { return }
             let image = filter.refresh()
             self.effect(.filteredImageLoaded(image))
         }

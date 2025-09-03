@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BE0675EB2E688B0800433AAB /* Throttler.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0675EA2E688B0800433AAB /* Throttler.swift */; };
 		BE102E332E5FFF25005468DA /* EditNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE102E322E5FFF25005468DA /* EditNavigation.swift */; };
 		BE55FAFA2E5C4D6500A32CDC /* EditZoomableImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE55FAF92E5C4D6500A32CDC /* EditZoomableImage.swift */; };
 		BE55FAFC2E5C500D00A32CDC /* EditToolButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE55FAFB2E5C500D00A32CDC /* EditToolButton.swift */; };
@@ -88,6 +89,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		BE0675EA2E688B0800433AAB /* Throttler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Throttler.swift; sourceTree = "<group>"; };
 		BE102E322E5FFF25005468DA /* EditNavigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditNavigation.swift; sourceTree = "<group>"; };
 		BE55FAF92E5C4D6500A32CDC /* EditZoomableImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditZoomableImage.swift; sourceTree = "<group>"; };
 		BE55FAFB2E5C500D00A32CDC /* EditToolButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditToolButton.swift; sourceTree = "<group>"; };
@@ -233,6 +235,7 @@
 				BE7CE3112E61F1BD0083D39F /* Filter.swift */,
 				BEC4876C2E65679400BD7490 /* Toast.swift */,
 				BE772DB42E68049D00D95AF6 /* ColorGradingFilter.swift */,
+				BE0675EA2E688B0800433AAB /* Throttler.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -552,6 +555,7 @@
 				BEC4876D2E65679400BD7490 /* Toast.swift in Sources */,
 				BE7CE30A2E61F1980083D39F /* Ext+UIApplication.swift in Sources */,
 				BE7CE30B2E61F1980083D39F /* Ext+UIImage.swift in Sources */,
+				BE0675EB2E688B0800433AAB /* Throttler.swift in Sources */,
 				BE7CE30C2E61F1980083D39F /* Ext+UIScreen.swift in Sources */,
 				BE7CE3172E61F1BD0083D39F /* appApp.swift in Sources */,
 				BE7CE3182E61F1BD0083D39F /* AppDelegate.swift in Sources */,
