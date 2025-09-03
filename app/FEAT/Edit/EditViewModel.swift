@@ -9,6 +9,7 @@ extension EditViewModel: ViewModelType {
         var selectedTap: ToolType = .none
         var toast: Toast = .init()
         var filter: Filter = .init()
+        var refreshTask: Task<Void, Never>?
     }
     
     enum Action {
@@ -57,8 +58,6 @@ extension EditViewModel: ViewModelType {
 }
 
 final class EditViewModel: toVM<EditViewModel> {
-    private var refreshTask: Task<Void, Never>?
-    
     override func reduce(state: inout State, action: Action) {
         switch action {
         case .onAppear:
@@ -96,11 +95,13 @@ final class EditViewModel: toVM<EditViewModel> {
                 break
             }
             
-            emitRefreshedImage(from: state.filter)
+            state.refreshTask?.cancel()
+            state.refreshTask = refreshTask(filter: state.filter)
 
         case .grainAlphaChanged(let value):
             state.filter.param.grainAlpha = value
-            emitRefreshedImage(from: state.filter)
+            state.refreshTask?.cancel()
+            state.refreshTask = refreshTask(filter: state.filter)
             
         case .grainAlphaEnded(let value):
             state.filter.param.grainAlpha = value
@@ -108,7 +109,8 @@ final class EditViewModel: toVM<EditViewModel> {
             
         case .grainScaleChanged(let value):
             state.filter.param.grainScale = value
-            emitRefreshedImage(from: state.filter)
+            state.refreshTask?.cancel()
+            state.refreshTask = refreshTask(filter: state.filter)
             
         case .grainScaleEnded(let value):
             state.filter.param.grainScale = value
@@ -116,7 +118,8 @@ final class EditViewModel: toVM<EditViewModel> {
             
         case .contrastChanged(let value):
             state.filter.param.contrast = value
-            emitRefreshedImage(from: state.filter)
+            state.refreshTask?.cancel()
+            state.refreshTask = refreshTask(filter: state.filter)
             
         case .contrastEnded(let value):
             state.filter.param.contrast = value
@@ -124,7 +127,8 @@ final class EditViewModel: toVM<EditViewModel> {
             
         case .tempertureChanged(let value):
             state.filter.param.temperture = value
-            emitRefreshedImage(from: state.filter)
+            state.refreshTask?.cancel()
+            state.refreshTask = refreshTask(filter: state.filter)
             
         case .tempertureEnded(let value):
             state.filter.param.temperture = value
@@ -133,17 +137,20 @@ final class EditViewModel: toVM<EditViewModel> {
         case .thresholdChanged(let value):
             state.filter.param.isThresholdChanging = true
             state.filter.param.threshold = value
-            emitRefreshedImage(from: state.filter)
+            state.refreshTask?.cancel()
+            state.refreshTask = refreshTask(filter: state.filter)
             
         case .thresholdEnded(let value):
             state.filter.param.isThresholdChanging = false
             state.filter.param.threshold = value
             state.filter.pushDeque()
-            emitRefreshedImage(from: state.filter)
+            state.refreshTask?.cancel()
+            state.refreshTask = refreshTask(filter: state.filter)
             
         case .brightColorAlphaChanged(let value):
             state.filter.param.brightAlpha = value
-            emitRefreshedImage(from: state.filter)
+            state.refreshTask?.cancel()
+            state.refreshTask = refreshTask(filter: state.filter)
             
         case .brightColorAlphaEnded(let value):
             state.filter.param.brightAlpha = value
@@ -151,7 +158,8 @@ final class EditViewModel: toVM<EditViewModel> {
             
         case .darkColorAlphaChanged(let value):
             state.filter.param.darkAlpha = value
-            emitRefreshedImage(from: state.filter)
+            state.refreshTask?.cancel()
+            state.refreshTask = refreshTask(filter: state.filter)
             
         case .darkColorAlphaEnded(let value):
             state.filter.param.darkAlpha = value
@@ -187,40 +195,43 @@ final class EditViewModel: toVM<EditViewModel> {
         case .highlightToggle(let isOn):
             state.filter.param.isOnBrightColor = isOn
             state.filter.param.isToneMute = !state.filter.param.isOnBrightColor && !state.filter.param.isOndarkColor
-            emitRefreshedImage(from: state.filter)
+            state.refreshTask?.cancel()
+            state.refreshTask = refreshTask(filter: state.filter)
             
         case .shadowToggle(let isOn):
             state.filter.param.isOndarkColor = isOn
             state.filter.param.isToneMute = !state.filter.param.isOnBrightColor && !state.filter.param.isOndarkColor
-            emitRefreshedImage(from: state.filter)
+            state.refreshTask?.cancel()
+            state.refreshTask = refreshTask(filter: state.filter)
             
         case .highlightColorButtonTapped(let color):
             state.filter.param.brightColor = color
             state.filter.pushDeque()
-            emitRefreshedImage(from: state.filter)
+            state.refreshTask?.cancel()
+            state.refreshTask = refreshTask(filter: state.filter)
             
         case .shadowColorButtonTapped(let color):
             state.filter.param.darkColor = color
             state.filter.pushDeque()
-            emitRefreshedImage(from: state.filter)
+            state.refreshTask?.cancel()
+            state.refreshTask = refreshTask(filter: state.filter)
             
         case .undoButtonTapped:
             state.filter.undo()
             state.filter.param = state.filter.currentParam()
-            emitRefreshedImage(from: state.filter)
+            state.refreshTask?.cancel()
+            state.refreshTask = refreshTask(filter: state.filter)
             
         case .redoButtonTapped:
             state.filter.redo()
             state.filter.param = state.filter.currentParam()
-            emitRefreshedImage(from: state.filter)
+            state.refreshTask?.cancel()
+            state.refreshTask = refreshTask(filter: state.filter)
         }
     }
-    
-    private func emitRefreshedImage(from filter: Filter) {
-        refreshTask?.cancel()
-        
-        refreshTask = Task(priority: .userInitiated) { [weak self] in
-            guard let self else { return }
+
+    private func refreshTask(filter: Filter) -> Task<Void, Never>? {
+        return Task(priority: .userInitiated) {
             let image = filter.refresh()
             self.effect(.filteredImageLoaded(image))
         }
