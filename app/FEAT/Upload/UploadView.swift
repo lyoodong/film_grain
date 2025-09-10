@@ -56,7 +56,8 @@ fileprivate struct EditModifier: ViewModifier {
                 set: { if !$0 { uploadVM.send(.dismiss)} }
             )
         ) {
-            if let image = uploadVM.originImage {
+            if let data = uploadVM.fetchedData,
+               let image = uploadVM.fetchedImage {
                 EditView(editVM: .init(initialState: .init(image: image)))
             }
         }

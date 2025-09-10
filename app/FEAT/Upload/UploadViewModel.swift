@@ -18,8 +18,8 @@ extension UploadViewModel: ViewModelType {
     struct State {
         var activeScreen: ActiveScreen? = nil
         var loadingStatus: Loading = .none
-        
-        var originImage: UIImage?
+        var fetchedData: Data?
+        var fetchedImage: UIImage?
     }
     
     enum Action {
@@ -45,10 +45,11 @@ final class UploadViewModel: toVM<UploadViewModel> {
             fetchData(id)
             
         case .dataLoaded(let data):
+            state.fetchedData = data
             fetchImage(data)
             
         case .imageLoaded(let image):
-            state.originImage = image
+            state.fetchedImage = image
             state.loadingStatus = .completeLoading
             
         case .showEdit:
