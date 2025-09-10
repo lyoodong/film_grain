@@ -51,7 +51,6 @@ class Filter {
     var baseCI: CIImage?
     var grainCI: CIImage?
     var originCI: CIImage?
-    var originGrainCI: CIImage?
     var ratio: CGFloat = 0.0
     
     var param = FilterParam()
@@ -127,7 +126,7 @@ class Filter {
     
     func save() -> UIImage? {
         guard let originCI,
-              let originGrainCI else { return nil }
+              let grainCI else { return nil }
         
         let brightColor = CIColor(param.brightColor)
         let darkColor = CIColor(param.darkColor)
@@ -137,7 +136,7 @@ class Filter {
         let tempertureCI = applyTemperture(contrastCI, temperature: param.temperture)
         let baseAdjustedCI = tempertureCI
         
-        let grainAlphaCI = applyGrainAlpha(originGrainCI, alpha: param.grainAlpha)
+        let grainAlphaCI = applyGrainAlpha(grainCI.transformed(by: CGAffineTransform(scaleX: ratio, y: ratio)), alpha: param.grainAlpha)
         let grainScaleCI = applyGrainScale(grainAlphaCI, scale: param.grainScale * ratio)
         let grainAdjustedCI = grainScaleCI
         

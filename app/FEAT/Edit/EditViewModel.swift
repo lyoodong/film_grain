@@ -17,7 +17,6 @@ extension EditViewModel: ViewModelType {
         // Image
         case filteredImageLoaded(UIImage?)
         case originCILoaded(CIImage?)
-        case originGrainCILoaded(CIImage?)
         case savedImageLoaded(UIImage?)
         
         // Grain
@@ -179,12 +178,6 @@ final class EditViewModel: toVM<EditViewModel> {
             state.filter.originCI = originCI
             state.filter.ratio = originCI.extent.size.width / state.imageAsset.downsampledImage.size.width
         
-
-            let size = originCI.extent.size
-            loadOriginGrainCIIImage(filter: state.filter, size: size)
-            
-        case .originGrainCILoaded(let originGrainCI):
-            state.filter.originGrainCI = originGrainCI
             loadSavedImage(filter: state.filter)
         
         case .savedImageLoaded(let image):
@@ -273,13 +266,6 @@ final class EditViewModel: toVM<EditViewModel> {
         Task {
             let originCI = CIImage(data: data, options: [.applyOrientationProperty: true])
             effect(.originCILoaded(originCI))
-        }
-    }
-    
-    private func loadOriginGrainCIIImage(filter: Filter, size: CGSize) {
-        Task {
-            let originGrainCI = filter.createGrainFilter(size: size)
-            effect(.originGrainCILoaded(originGrainCI))
         }
     }
     
