@@ -189,7 +189,7 @@ final class EditViewModel: toVM<EditViewModel> {
         
         case .savedImageLoaded(let image):
             guard let image else { return }
-            UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
+            UIImageWriteToSavedPhotosAlbum(image.withoutAlpha(), nil, nil, nil)
             state.toast.show("Save Completed")
             dismissToast()
     

@@ -6,5 +6,14 @@ extension UIImage {
     }
 }
 
-
+extension UIImage {
+    func withoutAlpha() -> UIImage {
+        let format = UIGraphicsImageRendererFormat.default()
+        format.opaque = true
+        let renderer = UIGraphicsImageRenderer(size: self.size, format: format)
+        return renderer.image { _ in
+            self.draw(in: CGRect(origin: .zero, size: self.size))
+        }
+    }
+}
 
