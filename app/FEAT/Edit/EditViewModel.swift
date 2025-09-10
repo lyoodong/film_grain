@@ -4,7 +4,7 @@ import PhotosUI
 
 extension EditViewModel: ViewModelType {
     struct State {
-        var image: UIImage
+        var imageAsset: ImageAsset
         var displayImage: UIImage?
         var selectedTap: ToolType = .none
         var toast: Toast = .init()
@@ -63,13 +63,13 @@ final class EditViewModel: toVM<EditViewModel> {
     override func reduce(state: inout State, action: Action) {
         switch action {
         case .onAppear:
-            let originImage = state.image
-            state.displayImage = originImage
+            let downsampledImage = state.imageAsset.downsampledImage
+            state.displayImage = downsampledImage
             
-            let size = originImage.size
+            let size = downsampledImage.size
             state.filter.grainCI = state.filter.createGrainFilter(size: size)
             
-            state.filter.baseCI = CIImage(image: state.image)
+            state.filter.baseCI = CIImage(image: downsampledImage)
             
         case .filteredImageLoaded(let image):
             state.displayImage = image
@@ -86,10 +86,10 @@ final class EditViewModel: toVM<EditViewModel> {
             case .adjust:
                 state.filter.param.isAdjustMute = canceled
             case .ai:
-                let image = state.image
+                let downsampledImage = state.imageAsset.downsampledImage
                 
                 Task {
-                    let res = predictPreset(for: image)
+                    let res = predictPreset(for: downsampledImage)
                     try await Task.sleep(for: .seconds(0.8))
                     effect(.aiAnalyzeCompleted(res))
                 }

@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct SelectedImage {
-    var data: Data
+struct ImageAsset {
+    var originData: Data
     var downsampledImage: UIImage
 }

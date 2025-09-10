@@ -58,7 +58,7 @@ fileprivate struct EditModifier: ViewModifier {
         ) {
             if let data = uploadVM.fetchedData,
                let image = uploadVM.fetchedImage {
-                EditView(editVM: .init(initialState: .init(image: image)))
+                EditView(editVM: .init(initialState: .init(imageAsset: .init(originData: data, downsampledImage: image))))
             }
         }
     }
