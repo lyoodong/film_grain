@@ -11,10 +11,6 @@ class Toast {
     
     func clear() {
         isPresent = false
-        
-        Task { [weak self] in
-            try? await Task.sleep(for: .seconds(1))
-            self?.text = ""
-        }
+        text = ""
     }
 }

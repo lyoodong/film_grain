@@ -15,9 +15,7 @@ struct EditNavigation: View {
                 saveButton
             }
             
-            eidtToast
-                .opacity(editVM.toast.isPresent ? 1 : 0)
-                .animation(.easeInOut(duration: 0.5), value: editVM.toast.isPresent)
+            editToast
         }
         .padding(.horizontal, 16)
         .padding(.bottom, 16)
@@ -46,8 +44,28 @@ struct EditNavigation: View {
         .disabled(editVM.filter.disableSave)
     }
     
-    private var eidtToast: some View {
-        Text(editVM.toast.text)
-            .font(Poppin.medium.font(size: 12))
+    private var editToast: some View {
+        ZStack {
+            if editVM.toast.isPresent {
+                Text(editVM.toast.text)
+                    .font(Poppin.medium.font(size: 12))
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 6)
+                    .background(eidtToastBackground)
+                    .transition( eidtToastTransition)
+            }
+        }
+        .animation(.easeInOut(duration: 0.3), value: editVM.toast.isPresent)
+    }
+    
+    
+    private var eidtToastBackground: some View {
+        Color.white.opacity(0.3)
+            .cornerRadius(10)
+    }
+    
+    private var eidtToastTransition: some Transition {
+        .move(edge: .top)
+        .combined(with: .opacity)
     }
 }
