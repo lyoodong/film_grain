@@ -13,6 +13,7 @@
 		BE55FAFC2E5C500D00A32CDC /* EditToolButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE55FAFB2E5C500D00A32CDC /* EditToolButton.swift */; };
 		BE562A992E5C1DE400CF1EE9 /* EditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE562A962E5C1DE400CF1EE9 /* EditView.swift */; };
 		BE562A9A2E5C1DE400CF1EE9 /* EditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE562A972E5C1DE400CF1EE9 /* EditViewModel.swift */; };
+		BE750DA92E7170C600AFD9A1 /* SelectedImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE750DA72E7170C600AFD9A1 /* SelectedImage.swift */; };
 		BE772DB52E68049D00D95AF6 /* ColorGradingFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE772DB42E68049D00D95AF6 /* ColorGradingFilter.swift */; };
 		BE7CE2C12E6032F30083D39F /* Poppins-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BE7CE2AF2E6032F30083D39F /* Poppins-Black.ttf */; };
 		BE7CE2C22E6032F30083D39F /* Poppins-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BE7CE2B22E6032F30083D39F /* Poppins-BoldItalic.ttf */; };
@@ -95,6 +96,7 @@
 		BE55FAFB2E5C500D00A32CDC /* EditToolButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditToolButton.swift; sourceTree = "<group>"; };
 		BE562A962E5C1DE400CF1EE9 /* EditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditView.swift; sourceTree = "<group>"; };
 		BE562A972E5C1DE400CF1EE9 /* EditViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewModel.swift; sourceTree = "<group>"; };
+		BE750DA72E7170C600AFD9A1 /* SelectedImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedImage.swift; sourceTree = "<group>"; };
 		BE772DB42E68049D00D95AF6 /* ColorGradingFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorGradingFilter.swift; sourceTree = "<group>"; };
 		BE7CE2AF2E6032F30083D39F /* Poppins-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Black.ttf"; sourceTree = "<group>"; };
 		BE7CE2B02E6032F30083D39F /* Poppins-BlackItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-BlackItalic.ttf"; sourceTree = "<group>"; };
@@ -182,6 +184,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		BE750DA82E7170C600AFD9A1 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				BE750DA72E7170C600AFD9A1 /* SelectedImage.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		BE7CE2AE2E6032F20083D39F /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
@@ -312,6 +322,7 @@
 		BEBECA762E431D6B00F65D26 /* GLOBAL */ = {
 			isa = PBXGroup;
 			children = (
+				BE750DA82E7170C600AFD9A1 /* Model */,
 				BE7CE3162E61F1BD0083D39F /* App */,
 				BE7CE3122E61F1BD0083D39F /* Utils */,
 				BE7CE30E2E61F1A00083D39F /* Protocol */,
@@ -566,6 +577,7 @@
 				BE7CE2D72E6034940083D39F /* UploadTitle.swift in Sources */,
 				BE8893F12E58A4B90092BF41 /* UploadStatus.swift in Sources */,
 				BEBECA702E431D6B00F65D26 /* GrainScaleRegressor.mlmodel in Sources */,
+				BE750DA92E7170C600AFD9A1 /* SelectedImage.swift in Sources */,
 				BE772DB52E68049D00D95AF6 /* ColorGradingFilter.swift in Sources */,
 				BE7CE2F52E6097960083D39F /* UploadViewModel.swift in Sources */,
 				BED4C4EA2E5EF40D00D276BC /* EditGrainTap.swift in Sources */,
