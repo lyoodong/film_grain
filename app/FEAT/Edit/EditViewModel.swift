@@ -16,6 +16,9 @@ extension EditViewModel: ViewModelType {
         
         // Image
         case filteredImageLoaded(UIImage?)
+        case originCILoaded(CIImage?)
+        case originGrainCILoaded(CIImage?)
+        case savedImageLoaded(UIImage?)
         
         // Grain
         case grainAlphaChanged(Double)
@@ -169,10 +172,27 @@ final class EditViewModel: toVM<EditViewModel> {
             }
 
         case .saveButtonTapped:
-            if let image = state.displayImage {
-                UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
-            }
+            loadOriginCIIImage(data: state.imageAsset.originData)
+
+        case .originCILoaded(let originCI):
+            guard let originCI else { return }
+            state.filter.originCI = originCI
+            state.filter.ratio = originCI.extent.size.width / state.imageAsset.downsampledImage.size.width
+        
+
+            let size = originCI.extent.size
+            loadOriginGrainCIIImage(filter: state.filter, size: size)
             
+        case .originGrainCILoaded(let originGrainCI):
+            state.filter.originGrainCI = originGrainCI
+            loadSavedImage(filter: state.filter)
+        
+        case .savedImageLoaded(let image):
+            guard let image else { return }
+            UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
+            state.toast.show("Save Completed")
+            dismissToast()
+    
         case .dismissToast:
             state.toast.clear()
             
@@ -223,6 +243,16 @@ final class EditViewModel: toVM<EditViewModel> {
         }
     }
     
+    private func saveImage(image: UIImage) {
+        let format = UIGraphicsImageRendererFormat.default()
+        format.opaque = true
+        let renderer = UIGraphicsImageRenderer(size: image.size, format: format)
+        let _ = renderer.image { _ in
+            image.draw(in: CGRect(origin: .zero, size: image.size))
+        }
+    }
+    
+    
     private func loadData(id: String) async -> Data? {
         let assets = PHAsset.fetchAssets(withLocalIdentifiers: [id], options: nil)
         guard let asset = assets.firstObject else { return nil }
@@ -236,6 +266,27 @@ final class EditViewModel: toVM<EditViewModel> {
             PHImageManager.default().requestImageDataAndOrientation(for: asset, options: options) { data, uti, orientation, info in
                 continuation.resume(returning: data)
             }
+        }
+    }
+    
+    private func loadOriginCIIImage(data: Data) {
+        Task {
+            let originCI = CIImage(data: data, options: [.applyOrientationProperty: true])
+            effect(.originCILoaded(originCI))
+        }
+    }
+    
+    private func loadOriginGrainCIIImage(filter: Filter, size: CGSize) {
+        Task {
+            let originGrainCI = filter.createGrainFilter(size: size)
+            effect(.originGrainCILoaded(originGrainCI))
+        }
+    }
+    
+    private func loadSavedImage(filter: Filter) {
+        Task {
+            let image = filter.save()
+            effect(.savedImageLoaded(image))
         }
     }
     

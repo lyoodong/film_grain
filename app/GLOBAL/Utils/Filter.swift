@@ -50,6 +50,9 @@ class Filter {
     
     var baseCI: CIImage?
     var grainCI: CIImage?
+    var originCI: CIImage?
+    var originGrainCI: CIImage?
+    var ratio: CGFloat = 0.0
     
     var param = FilterParam()
     var paramDeque: Deque<FilterParam> = [.init()]
@@ -106,12 +109,33 @@ class Filter {
         let grainAdjustedCI = grainScaleCI
         
         let blendCI = blend(input: grainAdjustedCI, background: baseAdjustedCI)
-        
-        print("Thread: \(Thread.current)")
-        print("Is main thread: \(Thread.isMainThread)")
-        print("Context: \(context)")
+    
         guard let out = blendCI,
               let cg = context.createCGImage(out, from: baseCI.extent) else { return nil }
+        
+        return UIImage(cgImage: cg)
+    }
+    
+    func save() -> UIImage? {
+        guard let originCI,
+              let originGrainCI else { return nil }
+        
+        let brightColor = CIColor(param.brightColor)
+        let darkColor = CIColor(param.darkColor)
+        
+        let colorCI = applyColorGrading(originCI, threshold: param.threshold, brightColor: brightColor, brightAlpha: param.brightAlpha, darkColor: darkColor, darkAlpha: param.darkAlpha)
+        let contrastCI = applyContrast(colorCI, contrast: param.contrast)
+        let tempertureCI = applyTemperture(contrastCI, temperature: param.temperture)
+        let baseAdjustedCI = tempertureCI
+        
+        let grainAlphaCI = applyGrainAlpha(originGrainCI, alpha: param.grainAlpha)
+        let grainScaleCI = applyGrainScale(grainAlphaCI, scale: param.grainScale * ratio)
+        let grainAdjustedCI = grainScaleCI
+        
+        let blendCI = blend(input: grainAdjustedCI, background: baseAdjustedCI)
+    
+        guard let out = blendCI,
+              let cg = context.createCGImage(out, from: originCI.extent) else { return nil }
         
         return UIImage(cgImage: cg)
     }
