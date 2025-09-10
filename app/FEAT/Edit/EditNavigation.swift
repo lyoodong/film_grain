@@ -40,9 +40,10 @@ struct EditNavigation: View {
         } label: {
             Image(systemName: "square.and.arrow.up")
                 .font(font)
-                .foregroundColor(.white)
+                .foregroundColor(editVM.filter.isEdited ? .white : .white.opacity(0.3))
                 .frame(width: diameter, height: diameter)
         }
+        .disabled(editVM.filter.disableSave)
     }
     
     private var eidtToast: some View {

@@ -65,6 +65,15 @@ class Filter {
     var disableRedo: Bool {
         return  index >= paramDeque.count - 1
     }
+    
+    var isEdited: Bool {
+        guard let origin = paramDeque.first else { return false }
+        return param != origin
+    }
+    
+    var disableSave: Bool {
+        return !isEdited
+    }
   
     func createGrainFilter(size: CGSize) -> CIImage? {
         let w = Int(size.width)
