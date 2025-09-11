@@ -14,6 +14,13 @@
 		BE562A992E5C1DE400CF1EE9 /* EditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE562A962E5C1DE400CF1EE9 /* EditView.swift */; };
 		BE562A9A2E5C1DE400CF1EE9 /* EditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE562A972E5C1DE400CF1EE9 /* EditViewModel.swift */; };
 		BE5E90862E72C5DF002BCCBD /* AIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE5E90852E72C5DF002BCCBD /* AIModel.swift */; };
+		BE5E908E2E7308C2002BCCBD /* TemperatureRegressor.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = BE5E908C2E7308C1002BCCBD /* TemperatureRegressor.mlmodel */; };
+		BE5E908F2E7308C2002BCCBD /* ContrastRegressor.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = BE5E90882E7308C1002BCCBD /* ContrastRegressor.mlmodel */; };
+		BE5E90902E7308C2002BCCBD /* ThresholdRegressor.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = BE5E908D2E7308C1002BCCBD /* ThresholdRegressor.mlmodel */; };
+		BE5E90912E7308C2002BCCBD /* GrainAlphaRegressor.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = BE5E908A2E7308C1002BCCBD /* GrainAlphaRegressor.mlmodel */; };
+		BE5E90922E7308C2002BCCBD /* GrainScaleRegressor.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = BE5E908B2E7308C1002BCCBD /* GrainScaleRegressor.mlmodel */; };
+		BE5E90932E7308C2002BCCBD /* DarkAlphaRegressor.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = BE5E90892E7308C1002BCCBD /* DarkAlphaRegressor.mlmodel */; };
+		BE5E90942E7308C2002BCCBD /* BrightAlphaRegressor.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = BE5E90872E7308C1002BCCBD /* BrightAlphaRegressor.mlmodel */; };
 		BE750DA92E7170C600AFD9A1 /* ImageAsset.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE750DA72E7170C600AFD9A1 /* ImageAsset.swift */; };
 		BE772DB52E68049D00D95AF6 /* ColorGradingFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE772DB42E68049D00D95AF6 /* ColorGradingFilter.swift */; };
 		BE7CE2C12E6032F30083D39F /* Poppins-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BE7CE2AF2E6032F30083D39F /* Poppins-Black.ttf */; };
@@ -50,9 +57,6 @@
 		BEACC51B2E336142008F1B24 /* appTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEACC5192E336142008F1B24 /* appTests.swift */; };
 		BEACC51F2E336142008F1B24 /* appUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEACC51C2E336142008F1B24 /* appUITests.swift */; };
 		BEACC5202E336142008F1B24 /* appUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEACC51D2E336142008F1B24 /* appUITestsLaunchTests.swift */; };
-		BEBECA6E2E431D6B00F65D26 /* ContrastRegressor.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = BEBECA692E431D6B00F65D26 /* ContrastRegressor.mlmodel */; };
-		BEBECA6F2E431D6B00F65D26 /* GrainAlphaRegressor.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = BEBECA6A2E431D6B00F65D26 /* GrainAlphaRegressor.mlmodel */; };
-		BEBECA702E431D6B00F65D26 /* GrainScaleRegressor.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = BEBECA6B2E431D6B00F65D26 /* GrainScaleRegressor.mlmodel */; };
 		BEBECA712E431D6B00F65D26 /* GrainModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEBECA6C2E431D6B00F65D26 /* GrainModels.swift */; };
 		BEBECA7A2E431D6B00F65D26 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEBECA752E431D6B00F65D26 /* ViewModel.swift */; };
 		BEBECA7D2E431D6B00F65D26 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BEBECA7B2E431D6B00F65D26 /* Assets.xcassets */; };
@@ -98,6 +102,13 @@
 		BE562A962E5C1DE400CF1EE9 /* EditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditView.swift; sourceTree = "<group>"; };
 		BE562A972E5C1DE400CF1EE9 /* EditViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewModel.swift; sourceTree = "<group>"; };
 		BE5E90852E72C5DF002BCCBD /* AIModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIModel.swift; sourceTree = "<group>"; };
+		BE5E90872E7308C1002BCCBD /* BrightAlphaRegressor.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = BrightAlphaRegressor.mlmodel; sourceTree = "<group>"; };
+		BE5E90882E7308C1002BCCBD /* ContrastRegressor.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = ContrastRegressor.mlmodel; sourceTree = "<group>"; };
+		BE5E90892E7308C1002BCCBD /* DarkAlphaRegressor.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = DarkAlphaRegressor.mlmodel; sourceTree = "<group>"; };
+		BE5E908A2E7308C1002BCCBD /* GrainAlphaRegressor.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = GrainAlphaRegressor.mlmodel; sourceTree = "<group>"; };
+		BE5E908B2E7308C1002BCCBD /* GrainScaleRegressor.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = GrainScaleRegressor.mlmodel; sourceTree = "<group>"; };
+		BE5E908C2E7308C1002BCCBD /* TemperatureRegressor.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = TemperatureRegressor.mlmodel; sourceTree = "<group>"; };
+		BE5E908D2E7308C1002BCCBD /* ThresholdRegressor.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = ThresholdRegressor.mlmodel; sourceTree = "<group>"; };
 		BE750DA72E7170C600AFD9A1 /* ImageAsset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageAsset.swift; sourceTree = "<group>"; };
 		BE772DB42E68049D00D95AF6 /* ColorGradingFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorGradingFilter.swift; sourceTree = "<group>"; };
 		BE7CE2AF2E6032F30083D39F /* Poppins-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Black.ttf"; sourceTree = "<group>"; };
@@ -138,9 +149,6 @@
 		BEACC5192E336142008F1B24 /* appTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = appTests.swift; sourceTree = "<group>"; };
 		BEACC51C2E336142008F1B24 /* appUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = appUITests.swift; sourceTree = "<group>"; };
 		BEACC51D2E336142008F1B24 /* appUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = appUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		BEBECA692E431D6B00F65D26 /* ContrastRegressor.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = ContrastRegressor.mlmodel; sourceTree = "<group>"; };
-		BEBECA6A2E431D6B00F65D26 /* GrainAlphaRegressor.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = GrainAlphaRegressor.mlmodel; sourceTree = "<group>"; };
-		BEBECA6B2E431D6B00F65D26 /* GrainScaleRegressor.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = GrainScaleRegressor.mlmodel; sourceTree = "<group>"; };
 		BEBECA6C2E431D6B00F65D26 /* GrainModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GrainModels.swift; sourceTree = "<group>"; };
 		BEBECA752E431D6B00F65D26 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		BEBECA7B2E431D6B00F65D26 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -313,11 +321,15 @@
 		BEBECA6D2E431D6B00F65D26 /* ML */ = {
 			isa = PBXGroup;
 			children = (
-				BEBECA692E431D6B00F65D26 /* ContrastRegressor.mlmodel */,
-				BEBECA6A2E431D6B00F65D26 /* GrainAlphaRegressor.mlmodel */,
-				BEBECA6B2E431D6B00F65D26 /* GrainScaleRegressor.mlmodel */,
 				BEBECA6C2E431D6B00F65D26 /* GrainModels.swift */,
 				BE5E90852E72C5DF002BCCBD /* AIModel.swift */,
+				BE5E90872E7308C1002BCCBD /* BrightAlphaRegressor.mlmodel */,
+				BE5E90882E7308C1002BCCBD /* ContrastRegressor.mlmodel */,
+				BE5E90892E7308C1002BCCBD /* DarkAlphaRegressor.mlmodel */,
+				BE5E908A2E7308C1002BCCBD /* GrainAlphaRegressor.mlmodel */,
+				BE5E908B2E7308C1002BCCBD /* GrainScaleRegressor.mlmodel */,
+				BE5E908C2E7308C1002BCCBD /* TemperatureRegressor.mlmodel */,
+				BE5E908D2E7308C1002BCCBD /* ThresholdRegressor.mlmodel */,
 			);
 			path = ML;
 			sourceTree = "<group>";
@@ -553,16 +565,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BEBECA6E2E431D6B00F65D26 /* ContrastRegressor.mlmodel in Sources */,
 				BE562A992E5C1DE400CF1EE9 /* EditView.swift in Sources */,
 				BED4C4F62E5F195600D276BC /* EditToneTap.swift in Sources */,
 				BE562A9A2E5C1DE400CF1EE9 /* EditViewModel.swift in Sources */,
 				BED4C4F02E5EFA8D00D276BC /* EditSlider.swift in Sources */,
-				BEBECA6F2E431D6B00F65D26 /* GrainAlphaRegressor.mlmodel in Sources */,
 				BE7CE3132E61F1BD0083D39F /* Filter.swift in Sources */,
 				BEC487782E65B74800BD7490 /* Ext+CIColor.swift in Sources */,
 				BE8893E52E56F9040092BF41 /* UploadView.swift in Sources */,
 				BE8893F32E58A5200092BF41 /* UploadPicker.swift in Sources */,
+				BE5E908E2E7308C2002BCCBD /* TemperatureRegressor.mlmodel in Sources */,
+				BE5E908F2E7308C2002BCCBD /* ContrastRegressor.mlmodel in Sources */,
+				BE5E90902E7308C2002BCCBD /* ThresholdRegressor.mlmodel in Sources */,
+				BE5E90912E7308C2002BCCBD /* GrainAlphaRegressor.mlmodel in Sources */,
+				BE5E90922E7308C2002BCCBD /* GrainScaleRegressor.mlmodel in Sources */,
+				BE5E90932E7308C2002BCCBD /* DarkAlphaRegressor.mlmodel in Sources */,
+				BE5E90942E7308C2002BCCBD /* BrightAlphaRegressor.mlmodel in Sources */,
 				BED4C4EE2E5EFA8200D276BC /* CustomSlider.swift in Sources */,
 				BED4C4F42E5F108A00D276BC /* EditAdjustTap.swift in Sources */,
 				BE7CE3082E61F1980083D39F /* Ext+Color.swift in Sources */,
@@ -580,7 +597,6 @@
 				BE7CE2D52E6033F30083D39F /* Poppin.swift in Sources */,
 				BE7CE2D72E6034940083D39F /* UploadTitle.swift in Sources */,
 				BE8893F12E58A4B90092BF41 /* UploadStatus.swift in Sources */,
-				BEBECA702E431D6B00F65D26 /* GrainScaleRegressor.mlmodel in Sources */,
 				BE750DA92E7170C600AFD9A1 /* ImageAsset.swift in Sources */,
 				BE772DB52E68049D00D95AF6 /* ColorGradingFilter.swift in Sources */,
 				BE7CE2F52E6097960083D39F /* UploadViewModel.swift in Sources */,
