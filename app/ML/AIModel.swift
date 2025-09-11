@@ -1,7 +1,8 @@
-import Foundation
-import CoreImage
-import Vision
 import UIKit
+import CoreImage
+import CoreImage.CIFilterBuiltins
+import Vision
+import CoreML
 
 struct AnalyzedFeature {
     let avgLuma:         Float   // 평균 명도
@@ -14,6 +15,17 @@ struct AnalyzedFeature {
     let meanHue:         Float   // 평균 색조
     let hueVariance:     Float   // 색조 분산
 }
+
+struct FredictedFeature {
+    let grainAlpha: Double
+    let grainscale: Double
+    let contrast: Double
+    let temperature: Double
+    let threshold: Double
+    let brightAlpha: Double
+    let darkAlpha: Double
+}
+
 
 // MARK: – 메인 함수
 func analyzeFeatures(from ui: UIImage) -> AnalyzedFeature? {
@@ -264,3 +276,44 @@ func computeHueStats(from img: CIImage, ctx: CIContext, binCount: Int = 36) -> (
     return (meanHue, variance)
 }
 
+final class GrainModels {
+    static let shared = GrainModels()
+
+    let alphaModel: GrainAlphaRegressor
+    let scaleModel: GrainScaleRegressor
+    let contrastModel: ContrastRegressor
+    let temperatureModel: TemperatureRegressor
+    let thresholdModel: ThresholdRegressor
+    let brightAlphaModel: BrightAlphaRegressor
+    let darkAlphaModel: DarkAlphaRegressor
+
+    private init() {
+        alphaModel      = try! GrainAlphaRegressor(configuration: .init())
+        scaleModel      = try! GrainScaleRegressor(configuration: .init())
+        contrastModel   = try! ContrastRegressor(configuration: .init())
+        temperatureModel = try! TemperatureRegressor(configuration: .init())
+        thresholdModel   = try! ThresholdRegressor(configuration: .init())
+        brightAlphaModel = try! BrightAlphaRegressor(configuration: .init())
+        darkAlphaModel   = try! DarkAlphaRegressor(configuration: .init())
+    }
+}
+
+
+// MARK: – 단일 픽셀 RGBA8 읽기 헬퍼
+extension CIContext {
+    func renderPixel(from img: CIImage) -> (red: Float, green: Float, blue: Float, alpha: Float)? {
+        var buf = [UInt8](repeating: 0, count: 4)
+        render(img,
+               toBitmap: &buf,
+               rowBytes: 4,
+               bounds: CGRect(x: 0, y: 0, width: 1, height: 1),
+               format: .RGBA8,
+               colorSpace: CGColorSpaceCreateDeviceRGB())
+        return (
+            Float(buf[0]) / 255,
+            Float(buf[1]) / 255,
+            Float(buf[2]) / 255,
+            Float(buf[3]) / 255
+        )
+    }
+}

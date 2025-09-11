@@ -1,6 +1,7 @@
 import SwiftUI
 import Photos
 import PhotosUI
+import CoreML
 
 extension EditViewModel: ViewModelType {
     struct State {
@@ -45,7 +46,7 @@ extension EditViewModel: ViewModelType {
         case shadowColorButtonTapped(Color)
         
         // AI
-        case aiAnalyzeCompleted((alpha: Double, scale: Double, contrast: Double)?)
+        case aiAnalyzeCompleted(FredictedFeature?)
         
         // Status
         case undoButtonTapped
@@ -160,10 +161,27 @@ final class EditViewModel: toVM<EditViewModel> {
             state.filter.param.darkAlpha = value
             state.filter.pushDeque()
             
-        case .aiAnalyzeCompleted(let res):
-            if let res = res {
-                state.filter.param.grainAlpha = res.alpha
-                state.filter.param.grainScale = res.scale
+        case .aiAnalyzeCompleted(let fredictedFeature):
+            if let f = fredictedFeature {
+                state.filter.param.grainAlpha = f.grainAlpha
+                state.filter.param.grainScale = f.grainscale
+                state.filter.param.contrast = f.contrast
+                state.filter.param.temperture = f.temperature
+                state.filter.param.threshold = f.threshold
+                if f.darkAlpha != 0 {
+                    state.filter.param.darkAlpha = f.darkAlpha
+                    state.filter.param.isOndarkColor = true
+                }
+                
+                if f.brightAlpha != 0 {
+                    state.filter.param.brightAlpha = f.brightAlpha
+                    state.filter.param.isOnBrightColor = true
+                }
+                
+                if f.darkAlpha != 0 && f.brightAlpha != 0 {
+                    state.filter.param.threshold = f.threshold
+                }
+                
                 state.toast.show("AI Completed")
                 state.filter.pushDeque()
                 throttleRefresh(state.filter)
@@ -276,68 +294,140 @@ final class EditViewModel: toVM<EditViewModel> {
         }
     }
     
-    private func predictPreset(for uiImage: UIImage) -> (alpha: Double, scale: Double, contrast: Double)? {
-      guard let feats = extractFeatures(from: uiImage) else { return nil }
+    private func predictPreset(for uiImage: UIImage) -> FredictedFeature? {
+        guard let feats = analyzeFeatures(from: uiImage) else { return nil }
 
-      // 공통 피처를 Double로 변환
-      let avg   = Double(feats.avgLuma)
-      let rms   = Double(feats.rmsContrast)
-      let ent   = Double(feats.entropy)
-      let edge  = Double(feats.edgeDensity)
-      let colv  = Double(feats.colorVar)
-      let sat   = Double(feats.satStdDev)
-      let high  = Double(feats.highlights)
-      let shad  = Double(feats.shadows)
+        // 공통 피처를 Double로 변환 (9차원)
+        let avg   = Double(feats.avgLuma)
+        let rms   = Double(feats.rmsContrast)
+        let colv  = Double(feats.colorVar)
+        let sat   = Double(feats.satStdDev)
+        let high  = Double(feats.highlights)
+        let shad  = Double(feats.shadows)
+        let mid   = Double(feats.midtoneRatio)
+        let hue   = Double(feats.meanHue)
+        let hueV  = Double(feats.hueVariance)
 
-      // ➊ grainAlpha 예측
-      let alphaInput = GrainAlphaRegressorInput(
-        avgLuma:     avg,
-        rmsContrast: rms,
-        entropy:     ent,
-        edgeDensity: edge,
-        colorVar:    colv,
-        satStdDev:   sat,
-        highlights:  high,
-        shadows:     shad
-      )
-      guard let alphaOut = try? GrainModels.shared.alphaModel.prediction(input: alphaInput) else {
-        return nil
-      }
+        // ➊ grainAlpha 예측
+        let alphaInput = GrainAlphaRegressorInput(
+            avgLuma: avg,
+            rmsContrast: rms,
+            colorVar: colv,
+            satStdDev: sat,
+            highlights: high,
+            shadows: shad,
+            midtoneRatio: mid,
+            meanHue: hue,
+            hueVariance: hueV
+        )
+        guard let alphaOut = try? GrainModels.shared.alphaModel.prediction(input: alphaInput) else {
+            return nil
+        }
 
-      // ➋ grainScale 예측
-      let scaleInput = GrainScaleRegressorInput(
-        avgLuma:     avg,
-        rmsContrast: rms,
-        entropy:     ent,
-        edgeDensity: edge,
-        colorVar:    colv,
-        satStdDev:   sat,
-        highlights:  high,
-        shadows:     shad
-      )
-      guard let scaleOut = try? GrainModels.shared.scaleModel.prediction(input: scaleInput) else {
-        return nil
-      }
+        // ➋ grainScale 예측
+        let scaleInput = GrainScaleRegressorInput(
+            avgLuma: avg,
+            rmsContrast: rms,
+            colorVar: colv,
+            satStdDev: sat,
+            highlights: high,
+            shadows: shad,
+            midtoneRatio: mid,
+            meanHue: hue,
+            hueVariance: hueV
+        )
+        guard let scaleOut = try? GrainModels.shared.scaleModel.prediction(input: scaleInput) else {
+            return nil
+        }
 
-      // ➌ contrast 예측
-      let contrastInput = ContrastRegressorInput(
-        avgLuma:     avg,
-        rmsContrast: rms,
-        entropy:     ent,
-        edgeDensity: edge,
-        colorVar:    colv,
-        satStdDev:   sat,
-        highlights:  high,
-        shadows:     shad
-      )
-      guard let contrastOut = try? GrainModels.shared.contrastModel.prediction(input: contrastInput) else {
-        return nil
-      }
+        // ➌ contrast 예측
+        let contrastInput = ContrastRegressorInput(
+            avgLuma: avg,
+            rmsContrast: rms,
+            colorVar: colv,
+            satStdDev: sat,
+            highlights: high,
+            shadows: shad,
+            midtoneRatio: mid,
+            meanHue: hue,
+            hueVariance: hueV
+        )
+        guard let contrastOut = try? GrainModels.shared.contrastModel.prediction(input: contrastInput) else {
+            return nil
+        }
 
-      return (
-        alpha:    alphaOut.grainAlpha,
-        scale:    scaleOut.grainScale,
-        contrast: contrastOut.contrast
-      )
+        // ➍ temperature 예측
+        let tempInput = TemperatureRegressorInput(
+            avgLuma: avg,
+            rmsContrast: rms,
+            colorVar: colv,
+            satStdDev: sat,
+            highlights: high,
+            shadows: shad,
+            midtoneRatio: mid,
+            meanHue: hue,
+            hueVariance: hueV
+        )
+        guard let tempOut = try? GrainModels.shared.temperatureModel.prediction(input: tempInput) else {
+            return nil
+        }
+
+        // ➎ threshold 예측
+        let thInput = ThresholdRegressorInput(
+            avgLuma: avg,
+            rmsContrast: rms,
+            colorVar: colv,
+            satStdDev: sat,
+            highlights: high,
+            shadows: shad,
+            midtoneRatio: mid,
+            meanHue: hue,
+            hueVariance: hueV
+        )
+        guard let thOut = try? GrainModels.shared.thresholdModel.prediction(input: thInput) else {
+            return nil
+        }
+
+        // ➏ brightAlpha 예측
+        let brightInput = BrightAlphaRegressorInput(
+            avgLuma: avg,
+            rmsContrast: rms,
+            colorVar: colv,
+            satStdDev: sat,
+            highlights: high,
+            shadows: shad,
+            midtoneRatio: mid,
+            meanHue: hue,
+            hueVariance: hueV
+        )
+        guard let brightOut = try? GrainModels.shared.brightAlphaModel.prediction(input: brightInput) else {
+            return nil
+        }
+
+        // ➐ darkAlpha 예측
+        let darkInput = DarkAlphaRegressorInput(
+            avgLuma: avg,
+            rmsContrast: rms,
+            colorVar: colv,
+            satStdDev: sat,
+            highlights: high,
+            shadows: shad,
+            midtoneRatio: mid,
+            meanHue: hue,
+            hueVariance: hueV
+        )
+        guard let darkOut = try? GrainModels.shared.darkAlphaModel.prediction(input: darkInput) else {
+            return nil
+        }
+
+        return .init(
+            grainAlpha: alphaOut.grainAlpha,
+            grainscale: scaleOut.grainScale,
+            contrast: contrastOut.contrast,
+            temperature: tempOut.temperture,
+            threshold: thOut.threshold,
+            brightAlpha: brightOut.brightAlpha,
+            darkAlpha: darkOut.darkAlpha
+        )
     }
 }
