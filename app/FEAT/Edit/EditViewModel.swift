@@ -10,6 +10,10 @@ extension EditViewModel: ViewModelType {
         var selectedTap: ToolType = .none
         var toast: Toast = .init()
         var filter: Filter = .init()
+        
+        var isDisableFullImageButton: Bool {
+            return selectedTap == .none || selectedTap == .ai
+        }
     }
     
     enum Action {
@@ -51,6 +55,7 @@ extension EditViewModel: ViewModelType {
         // Status
         case undoButtonTapped
         case redoButtonTapped
+        case fullImageButtonTapped
         
         // ETC
         case tapSelected(ToolType)
@@ -236,6 +241,9 @@ final class EditViewModel: toVM<EditViewModel> {
             state.filter.redo()
             state.filter.param = state.filter.currentParam()
             throttleRefresh(state.filter)
+            
+        case .fullImageButtonTapped:
+            state.selectedTap = .none
         }
     }
     

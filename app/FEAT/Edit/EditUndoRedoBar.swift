@@ -18,11 +18,12 @@ struct EditUndoRedoBar: View {
     
     private var fullImageButton: some View {
         Button(action: fullImageButtonAction, label: fullImageButtonLabel)
-            .disabled(editVM.selectedTap == .none || editVM.selectedTap == .ai)
+            .disabled(editVM.isDisableFullImageButton)
     }
     
     private func fullImageButtonAction() {
         impact()
+        editVM.send(.fullImageButtonTapped)
     }
     
     private func fullImageButtonLabel() ->some View {
@@ -31,7 +32,7 @@ struct EditUndoRedoBar: View {
             .padding(.horizontal, 12)
             .padding(.vertical, 6)
             .background(fullImageButtonBackground)
-            .foregroundColor(editVM.selectedTap == .none || editVM.selectedTap == .ai ? .white.opacity(0.3) : .white)
+            .foregroundColor(editVM.isDisableFullImageButton ? .white.opacity(0.3) : .white)
     }
     
     private var fullImageButtonBackground: some View {
