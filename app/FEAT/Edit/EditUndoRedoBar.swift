@@ -7,11 +7,36 @@ struct EditUndoRedoBar: View {
         HStack {
             undoButton
             Spacer()
+            fullImageButton
+            Spacer()
             redoButton
         }
         .frame(maxWidth: .infinity)
         .padding(.horizontal, 20)
         .padding(.bottom, 20)
+    }
+    
+    private var fullImageButton: some View {
+        Button(action: fullImageButtonAction, label: fullImageButtonLabel)
+            .disabled(editVM.selectedTap == .none || editVM.selectedTap == .ai)
+    }
+    
+    private func fullImageButtonAction() {
+        impact()
+    }
+    
+    private func fullImageButtonLabel() ->some View {
+        Text("Full Image")
+            .font(Poppin.medium.font(size: 12))
+            .padding(.horizontal, 12)
+            .padding(.vertical, 6)
+            .background(fullImageButtonBackground)
+            .foregroundColor(editVM.selectedTap == .none || editVM.selectedTap == .ai ? .white.opacity(0.3) : .white)
+    }
+    
+    private var fullImageButtonBackground: some View {
+        Color.white.opacity(0.3)
+            .cornerRadius(10)
     }
     
     private var undoButton: some View {
