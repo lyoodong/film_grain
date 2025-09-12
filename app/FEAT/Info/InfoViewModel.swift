@@ -2,15 +2,24 @@ import SwiftUI
 import StoreKit
 
 extension InfoViewModel: ViewModelType {
+    enum ActiveScreen {
+        case none
+        case email
+    }
+    
     struct State {
         var versionText: String = ""
+        var activeScreen: ActiveScreen = .none
+        var emailFrame = AppInfo.emailFrame
     }
     
     enum Action {
         case onAppear
+        case dismiss
         case privacyButtonTapped
         case termsButtonTapped
         case reviewButtonTapped
+        case emailButtonTapped
     }
 }
 
@@ -19,7 +28,10 @@ final class InfoViewModel: toVM<InfoViewModel> {
         switch action {
         case .onAppear:
             state.versionText = AppInfo.appVersionText
-        
+            
+        case .dismiss:
+            state.activeScreen = .none
+            
         case .privacyButtonTapped:
             openSafari(type: .privacy)
             
@@ -28,6 +40,9 @@ final class InfoViewModel: toVM<InfoViewModel> {
             
         case .reviewButtonTapped:
             requestReview()
+            
+        case .emailButtonTapped:
+            state.activeScreen = .email
         }
     }
     

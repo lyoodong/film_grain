@@ -30,6 +30,7 @@
 		BE5E90B42E7413CF002BCCBD /* InfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE5E90B32E7413CF002BCCBD /* InfoViewModel.swift */; };
 		BE5E90B62E7414FA002BCCBD /* AppInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE5E90B52E7414FA002BCCBD /* AppInfo.swift */; };
 		BE5E90B82E74162E002BCCBD /* URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE5E90B72E74162E002BCCBD /* URL.swift */; };
+		BE5E90BA2E7419D1002BCCBD /* InfoEmailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE5E90B92E7419D1002BCCBD /* InfoEmailView.swift */; };
 		BE750DA92E7170C600AFD9A1 /* ImageAsset.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE750DA72E7170C600AFD9A1 /* ImageAsset.swift */; };
 		BE772DB52E68049D00D95AF6 /* ColorGradingFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE772DB42E68049D00D95AF6 /* ColorGradingFilter.swift */; };
 		BE7CE2C12E6032F30083D39F /* Poppins-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BE7CE2AF2E6032F30083D39F /* Poppins-Black.ttf */; };
@@ -126,6 +127,7 @@
 		BE5E90B32E7413CF002BCCBD /* InfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoViewModel.swift; sourceTree = "<group>"; };
 		BE5E90B52E7414FA002BCCBD /* AppInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInfo.swift; sourceTree = "<group>"; };
 		BE5E90B72E74162E002BCCBD /* URL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URL.swift; sourceTree = "<group>"; };
+		BE5E90B92E7419D1002BCCBD /* InfoEmailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoEmailView.swift; sourceTree = "<group>"; };
 		BE750DA72E7170C600AFD9A1 /* ImageAsset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageAsset.swift; sourceTree = "<group>"; };
 		BE772DB42E68049D00D95AF6 /* ColorGradingFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorGradingFilter.swift; sourceTree = "<group>"; };
 		BE7CE2AF2E6032F30083D39F /* Poppins-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Black.ttf"; sourceTree = "<group>"; };
@@ -219,6 +221,7 @@
 				BE5E90AF2E74126D002BCCBD /* InfoButtonStack.swift */,
 				BE5E90B12E7412F3002BCCBD /* InfoVersionText.swift */,
 				BE5E90B32E7413CF002BCCBD /* InfoViewModel.swift */,
+				BE5E90B92E7419D1002BCCBD /* InfoEmailView.swift */,
 			);
 			path = Info;
 			sourceTree = "<group>";
@@ -640,6 +643,7 @@
 				BE772DB52E68049D00D95AF6 /* ColorGradingFilter.swift in Sources */,
 				BE7CE2F52E6097960083D39F /* UploadViewModel.swift in Sources */,
 				BE5E90B22E7412F3002BCCBD /* InfoVersionText.swift in Sources */,
+				BE5E90BA2E7419D1002BCCBD /* InfoEmailView.swift in Sources */,
 				BED4C4EA2E5EF40D00D276BC /* EditGrainTap.swift in Sources */,
 				BEBECA7A2E431D6B00F65D26 /* ViewModel.swift in Sources */,
 				BE55FAFC2E5C500D00A32CDC /* EditToolButton.swift in Sources */,

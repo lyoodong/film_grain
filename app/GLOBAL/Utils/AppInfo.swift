@@ -1,4 +1,4 @@
-import Foundation
+import UIKit
 
 enum AppInfo {
     static var appVersion: String {
@@ -15,6 +15,23 @@ enum AppInfo {
     
     static var versionWithBuild: String {
         "\(appVersion) (\(buildNumber))"
+    }
+    
+    static var osVersion: String {
+        "\(UIDevice.current.systemVersion)"
+    }
+    
+    static var emailFrame: EmailFrame {
+        return .init(
+            recipients: ["1008.filmgrain@gmail.com"],
+            subject: "Report: ",
+            body: """
+            Hello,
+            
+            App Version: \(appVersion)
+            OS Version: \(osVersion)
+            """
+        )
     }
 }
 
