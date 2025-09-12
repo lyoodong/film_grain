@@ -95,6 +95,9 @@ final class EditViewModel: toVM<EditViewModel> {
                 state.filter.param.isAdjustMute = canceled
             case .ai:
                 let downsampledImage = state.imageAsset.downsampledImage
+                state.filter.param.isGrainMute = false
+                state.filter.param.isToneMute = false
+                state.filter.param.isAdjustMute = false
                 
                 Task {
                     let res = predictPreset(for: downsampledImage)

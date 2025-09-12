@@ -30,10 +30,12 @@ struct FilterParam: Equatable {
         let changed = grainAlpha != 0.0 || grainScale != 1.0
         return isGrainMute ? false : changed
     }
+    
     var isAdjustChanged: Bool {
         let changed = contrast != 1.0 || temperture != 6500.0
         return isAdjustMute ? false : changed
     }
+    
     var isToneChanged: Bool {
         let changed = threshold != 0.5 ||
         isOnBrightColor || brightColor != .mainOrange || brightAlpha != 0.5 ||
