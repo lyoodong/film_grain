@@ -28,6 +28,7 @@
 		BE5E90B02E74126D002BCCBD /* InfoButtonStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE5E90AF2E74126D002BCCBD /* InfoButtonStack.swift */; };
 		BE5E90B22E7412F3002BCCBD /* InfoVersionText.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE5E90B12E7412F3002BCCBD /* InfoVersionText.swift */; };
 		BE5E90B42E7413CF002BCCBD /* InfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE5E90B32E7413CF002BCCBD /* InfoViewModel.swift */; };
+		BE5E90B62E7414FA002BCCBD /* AppInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE5E90B52E7414FA002BCCBD /* AppInfo.swift */; };
 		BE750DA92E7170C600AFD9A1 /* ImageAsset.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE750DA72E7170C600AFD9A1 /* ImageAsset.swift */; };
 		BE772DB52E68049D00D95AF6 /* ColorGradingFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE772DB42E68049D00D95AF6 /* ColorGradingFilter.swift */; };
 		BE7CE2C12E6032F30083D39F /* Poppins-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BE7CE2AF2E6032F30083D39F /* Poppins-Black.ttf */; };
@@ -122,6 +123,7 @@
 		BE5E90AF2E74126D002BCCBD /* InfoButtonStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoButtonStack.swift; sourceTree = "<group>"; };
 		BE5E90B12E7412F3002BCCBD /* InfoVersionText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoVersionText.swift; sourceTree = "<group>"; };
 		BE5E90B32E7413CF002BCCBD /* InfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoViewModel.swift; sourceTree = "<group>"; };
+		BE5E90B52E7414FA002BCCBD /* AppInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInfo.swift; sourceTree = "<group>"; };
 		BE750DA72E7170C600AFD9A1 /* ImageAsset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageAsset.swift; sourceTree = "<group>"; };
 		BE772DB42E68049D00D95AF6 /* ColorGradingFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorGradingFilter.swift; sourceTree = "<group>"; };
 		BE7CE2AF2E6032F30083D39F /* Poppins-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Black.ttf"; sourceTree = "<group>"; };
@@ -281,6 +283,7 @@
 				BEC4876C2E65679400BD7490 /* Toast.swift */,
 				BE772DB42E68049D00D95AF6 /* ColorGradingFilter.swift */,
 				BE0675EA2E688B0800433AAB /* Throttler.swift */,
+				BE5E90B52E7414FA002BCCBD /* AppInfo.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -609,6 +612,7 @@
 				BE5E909F2E73E715002BCCBD /* GrainAlphaRegressor.mlmodel in Sources */,
 				BE5E90A02E73E715002BCCBD /* ThresholdRegressor.mlmodel in Sources */,
 				BE5E90B02E74126D002BCCBD /* InfoButtonStack.swift in Sources */,
+				BE5E90B62E7414FA002BCCBD /* AppInfo.swift in Sources */,
 				BE5E90A12E73E715002BCCBD /* GrainScaleRegressor.mlmodel in Sources */,
 				BE5E90A22E73E715002BCCBD /* BrightAlphaRegressor.mlmodel in Sources */,
 				BE7CE3082E61F1980083D39F /* Ext+Color.swift in Sources */,

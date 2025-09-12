@@ -5,7 +5,7 @@ struct InfoVersionText: View {
     
     var body: some View {
         HStack(alignment: .center) {
-            Text("Version 1.0.0")
+            Text(infoVM.versionText)
                 .font(Poppin.regular.font(size: 12))
         }
         .padding(.bottom, 40)

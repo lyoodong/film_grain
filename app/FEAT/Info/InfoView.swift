@@ -13,5 +13,10 @@ struct InfoView: View {
         .padding(.horizontal, 16)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color.mainBlack)
+        .onAppear(perform: onAppear)
+    }
+    
+    private func onAppear() {
+        infoVM.send(.onAppear)
     }
 }
