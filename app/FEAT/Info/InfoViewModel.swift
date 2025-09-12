@@ -8,6 +8,7 @@ extension InfoViewModel: ViewModelType {
     enum Action {
         case onAppear
         case privacyButtonTapped
+        case termsButtonTapped
     }
 }
 
@@ -19,6 +20,9 @@ final class InfoViewModel: toVM<InfoViewModel> {
         
         case .privacyButtonTapped:
             openSafari(type: .privacy)
+            
+        case .termsButtonTapped:
+            openSafari(type: .terms)
         }
     }
     
