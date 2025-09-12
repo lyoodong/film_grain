@@ -1,7 +1,14 @@
 import SwiftUI
 
 struct InfoView: View {
+    
     var body: some View {
-        Text("InfoView")
+        VStack {
+            InfoNavigation()
+            Spacer()
+        }
+        .padding(.horizontal, 16)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color.mainBlack)
     }
 }
