@@ -6,9 +6,8 @@ struct InfoButtonStack: View {
     var body: some View {
         VStack {
             InfoButton(type: .privacy, action: privacyButtonAction)
-            InfoButton(type: .terms) { }
-            InfoButton(type: .review) { }
             InfoButton(type: .terms, action: termsButtonAction)
+            InfoButton(type: .review, action: reviewButtonAction)
             InfoButton(type: .email) { }
         }
     }
@@ -20,5 +19,9 @@ struct InfoButtonStack: View {
     
     private func termsButtonAction() {
         infoVM.send(.termsButtonTapped)
+    }
+    
+    private func reviewButtonAction() {
+        infoVM.send(.reviewButtonTapped)
     }
 }

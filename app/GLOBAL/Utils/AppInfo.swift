@@ -5,6 +5,10 @@ enum AppInfo {
         Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "Unknown"
     }
     
+    static var appVersionText: String {
+        return "Version " + AppInfo.appVersion
+    }
+    
     static var buildNumber: String {
         Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "Unknown"
     }
