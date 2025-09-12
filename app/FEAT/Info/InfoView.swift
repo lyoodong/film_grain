@@ -5,6 +5,7 @@ struct InfoView: View {
     var body: some View {
         VStack {
             InfoNavigation()
+            InfoButtonStack()
             Spacer()
         }
         .padding(.horizontal, 16)
