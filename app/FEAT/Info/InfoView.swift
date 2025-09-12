@@ -7,6 +7,7 @@ struct InfoView: View {
             InfoNavigation()
             InfoButtonStack()
             Spacer()
+            InfoVersionText()
         }
         .padding(.horizontal, 16)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
