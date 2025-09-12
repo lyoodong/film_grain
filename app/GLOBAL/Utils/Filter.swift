@@ -139,10 +139,11 @@ class Filter {
         let baseAdjustedCI = tempertureCI
         
         let grainAlphaCI = applyGrainAlpha(grainCI.transformed(by: CGAffineTransform(scaleX: ratio, y: ratio)), alpha: param.grainAlpha)
-        let grainScaleCI = applyGrainScale(grainAlphaCI, scale: param.grainScale * ratio)
+        let grainScaleCI = applyGrainScale(grainAlphaCI, scale: param.grainScale)
         let grainAdjustedCI = grainScaleCI
         
         let blendCI = blend(input: grainAdjustedCI, background: baseAdjustedCI)
+        
     
         guard let out = blendCI,
               let cg = context.createCGImage(out, from: originCI.extent) else { return nil }
