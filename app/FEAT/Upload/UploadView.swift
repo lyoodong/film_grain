@@ -5,6 +5,7 @@ struct UploadView: View {
     
     var body: some View {
         ZStack {
+            navigation
             title
             status
         }
@@ -14,6 +15,11 @@ struct UploadView: View {
         .photoPermissionAlert(uploadVM: uploadVM)
         .PhotoPickerFullScreen(uploadVM: uploadVM)
         .EditFullScreen(uploadVM: uploadVM)
+        .infoFullScreen(uploadVM: uploadVM)
+    }
+    
+    private var navigation: some View {
+        UploadNavigation(uploadVM: uploadVM)
     }
     
     private var title: some View {
@@ -43,6 +49,10 @@ extension View {
     
     func EditFullScreen(uploadVM: UploadViewModel) -> some View {
         modifier(EditModifier(uploadVM: uploadVM))
+    }
+    
+    func infoFullScreen(uploadVM: UploadViewModel) -> some View {
+        modifier(InfoModifier(uploadVM: uploadVM))
     }
 }
 
@@ -108,6 +118,21 @@ fileprivate struct PhotoPermissionAlertModifier: ViewModifier {
         guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
         if UIApplication.shared.canOpenURL(url) {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }
+    }
+}
+
+fileprivate struct InfoModifier: ViewModifier {
+    @ObservedObject var uploadVM: UploadViewModel
+    
+    func body(content: Content) -> some View {
+        content.fullScreenCover(
+            isPresented: Binding(
+                get: { uploadVM.activeScreen == .info },
+                set: { if !$0 { uploadVM.send(.dismiss)} }
+            )
+        ) {
+            InfoView()
         }
     }
 }

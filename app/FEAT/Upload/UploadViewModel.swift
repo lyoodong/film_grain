@@ -7,6 +7,7 @@ extension UploadViewModel: ViewModelType {
         case picker
         case edit
         case requestAuthorizationAlert
+        case info
     }
     
     enum Loading: Equatable {
@@ -24,6 +25,8 @@ extension UploadViewModel: ViewModelType {
     
     enum Action {
         case uploadButtonTapped
+        case infoButtonTapped
+        
         case onPicked(String)
         case dismiss
         
@@ -39,6 +42,9 @@ final class UploadViewModel: toVM<UploadViewModel> {
         switch action {
         case .uploadButtonTapped:
             state.activeScreen = checkPHAuthorizationStatus()
+            
+        case .infoButtonTapped:
+            state.activeScreen = .info
             
         case .onPicked(let id):
             state.loadingStatus = .imageLoading
