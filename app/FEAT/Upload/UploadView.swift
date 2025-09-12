@@ -132,7 +132,7 @@ fileprivate struct InfoModifier: ViewModifier {
                 set: { if !$0 { uploadVM.send(.dismiss)} }
             )
         ) {
-            InfoView()
+            InfoView(infoVM: .init(initialState: .init()))
         }
     }
 }

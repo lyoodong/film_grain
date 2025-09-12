@@ -1,6 +1,8 @@
 import SwiftUI
 
 struct InfoButtonStack: View {
+    @ObservedObject var infoVM: InfoViewModel
+    
     var body: some View {
         VStack {
             InfoButton(type: .privacy) { }

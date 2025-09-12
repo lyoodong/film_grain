@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct InfoNavigation: View {
+    @ObservedObject var infoVM: InfoViewModel
     @Environment(\.dismiss) var dismiss
     
     private let font = Poppin.semiBold.font(size: 20)
