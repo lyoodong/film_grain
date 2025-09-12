@@ -5,10 +5,15 @@ struct InfoButtonStack: View {
     
     var body: some View {
         VStack {
-            InfoButton(type: .privacy) { }
+            InfoButton(type: .privacy, action: privacyButtonAction)
             InfoButton(type: .terms) { }
             InfoButton(type: .review) { }
             InfoButton(type: .email) { }
         }
+    }
+    
+    
+    private func privacyButtonAction() {
+        infoVM.send(.privacyButtonTapped)
     }
 }
