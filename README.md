@@ -6,7 +6,7 @@
 
 > 핵심 기능
 - CoreML 프레임워크의 MLRegressor를 활용해, AI 필터 기능 구현
-- GameplayKit, SpriteKit을 이용한 그레인 필터 구현
+- GameplayKit, SpriteKit 프레임워크 이용한 그레인 필터 구현
 - CoreImage 프레미워크의 CIFiter를 활용해 '컬러 그레이딩', '색온도', '대비' 필터 구현
 - PhotosUI 프레임워크의 PhotosPicker를 활용해 이미지 피커 구현
 - 이미지 다운샘플링을 통해 성능 최적화
@@ -15,7 +15,7 @@
 
 > 기술 스택
 - **언어**: Swift
-- **프레임워크**: SwiftUI, CoreML, CoreImage
+- **프레임워크**: SwiftUI, CoreML, CoreImage, GameplayKit, SpriteKit
 - **아키텍처**: MVI
 - **비동기처리**: Swift Concurrency
 
@@ -30,63 +30,51 @@
 
 ### 트러블 슈팅
 
-**1. 숙련도 점수 수정 시 마지막으로 수정한 값만 Realm에 저장**
+**1. 사진에 특성에 맞는 최적의 빈티지 필터 프리셋 제공**
 
 **Issue**
 
 - 모의 면접 화면에서 사용자가 질문에 대한 숙련도를 수정할 수 있음
-- 하지만, 기존 코드에서는 숙련도만 클릭하면 그 즉시 값을 Realm DB에 업로드
-- 사용자가 마지막으로 선택한 값만 Realm DB에 저장함으로써 **불필요한 DB 연산 제거**
 
 **Solution**
 
-- `RxSwift`의 `AsyncSubject` 활용해, 마지막으로 수정한 값만 Realm DB에 저장
 - `onCompleted` 시점을 아래와 같이 적용
   1. 다음 질문으로 이동 → `nextButtonTapped()`
-  2. 이전 질문으로 이동 → `backuttonTapped()`
-  3. 다른 뷰로 이동 → `viewDidDisappear()`
 
 **Result**
 
 - 불필요한 DB 연산 제거, **마지막으로 방출한 값만 DB에 저장**
 
 ```swift
-//개선된 코드
-func uploadSelectedFamiliarityDegree() {
-    familiaritySubject
-        .subscribe(with: self) { owner, value in
-            let realm = try! Realm()
-            try! realm.write {
-                owner.questions[owner.currnetQuestionIndex.value].familiarityDegree = value
-            }
-            
-            print("uploadSelectedFamiliarityDegree 실행")
-            owner.repo.realmFileLocation()
-        }
-        .disposed(by: disposeBag)
-}
 
-//1. 다음 질문으로 이동
-@objc func nextButtonTapped() {
-    cameraViewModel.familiaritySubject.onCompleted()
-    cameraViewModel.currnetQuestionIndex.value += 1
-    cameraViewModel.fetchCurrentFamilarDegree()
-}
+```
 
-//2. 이전 질문으로 이동
-@objc func backButtonTapped() {
-    cameraViewModel.familiaritySubject.onCompleted()
-    cameraViewModel.currnetQuestionIndex.value -= 1
-    cameraViewModel.fetchCurrentFamilarDegree()
-}
+**Lessons & Learned**
 
-//3. 다른 뷰로 이동
-override func viewDidDisappear(_ animated: Bool) {
-		super.viewDidDisappear(animated)
-		cameraViewModel.familiaritySubject.onCompleted()
-}
+---
+
+**2. 필름 사진에 있는 그레인 효과처럼 불규칙한 그레인 노이즈 생성**
+
+**Issue**
+
+- 모의 면접 화면에서 사용자가 질문에 대한 숙련도를 수정할 수 있음
+
+**Solution**
+
+- `onCompleted` 시점을 아래와 같이 적용
+  1. 다음 질문으로 이동 → `nextButtonTapped()`
+
+**Result**
+
+- 불필요한 DB 연산 제거, **마지막으로 방출한 값만 DB에 저장**
+
+```swift
+
 ```
 ---
+
+**Lessons & Learned**
+
 
 > 📒 커밋 메시지 형식
 
