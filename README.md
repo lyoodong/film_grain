@@ -5,16 +5,11 @@
 # Film-Grain 
 
 > 핵심 기능
-- AVFoundation 프레임워크 기반 AudioPlayer, AudioRecorder를 통해
-  **음성 녹음, 기록 재생 기능** 구현
-- Speech 프레임워크 기반 speechRecognizer를 통해 녹음과 동시에
-  **실시간 STT(Speech To Text)기능** 구현
-- AVFoundation 프레임워크 기반 AVCaptureVideoPreviewLayer를 통해 실시간으로
-  **말하는 표정, 동작을 확인**하는 기능 구현
-- Realm DB를 활용해 **N:M 스키마** 대응
-- FileManager를 활용해 **녹음 파일 관리**
-- **DIP**를 통한 의존성 역전
-- 샘플레이트 핸들링을 통한 **오디오 품질 및 용량 최적화**
+- CoreML 프레임워크의 MLRegressor를 활용해, AI 필터 기능 구현
+- GameplayKit, SpriteKit을 이용한 그레인 필터 구현
+- CoreImage 프레미워크의 CIFiter를 활용해 '컬러 그레이딩', '색온도', '대비' 편집 기능 구현
+- PhotosUI 프레임워크의 PhotosPicker를 활용해 이미지 피커 구현
+- 이미지 다운샘플링을 통해 성능 최적화
 
 ---
 
@@ -30,7 +25,7 @@
 - **최소 버전**: iOS 18.0
 - **개발 인원**: 1인
 - **개발 기간** : 2025.7.25 ~ 2025.09.18, 현재 지속적으로 서비스 운영 중
-- **iOS 앱스토어:** [필름그레인](https://apps.apple.com/kr/app/film-grain/id6749135152)
+- **iOS 앱스토어:** [필름그레인 바로가기](https://apps.apple.com/kr/app/film-grain/id6749135152)
 ---
 
 ### 트러블 슈팅
