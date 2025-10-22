@@ -7,7 +7,7 @@
 > 핵심 기능
 - CoreML 프레임워크의 MLRegressor를 활용해, AI 필터 기능 구현
 - GameplayKit, SpriteKit을 이용한 그레인 필터 구현
-- CoreImage 프레미워크의 CIFiter를 활용해 '컬러 그레이딩', '색온도', '대비' 편집 기능 구현
+- CoreImage 프레미워크의 CIFiter를 활용해 '컬러 그레이딩', '색온도', '대비' 필터 구현
 - PhotosUI 프레임워크의 PhotosPicker를 활용해 이미지 피커 구현
 - 이미지 다운샘플링을 통해 성능 최적화
 
