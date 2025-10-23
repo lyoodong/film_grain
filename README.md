@@ -132,37 +132,42 @@ do {
 - 생성된 `.mlmodel` 프로젝트에 통합
 <img width="482" height="146" alt="%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202025-09-11%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%2010 39 16" src="https://github.com/user-attachments/assets/06741e41-1a57-4eaa-b9be-90fe952f91a6" />
 
+```swift
+final class GrainModels {
+    static let shared = GrainModels()
+
+    let alphaModel: GrainAlphaRegressor
+    let scaleModel: GrainScaleRegressor
+    let contrastModel: ContrastRegressor
+    let temperatureModel: TemperatureRegressor
+    let thresholdModel: ThresholdRegressor
+    let brightAlphaModel: BrightAlphaRegressor
+    let darkAlphaModel: DarkAlphaRegressor
+
+    private init() {
+        alphaModel      = try! GrainAlphaRegressor(configuration: .init())
+        scaleModel      = try! GrainScaleRegressor(configuration: .init())
+        contrastModel   = try! ContrastRegressor(configuration: .init())
+        temperatureModel = try! TemperatureRegressor(configuration: .init())
+        thresholdModel   = try! ThresholdRegressor(configuration: .init())
+        brightAlphaModel = try! BrightAlphaRegressor(configuration: .init())
+        darkAlphaModel   = try! DarkAlphaRegressor(configuration: .init())
+    }
+}
+.
+.
+.
+
+let alphaOutput = GrainModels.shared.alphaModel.prediction(input: alphaInput)
+```
+
 **Lessons & Learned**
 - 간단한 지도 학습을 통해 생선한 소형 모델은 On-Device 형태로 편리하게 사용 가능하다.
 - 서버 호출에 의한 여러 가지 제약 사항을 극복할 수 있었음
  - 서버 지연 없음
  - offline 상태에도 사용 가능
  - 유지 비용 없음
-
-
 ---
-
-**2. 필름 사진에 있는 그레인 효과처럼 불규칙한 그레인 노이즈 생성**
-
-**Issue**
-
-- 모의 면접 화면에서 사용자가 질문에 대한 숙련도를 수정할 수 있음
-
-**Solution**
-
-- `onCompleted` 시점을 아래와 같이 적용
-  1. 다음 질문으로 이동 → `nextButtonTapped()`
-
-**Result**
-
-- 불필요한 DB 연산 제거, **마지막으로 방출한 값만 DB에 저장**
-
-```swift
-
-```
----
-
-**Lessons & Learned**
 
 
 > 📒 커밋 메시지 형식
