@@ -164,9 +164,9 @@ let alphaOutput = GrainModels.shared.alphaModel.prediction(input: alphaInput)
 **Lessons & Learned**
 - 간단한 지도 학습을 통해 생선한 소형 모델은 On-Device 형태로 편리하게 사용 가능하다.
 - 서버 호출에 의한 여러 가지 제약 사항을 극복할 수 있었음
- - 서버 지연 없음
- - offline 상태에도 사용 가능
- - 유지 비용 없음
+     1.  서버 지연 없음
+     2.  offline 상태에도 사용 가능
+     3.  유지 비용 없음
 ---
 
 
